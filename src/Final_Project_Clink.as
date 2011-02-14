@@ -39,8 +39,14 @@ package
 			var template:Object = new Object();
 			template = {name:"Adam", gender:"Male", age:26, dog:"Adley", mousePos:{x:234,y:876}};
 			
-			var testManager:Manager_remoteUserSharedObject = new Manager_remoteUserSharedObject(_nc,_serverUserID,"testSO");
-			testManager.make(template);
+			var testManager:Manager_remoteUserSharedObject = new Manager_remoteUserSharedObject(_nc,_serverUserID,"testSO",template);
+			
+			
+			var template2:Object = new Object();
+			template = {color:"blue", toy:"Transformers", day:19, dog:"aussie", mousePos:{x:234,y:876}};
+			
+			var testManager2:Manager_remoteUserSharedObject = new Manager_remoteUserSharedObject(_nc,_serverUserID,"testSO2",template2);
+			
 		}
 		
 		
