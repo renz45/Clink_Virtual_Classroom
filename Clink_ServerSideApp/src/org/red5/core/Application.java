@@ -117,9 +117,18 @@ public class Application extends ApplicationAdapter {
 		{
 			System.out.println(userSOList.get(i).getName());
 			userSOList.get(i).removeAttribute(uid);
+			
+			//if there are no users in the SO than close the SO and remove it from the sharedObject list
+			if(userSOList.get(i).getAttributeNames().isEmpty())
+			{
+				System.out.println("closing " + userSOList.get(i).getName()+ " and removing it from the sharedObject List");
+				userSOList.get(i).close();
+				userSOList.remove(i);
+			}
 
 			i++;
 		}
+		
 	}
 
 }
