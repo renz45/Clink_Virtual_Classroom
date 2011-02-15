@@ -54,7 +54,7 @@ public class Application extends ApplicationAdapter {
 			//a user gets disconnected.
 			userSOList.add(userSOList.size(), getSharedObject(_scope, SOName));
 			
-			//building return msg, this indicates a new sharedObject was created.
+			//building return msg which gets sent to the response handler client side, this indicates a new sharedObject was created.
 			msg = "Shared Object created with name: " + SOName + " and";
 		}
 		
@@ -68,7 +68,7 @@ public class Application extends ApplicationAdapter {
 		//set the new object to a slot represented by the userID
 		SO.setAttribute(userID, soTemplate);
 		
-		//upadte the return msg
+		//update the return msg
 		msg += " Slot: "+ userID + " was created in the sharedObject: "+ SOName;
 		
 		return msg;
@@ -115,9 +115,9 @@ public class Application extends ApplicationAdapter {
 		int i = 0;
 		while(i < userSOList.size())
 		{
-			userSOList.get(i).removeAttribute(uid);
-			
 			System.out.println(userSOList.get(i).getName());
+			userSOList.get(i).removeAttribute(uid);
+
 			i++;
 		}
 	}
