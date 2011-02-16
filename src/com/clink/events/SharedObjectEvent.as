@@ -4,7 +4,7 @@ package com.clink.events
 	
 	import flashx.textLayout.elements.OverflowPolicy;
 	
-	public class UserSharedObjectEvent extends Event
+	public class SharedObjectEvent extends Event
 	{
 		public static const CONNECTED:String = "connected";
 		public static const CHANGED:String = "changed";
@@ -15,14 +15,14 @@ package com.clink.events
 		public var attributeName:String;
 		public var attributeValue:String;
 		
-		public function UserSharedObjectEvent(type:String, bubbles:Boolean=false, cancelable:Boolean=false)
+		public function SharedObjectEvent(type:String, bubbles:Boolean=false, cancelable:Boolean=false)
 		{
 			super(type, bubbles, cancelable);
 		}
 		
 		override public function clone():Event
 		{
-			return new UserSharedObjectEvent(type,bubbles,cancelable);
+			return new SharedObjectEvent(type,bubbles,cancelable);
 		}
 	}
 }
