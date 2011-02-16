@@ -32,6 +32,11 @@ package com.clink.managers
 		
 		/**
 		 * This class manages remoteUserSharedObjects. This communicates with the Red5 server in order to dynamically create sharedObjects.
+		 * These sharedObjects have slots based off of user IDs. These types of sharedObjects are used for things which only the user or 
+		 * maybe one other person will be changing their slot. 
+		 * 
+		 * This would be perfect for something like a drawing whiteboard where all clients are watching every user in order to draw what 
+		 * they draw, but each client only changes it's own slot, represented as it's user ID.
 		 *
 		 * @param nc:NetConnection NetConnection which has already been connected to the server
 		 * @param userID:int UserID assigned by the server when the user connects for the first time
@@ -131,13 +136,11 @@ package com.clink.managers
 					//Instead of dispatching an event here, im dispatching at the setProperty() method instead. I'm doing this because it's easier to
 					//figure out what keys and values are being changed instead of having to run more comparisons.
 					case "success":
-						//trace("SO success(I changed): "+i.name);
+						
 						break;
 					
 					//when SO first connects successfully, dispatch a UserSharedObjectEvent.CONNECTED event
 					case "clear":
-						//trace(" SO is connected");
-						
 						_cachedSOData = VarUtils.copyObject(_SO.data);
 						
 						evt = new UserSharedObjectEvent(UserSharedObjectEvent.CONNECTED);
@@ -146,7 +149,6 @@ package com.clink.managers
 					
 					//when something gets deleted from the SO, dispatch UserSharedObjectEvent.DELETED with the deleted slot name
 					case "delete":
-						trace(i.name +" was deleted ");
 						evt = new UserSharedObjectEvent(UserSharedObjectEvent.DELETED);
 						evt.sharedObjectSlot = i.name;
 						this.dispatchEvent(evt);
@@ -241,6 +243,52 @@ package com.clink.managers
 		}
 		
 		//////////////////////////PUBLIC METHODS////////////////////////////////
+		/**
+		 * Gets the value of a property within the sharedObject. The userID is an optional param, if no userID is given than an object is returned where
+		 * the keys are the userID's in the object. 
+		 *
+		 * @param property:String name of the property within the sharedObject to read
+		 * @param userID:int (Optional) userID to look at to get the property from
+		 * 
+		 * @return Object
+		 */
+		public function getProperty(property:String,userID:int = -1):Object
+		{
+			var data:Object = _SO.data;
+			var userIDStr:String = userID.toString();
+			if(userID > -1)
+			{
+				//if the user ID exists in this object, if not than throw and error
+				if(data[userIDStr])
+				{
+					//checks to make sure the property exists, if not throw an error
+					if(data[userIDStr][property])
+					{
+						return data[userIDStr][property]
+					}else{
+						throw new Error("This sharedObject doesn't contain a property named " + property);
+					}
+				}else{
+					throw new Error("The user ID: " + userIDStr + " doesn't exist within this sharedObject");
+				}
+			}else{
+				
+				var propertyList:Object = {};
+				
+				for(var k:String in data)
+				{
+					//checks to make sure the property exists in the object
+					if(data[k][property])
+					{
+						propertyList[k] = data[k][property];
+					}else{
+						throw new Error("This sharedObject doesn't contain a property named " + property);
+					}
+				}
+				return propertyList;
+			}
+		}
+		
 		/**
 		 * SetProperty sets a property in the sharedObject to a given value. Since we can't create functions at runtime, I'm passing in properties and values
 		 * seperately. I'm forcing a check on datatypes like a normal property so there aren't any errors in the values. 
