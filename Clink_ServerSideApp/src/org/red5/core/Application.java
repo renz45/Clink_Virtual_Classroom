@@ -36,7 +36,7 @@ public class Application extends ApplicationAdapter {
 	
 	//creates sharedObjects based on an object template, userID and a sharedObject name
 	//This method is called from the client side where the template object is encoded into a byteArray
-	public String createUserBasedSO(ByteArray template, String userID, String SOName)
+	public String createUserBasedSO(ByteArray template, String userID, String SOName, Boolean isPersistent)
 	{
 		String msg = "";
 		
@@ -47,7 +47,7 @@ public class Application extends ApplicationAdapter {
 		{
 			System.out.println("********************creating a new SO for " + userID + " with the name of "+ SOName +"*********************");
 			
-			createSharedObject(_scope, SOName, false);
+			createSharedObject(_scope, SOName, isPersistent);
 			
 			//push the new shared object into the userSoList, this list is used to keep track of all sharedObjects that use
 			//the userID as a slot key. This is used at the disconnect(IConnection conn, IScope scope) to remove slots when
