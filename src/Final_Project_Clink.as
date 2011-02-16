@@ -44,15 +44,15 @@ package
 			//common
 			
 			var commonSOTemplate:Object = {file:"my_house.jpg",currentLayer:1,layerList:{1:"fred",2:"ashley",3:"teacher"}};
-			_commonSO = new Manager_remoteCommonSharedObject("commonSO",commonSOTemplate);
+			_commonSO = new Manager_remoteCommonSharedObject("commonSO",commonSOTemplate,_nc);
 			
 			//userBasedSO
-			var userSOTemplate:Object = {name:"Adam", gender:"Male", age:26, dog:"Adley", mousePos:{x:234,y:876}};
+		/*	var userSOTemplate:Object = {name:"Adam", gender:"Male", age:26, dog:"Adley", mousePos:{x:234,y:876}};
 			
 			_userBasedSO = new Manager_remoteUserSharedObject(_nc,_serverUserID,"UserBasedSO",userSOTemplate);
 			
 			_userBasedSO.addEventListener(SharedObjectEvent.CONNECTED,onConnected);
-			_userBasedSO.addEventListener(SharedObjectEvent.CHANGED,onChange);
+			_userBasedSO.addEventListener(SharedObjectEvent.CHANGED,onChange);*/
 			
 		}
 		
