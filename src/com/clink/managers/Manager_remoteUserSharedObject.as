@@ -1,6 +1,6 @@
 package com.clink.managers
 {
-	import com.clink.events.UserSharedObjectEvent;
+	import com.clink.events.SharedObjectEvent;
 	import com.clink.utils.VarUtils;
 	
 	import flash.display.Sprite;
@@ -14,10 +14,10 @@ package com.clink.managers
 	
 	import org.osmf.composition.SerialElement;
 	
-	[Event(name="connected", type="com.clink.events.UserSharedObjectEvent")]
-	[Event(name="changed", type="com.clink.events.UserSharedObjectEvent")]
-	[Event(name="clientChanged", type="com.clink.events.UserSharedObjectEvent")]
-	[Event(name="deleted", type="com.clink.events.UserSharedObjectEvent")]
+	[Event(name="connected", type="com.clink.events.SharedObjectEvent")]
+	[Event(name="changed", type="com.clink.events.SharedObjectEvent")]
+	[Event(name="clientChanged", type="com.clink.events.SharedObjectEvent")]
+	[Event(name="deleted", type="com.clink.events.SharedObjectEvent")]
 	
 	public class Manager_remoteUserSharedObject extends Sprite
 	{
@@ -29,6 +29,7 @@ package com.clink.managers
 		private var _userID:int;
 		private var _SOName:String;
 		private var _cachedSOData:Object;
+		private var _isPersistent:Boolean;
 		
 		/**
 		 * This class manages remoteUserSharedObjects. This communicates with the Red5 server in order to dynamically create sharedObjects.
@@ -43,13 +44,14 @@ package com.clink.managers
 		 * @param SOName:String Name of the SO being created
 		 * @param SOTemplate:Object This is the template that the SO structure will be based on. the template is a standard object ex. {name:"adam",gender:"male"}
 		 */
-		public function Manager_remoteUserSharedObject(nc:NetConnection, userID:int, SOName:String, SOTemplate:Object)
+		public function Manager_remoteUserSharedObject(nc:NetConnection, userID:int, SOName:String, SOTemplate:Object, isPersistent:Boolean = false)
 		{
 			
 			_nc = nc;
 			_userID = userID;
 			_SOName = SOName;
 			_SOTemplate = SOTemplate;
+			_isPersistent = isPersistent;
 				
 			make();
 			
@@ -81,7 +83,7 @@ package com.clink.managers
 			var userID:String = _userID.toString();
 			
 			//call the function 'createUserBasedSO' on the Red5 server
-			_nc.call("createUserBasedSO", r, TemplateAMF, userID, _SOName);
+			_nc.call("createUserBasedSO", r, TemplateAMF, userID, _SOName, _isPersistent);
 		}
 		
 		//sharedObject sync event callback
@@ -90,7 +92,7 @@ package com.clink.managers
 			for each(var i:Object in e.changeList)
 			{
 				//create a new userSharedObjectEvent to be used in the switch statements below
-				var evt:UserSharedObjectEvent;
+				var evt:SharedObjectEvent;
 				switch(i.code)
 				{
 					//when another client changes the so
@@ -108,7 +110,7 @@ package com.clink.managers
 						}
 						
 						//designating evt as a CHANGED event
-						evt = new UserSharedObjectEvent(UserSharedObjectEvent.CHANGED);
+						evt = new SharedObjectEvent(SharedObjectEvent.CHANGED);
 						
 						//loop through the sharedObject slot - i.name and compare the values to the values in the cached SO. If the values don't match we are going
 						//to assume the value is the changed value and create a custom event with properties for slot, attributeName, and attributeValue
@@ -143,13 +145,13 @@ package com.clink.managers
 					case "clear":
 						_cachedSOData = VarUtils.copyObject(_SO.data);
 						
-						evt = new UserSharedObjectEvent(UserSharedObjectEvent.CONNECTED);
+						evt = new SharedObjectEvent(SharedObjectEvent.CONNECTED);
 						this.dispatchEvent(evt);
 						break;
 					
 					//when something gets deleted from the SO, dispatch UserSharedObjectEvent.DELETED with the deleted slot name
 					case "delete":
-						evt = new UserSharedObjectEvent(UserSharedObjectEvent.DELETED);
+						evt = new SharedObjectEvent(SharedObjectEvent.DELETED);
 						evt.sharedObjectSlot = i.name;
 						this.dispatchEvent(evt);
 						break;
@@ -256,6 +258,7 @@ package com.clink.managers
 		{
 			var data:Object = _SO.data;
 			var userIDStr:String = userID.toString();
+			//if a userID was given
 			if(userID > -1)
 			{
 				//if the user ID exists in this object, if not than throw and error
@@ -318,7 +321,7 @@ package com.clink.managers
 						_SO.setDirty(_userID.toString());
 						
 						//dispatch UserSharedObjectEvent.CLIENT_CHANGED with slot, attributeName, and attributeValue variables
-						var evt:UserSharedObjectEvent = new UserSharedObjectEvent(UserSharedObjectEvent.CLIENT_CHANGED);
+						var evt:SharedObjectEvent = new SharedObjectEvent(SharedObjectEvent.CLIENT_CHANGED);
 						evt.sharedObjectSlot = _userID.toString();
 						evt.attributeName = propertyName;
 						evt.attributeValue = propertyValue;

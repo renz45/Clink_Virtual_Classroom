@@ -1,6 +1,7 @@
 package
 {
-	import com.clink.events.UserSharedObjectEvent;
+	import com.clink.events.SharedObjectEvent;
+	import com.clink.managers.Manager_remoteCommonSharedObject;
 	import com.clink.managers.Manager_remoteUserSharedObject;
 	
 	import flash.display.Sprite;
@@ -10,13 +11,14 @@ package
 	
 	public class Final_Project_Clink extends Sprite
 	{
-		private var _nc:NetConnection
-		private var _serverUserID:int
+		private var _nc:NetConnection;
+		private var _serverUserID:int;
 		
 		private var _appURL:String;
 		private var _username:String;
 		
-		private var _testManager:Manager_remoteUserSharedObject
+		private var _userBasedSO:Manager_remoteUserSharedObject;
+		private var _commonSO:Manager_remoteCommonSharedObject;
 		
 		public function Final_Project_Clink()
 		{
@@ -39,18 +41,30 @@ package
 			trace("Your user ID is:  "+value);
 			_serverUserID = value;
 			
-			var template:Object = new Object();
-			template = {name:"Adam", gender:"Male", age:26, dog:"Adley", mousePos:{x:234,y:876}};
+			//common
 			
-			_testManager = new Manager_remoteUserSharedObject(_nc,_serverUserID,"testSO",template);
-			_testManager.addEventListener(UserSharedObjectEvent.CONNECTED,onConnected);
-			//trace("list of properties: " +_testManager.propertyList);
+			var commonSOTemplate:Object = {file:"my_house.jpg",currentLayer:1,layerList:{1:"fred",2:"ashley",3:"teacher"}};
+			_commonSO = new Manager_remoteCommonSharedObject("commonSO",commonSOTemplate);
+			
+			//userBasedSO
+			var userSOTemplate:Object = {name:"Adam", gender:"Male", age:26, dog:"Adley", mousePos:{x:234,y:876}};
+			
+			_userBasedSO = new Manager_remoteUserSharedObject(_nc,_serverUserID,"UserBasedSO",userSOTemplate);
+			
+			_userBasedSO.addEventListener(SharedObjectEvent.CONNECTED,onConnected);
+			_userBasedSO.addEventListener(SharedObjectEvent.CHANGED,onChange);
 			
 		}
 		
-		private function onConnected(e:UserSharedObjectEvent):void
+		private function onConnected(e:SharedObjectEvent):void
 		{
-			_testManager.setProperty("dog", "zack");
+			var sampleProp:Object = _userBasedSO.getProperty("mousePos");
+			_userBasedSO.setProperty("dog", "zack");
+		}
+		
+		private function onChange(e:SharedObjectEvent):void
+		{
+			
 		}
 		
 		
