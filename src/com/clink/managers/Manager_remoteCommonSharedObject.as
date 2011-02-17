@@ -1,6 +1,7 @@
 package com.clink.managers
 {
 	import com.clink.events.SharedObjectEvent;
+	import com.clink.utils.VarUtils;
 	
 	import flash.display.Sprite;
 	import flash.events.SyncEvent;
@@ -8,6 +9,11 @@ package com.clink.managers
 	import flash.net.Responder;
 	import flash.net.SharedObject;
 	import flash.utils.ByteArray;
+	
+	[Event(name="connected", type="com.clink.events.SharedObjectEvent")]
+	[Event(name="changed", type="com.clink.events.SharedObjectEvent")]
+	[Event(name="clientChanged", type="com.clink.events.SharedObjectEvent")]
+	[Event(name="deleted", type="com.clink.events.SharedObjectEvent")]
 	
 	public class Manager_remoteCommonSharedObject extends Sprite
 	{
@@ -52,7 +58,7 @@ package com.clink.managers
 			//set up the responder function to handle any function returns
 			var r:Responder = new Responder(soCreationResponder);
 
-			//call the function 'createUserBasedSO' on the Red5 server
+			//call the function 'createCommonSO' on the Red5 server
 			_nc.call("createCommonSO", r, TemplateAMF, _SOName, _isPersistent);
 		}
 		
@@ -66,13 +72,20 @@ package com.clink.managers
 				{
 					//when another client changes the so
 					case "change":	
-						
-						trace("so is changing " + i.name);
+						evt = new SharedObjectEvent(SharedObjectEvent.CHANGED);
+						evt.propertyName = i.name;
+						evt.propertyValue = _SO.data[i.name];
+						evt.sharedObjectSlot = i.name;
+						this.dispatchEvent(evt);
 						break;
 					
 					//when this client changes the SO
 					case "success":
-						
+						evt = new SharedObjectEvent(SharedObjectEvent.CHANGED);
+						evt.propertyName = i.name;
+						evt.propertyValue = _SO.data[i.name];
+						evt.sharedObjectSlot = i.name;
+						this.dispatchEvent(evt);
 						break;
 					
 					//when SO first connects successfully, dispatch a UserSharedObjectEvent.CONNECTED event
@@ -91,5 +104,144 @@ package com.clink.managers
 				}
 			}
 		}//end onSync
+		
+		//responder function for setProperty Method
+		private function commonSOChangeHandler(msg:String = ""):void
+		{
+			trace(msg);
+		}
+		
+		///////////////////////////GETTERS/SETTERS/////////////////////////////////
+		/**
+		 * Getter for template object
+		 *
+		 * @return Object
+		 */
+		public function get template():Object
+		{
+			return _template;
+		}
+		
+		/**
+		 * Getter for the SharedObject 
+		 *
+		 * @return sharedObject
+		 */
+		public function get sharedObject():SharedObject
+		{
+			return _SO;
+		}
+		
+		/**
+		 * Getter for netConnection 
+		 *
+		 * @return NetConnection
+		 */
+		public function get netConnection():NetConnection
+		{
+			return _nc;
+		}
+		
+		/**
+		 * Getter for SharedObject Name 
+		 *
+		 * @return String
+		 */
+		public function get SOName():String
+		{
+			return _SOName;
+		}
+		
+		/**
+		 * Getter for property list, this returns a string with a list of comma seperated values with datatypes indicated of the properties of this shared object.
+		 * ex. "dog[String], name[String], age[int]"
+		 *
+		 * @return int
+		 */
+		public function get propertyList():String
+		{
+			var propList:String = "";
+			var count:int = 1;
+			
+			var objectTotal:int = 0;
+			for(var key:String in _template)
+			{
+				objectTotal ++;
+			}
+			
+			for(var prop:String in _template)
+			{
+				propList += prop;
+				
+				propList += "[" + VarUtils.getDataType(_template[prop]) + "]";
+				
+				if(count < objectTotal)
+				{
+					propList += ", ";
+				}
+				count++;
+			}
+			
+			return propList;
+			
+		}
+		
+		//////////////////////////PUBLIC METHODS////////////////////////////////
+		/**
+		 * Gets the value of a property within the sharedObject. The userID is an optional param, if no userID is given than an object is returned where
+		 * the keys are the userID's in the object. 
+		 *
+		 * @param property:String name of the property within the sharedObject to read
+		 * @param userID:int (Optional) userID to look at to get the property from
+		 * 
+		 * @return Object
+		 */
+		public function getProperty(property:String):Object
+		{
+			var data:Object = _SO.data;
+			for(var prop:String in data)
+			{	
+				if(prop == property)
+				{
+					return data[prop];
+				}
+			}
+			
+			throw new Error("A property with name: " + property + " does not exist within this sharedObject");
+			
+			return {};
+		}
+		
+		/**
+		 * SetProperty sets a property in the sharedObject to a given value. Since we can't create functions at runtime, I'm passing in properties and values
+		 * seperately. I'm forcing a check on datatypes like a normal property so there aren't any errors in the values. 
+		 *
+		 * @param propertyName:String name of the property within the sharedObject to change
+		 * @param propertyValue:* the value changed within the property
+		 * 
+		 * @return void
+		 */
+		public function setProperty(propertyName:String,propertyValue:*):void
+		{
+			var data:Object = _SO.data;
+			var r:Responder = new Responder(commonSOChangeHandler);
+			for(var prop:String in data)
+			{	
+				//if the property exists within the sharedObject
+				if(prop == propertyName)
+				{
+					//if the datatype of the passed in propertyValue matches the property value existing within the sharedObject
+					if(VarUtils.getDataType(propertyValue) == VarUtils.getDataType(data[prop]))
+					{
+						_nc.call("updateCommonSO",r,propertyName,propertyValue,_SOName);
+						return
+					}else{
+						throw new Error("The data type of the value your trying to change isn't the expected: " + VarUtils.getDataType(data[prop]));
+					}
+				}
+			}
+			throw new Error("A property with name: " + propertyName + " does not exist within this sharedObject");
+			
+		}
 	}
 }

@@ -122,8 +122,8 @@ package com.clink.managers
 							if(!VarUtils.compareObjects(data[prop], _cachedSOData[i.name][prop]))
 							{
 								evt.sharedObjectSlot = i.name;
-								evt.attributeName = prop;
-								evt.attributeValue = data[prop];
+								evt.propertyName = prop;
+								evt.propertyValue = data[prop];
 								
 								_cachedSOData = VarUtils.copyObject(_SO.data);
 
@@ -323,8 +323,8 @@ package com.clink.managers
 						//dispatch UserSharedObjectEvent.CLIENT_CHANGED with slot, attributeName, and attributeValue variables
 						var evt:SharedObjectEvent = new SharedObjectEvent(SharedObjectEvent.CLIENT_CHANGED);
 						evt.sharedObjectSlot = _userID.toString();
-						evt.attributeName = propertyName;
-						evt.attributeValue = propertyValue;
+						evt.propertyName = propertyName;
+						evt.propertyValue = propertyValue;
 						this.dispatchEvent(evt);
 						
 					}else{

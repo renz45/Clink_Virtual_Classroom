@@ -46,6 +46,9 @@ package
 			var commonSOTemplate:Object = {file:"my_house.jpg",currentLayer:1,layerList:{1:"fred",2:"ashley",3:"teacher"}};
 			_commonSO = new Manager_remoteCommonSharedObject("commonSO",commonSOTemplate,_nc);
 			
+			_commonSO.addEventListener(SharedObjectEvent.CONNECTED,onConnected);
+			_commonSO.addEventListener(SharedObjectEvent.CHANGED,onChange);
+			
 			//userBasedSO
 		/*	var userSOTemplate:Object = {name:"Adam", gender:"Male", age:26, dog:"Adley", mousePos:{x:234,y:876}};
 			
@@ -58,13 +61,15 @@ package
 		
 		private function onConnected(e:SharedObjectEvent):void
 		{
-			var sampleProp:Object = _userBasedSO.getProperty("mousePos");
-			_userBasedSO.setProperty("dog", "zack");
+			//var sampleProp:Object = _userBasedSO.getProperty("mousePos");
+			//_userBasedSO.setProperty("dog", "zack");
+			
+			_commonSO.setProperty("file","myCooki.gif");
 		}
 		
 		private function onChange(e:SharedObjectEvent):void
 		{
-			
+			_commonSO.setProperty("currentLayer",4);
 		}
 		
 		

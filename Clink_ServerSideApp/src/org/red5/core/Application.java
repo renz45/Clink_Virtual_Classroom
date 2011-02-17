@@ -9,12 +9,7 @@ package org.red5.core;
  * 
  */
 
-import java.beans.Beans;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
 
 import org.red5.io.amf3.ByteArray;
 import org.red5.io.utils.ObjectMap;
@@ -23,12 +18,6 @@ import org.red5.server.api.IConnection;
 import org.red5.server.api.IScope;
 import org.red5.server.api.service.ServiceUtils;
 import org.red5.server.api.so.ISharedObject;
-import org.red5.server.so.SharedObject;
-
-import sun.tools.tree.LengthExpression;
-
-import com.sun.org.apache.xerces.internal.xs.datatypes.ObjectList;
-import com.sun.tools.javac.util.List;
 
 
 public class Application extends ApplicationAdapter {
@@ -132,6 +121,18 @@ public class Application extends ApplicationAdapter {
 		}
 		return msg;
 	}//end createCommonSO
+	
+	//changed a common sharedObjects value for given propertyName to given propertyValue
+	public String updateCommonSO(String propertyName, Object propertyValue, String SOName)
+	{
+		System.out.println(" ");
+		System.out.println("[Clink][UpdateCommonSO] changing the property: "+propertyName + " to the value:" + propertyValue);
+		
+		ISharedObject SO = getSharedObject(_scope, SOName);
+		SO.setAttribute(propertyName, propertyValue);
+		
+		return "Property: '" + propertyName + "' Changed to value: " + propertyValue + " in Common SharedObject " + SOName ;
+	}
 	
 	/** {@inheritDoc} */
     @Override

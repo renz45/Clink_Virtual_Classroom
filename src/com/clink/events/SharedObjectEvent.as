@@ -12,8 +12,8 @@ package com.clink.events
 		public static const DELETED:String = "deleted";
 		
 		public var sharedObjectSlot:String;
-		public var attributeName:String;
-		public var attributeValue:String;
+		public var propertyName:String;
+		public var propertyValue:*;
 		
 		public function SharedObjectEvent(type:String, bubbles:Boolean=false, cancelable:Boolean=false)
 		{
