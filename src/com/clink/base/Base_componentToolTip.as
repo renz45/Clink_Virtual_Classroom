@@ -1,5 +1,6 @@
 package com.clink.base
 {
+	import com.clink.factories.Factory_prettyBox;
 	import com.clink.utils.DrawingUtils;
 	
 	import flash.display.Sprite;
@@ -11,6 +12,7 @@ package com.clink.base
 	import flash.text.TextFormat;
 	
 	import flashx.textLayout.formats.TextAlign;
+
 	/**
 	 * Base component for all interactive elements. This provides toolTip functionality for an element. 
 	 * The msg, bg color, text color, max tooltip width are set via static setters
@@ -113,7 +115,7 @@ package com.clink.base
 			}
 			
 			//draw the tooltip bg and add the textfield to the background centering it with padding
-			_toolTip = DrawingUtils.drawPrettyBox(tf.width + _toolTipPadding*2, tf.height + _toolTipPadding*2,_bgColor,0);
+			_toolTip = Factory_prettyBox.drawPrettyBox(tf.width + _toolTipPadding*2, tf.height + _toolTipPadding*2,_bgColor,0);
 			tf.x = tf.y = _toolTipPadding;
 			_toolTip.addChild(tf);
 
