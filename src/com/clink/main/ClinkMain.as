@@ -2,9 +2,11 @@ package com.clink.main
 {
 	import com.clink.base.Base_componentToolTip;
 	import com.clink.events.SharedObjectEvent;
+	import com.clink.factories.Factory_prettyBox;
 	import com.clink.managers.Manager_remoteCommonSharedObject;
 	import com.clink.managers.Manager_remoteUserSharedObject;
 	import com.clink.ui.LayoutBox;
+	import com.clink.ui.ScrollBar;
 	import com.clink.utils.DrawingUtils;
 	
 	import flash.display.Sprite;
@@ -12,6 +14,10 @@ package com.clink.main
 	import flash.events.NetStatusEvent;
 	import flash.net.NetConnection;
 	import flash.net.Responder;
+	import flash.text.TextField;
+	import flash.text.TextFieldAutoSize;
+	import flash.text.TextFieldType;
+	import flash.text.TextFormat;
 	
 	public class ClinkMain extends Sprite
 	{
@@ -23,6 +29,11 @@ package com.clink.main
 		
 		private var _userBasedSO:Manager_remoteUserSharedObject;
 		private var _commonSO:Manager_remoteCommonSharedObject;
+		
+		//test
+		private var sb:ScrollBar;
+		private var sb2:ScrollBar;
+		private var _tf:TextField;
 		
 		public function ClinkMain()
 		{
@@ -52,16 +63,43 @@ package com.clink.main
 			var lb:LayoutBox = new LayoutBox();
 			this.addChild(lb);
 			
-			Base_componentToolTip.initTooltips("#ffff99","#333333",11,400);
+			ScrollBar.initScrollbars();
+			sb = new ScrollBar(400,false);
+			this.addChild(sb);
+			sb.x = 117;
+			sb.y = 100;
+			
+			//sb.addEventListener(Event.CHANGE,onSbChange);
+			
+			sb2 = new ScrollBar(100,true);
+			this.addChild(sb2);
+			sb2.x = 100;
+			sb2.y = 117;
+			
+			sb2.addEventListener(Event.CHANGE,onSb2Change);
+			
+			
+			this.addChild(Factory_prettyBox.drawPrettyBox(110,100,0xffffff));
+			
+			_tf = new TextField();
+			_tf.autoSize = TextFieldAutoSize.CENTER;
+			_tf.wordWrap = true;
+			_tf.type = TextFieldType.INPUT;
+			this.addChild(_tf);
+			_tf.text = "klasd asd ada kda lad kladkaj akdj ajakd alkdjakla a ad ";
+			_tf.addEventListener(Event.CHANGE,onChange);
+			
+			//test usage for Base_componentToolTip
+			/*Base_componentToolTip.initTooltips("#ffff99","#333333",11,400);
 			
 			var btt:Base_componentToolTip = new Base_componentToolTip();
 			btt.message = "This is a sample tool tip for thekljadskl jklad jkadjkad jkla kljad kjl testing test of the sample tester"
 			lb.addChild(btt);
 			
 			lb.x = this.stage.stageWidth - 50;
-			lb.y = 10;
+			lb.y = 10;*/
 		
-			
+			//test usage for DrawingUtils.drawPrettyBox()
 			/*lb.addChild(DrawingUtils.drawPrettyBox(50,25,color,0,true));
 			lb.addChild(DrawingUtils.drawPrettyBox(50,25,color,0,false));
 			
@@ -73,6 +111,40 @@ package com.clink.main
 			
 			lb.addChild(DrawingUtils.drawPrettyBox(200,100,color,10,true,true,true));
 			lb.addChild(DrawingUtils.drawPrettyBox(50,100,color,10,false,true,true)); */
+		}
+		
+		private function onChange(e:Event):void
+		{
+			var perc:Number = 100/_tf.height;
+			if(perc > 1)
+			{
+				sb2.handleSize = 1;	
+			}else{
+				if(perc > .15)
+				{
+					sb2.handleSize = perc;
+				}else{
+					sb2.handleSize = perc;
+				}
+			}
+			_tf.y = -(_tf.height - 100)
+			
+			sb2.value = 1;
+			
+		}
+		
+		private function onSbChange(e:Event):void
+		{
+			
+			sb2.handleSize = sb.value;
+		}
+		
+		private function onSb2Change(e:Event):void
+		{
+			_tf.y = -Math.round((_tf.height - 100) * sb2.value);
+			trace("y: "+_tf.y);
+			trace("h: "+_tf.height);
+			trace("v: " + sb2.value);
 		}
 		
 		public function setUserId(value:*):void
