@@ -74,7 +74,7 @@ package com.clink.main
 			sb2 = new ScrollBar(100,true);
 			this.addChild(sb2);
 			sb2.x = 100;
-			sb2.y = 117;
+			sb2.y = 0;
 			
 			sb2.addEventListener(Event.CHANGE,onSb2Change);
 			
@@ -86,6 +86,7 @@ package com.clink.main
 			_tf.wordWrap = true;
 			_tf.type = TextFieldType.INPUT;
 			this.addChild(_tf);
+			this.setChildIndex(sb2,this.numChildren-1);
 			_tf.text = "klasd asd ada kda lad kladkaj akdj ajakd alkdjakla a ad ";
 			_tf.addEventListener(Event.CHANGE,onChange);
 			
