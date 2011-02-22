@@ -7,10 +7,12 @@ package com.clink.main
 	import com.clink.managers.Manager_remoteUserSharedObject;
 	import com.clink.ui.LayoutBox;
 	import com.clink.ui.ScrollBar;
+	import com.clink.ui.ScrollList;
 	import com.clink.utils.DrawingUtils;
 	
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.events.MouseEvent;
 	import flash.events.NetStatusEvent;
 	import flash.net.NetConnection;
 	import flash.net.Responder;
@@ -34,6 +36,8 @@ package com.clink.main
 		private var sb:ScrollBar;
 		private var sb2:ScrollBar;
 		private var _tf:TextField;
+		private var _tf2:TextField;
+		private var _sl:ScrollList;
 		
 		public function ClinkMain()
 		{
@@ -57,13 +61,48 @@ package com.clink.main
 			_nc.connect(_appURL,_username);
 			_nc.addEventListener(NetStatusEvent.NET_STATUS,netStatusHandler);
 			
+			ScrollBar.initScrollBars();
 			
+			////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			_sl = new ScrollList(100,200,"#ffffff");
+			this.addChild(_sl);
+			_sl.x = 400;
+			_sl.y = 130;
+			
+			for(var i:int = 1; i < 5; i++)
+			{
+				var b:Sprite = Factory_prettyBox.drawPrettyBox(70,25,0xaa3333);
+				_sl.addListItem(b);
+			}
+			
+			var btn:Sprite = Factory_prettyBox.drawPrettyBox(70,30,0x3333aa);
+			this.addChild(btn);
+			btn.x = 320;
+			btn.y = 140;
+			btn.addEventListener(MouseEvent.CLICK,testBtnClick);
+			
+			var btn2:Sprite = Factory_prettyBox.drawPrettyBox(70,30,0x3333aa);
+			this.addChild(btn2);
+			btn2.x = 320;
+			btn2.y = 190;
+			btn2.addEventListener(MouseEvent.CLICK,testBtn2Click);
+			
+			_tf2 = new TextField();
+			_tf2.autoSize = TextFieldAutoSize.LEFT;
+			_tf2.width = 70;
+			_tf2.wordWrap = true;
+			_tf2.type = TextFieldType.INPUT;
+			_sl.addListItem(_tf2);
+			_sl.value = 1;
+			_tf2.text = "This is a text field! type in me";
+			_tf2.addEventListener(Event.CHANGE,onTf2Change);
+			///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			var color:uint = 0xff9999;
 			
 			var lb:LayoutBox = new LayoutBox();
 			this.addChild(lb);
 			
-			ScrollBar.initScrollbars();
+			
 			sb = new ScrollBar(400,false);
 			this.addChild(sb);
 			sb.x = 117;
@@ -92,15 +131,18 @@ package com.clink.main
 			_tf.addEventListener(Event.CHANGE,onChange);
 			
 			_tf.y = -Math.round((_tf.height - 100) * sb2.value);
+			
 			//test usage for Base_componentToolTip
-			/*Base_componentToolTip.initTooltips("#ffff99","#333333",11,400);
+			Base_componentToolTip.initTooltips("#ffff99","#333333",11,400);
 			
 			var btt:Base_componentToolTip = new Base_componentToolTip();
 			btt.message = "This is a sample tool tip for thekljadskl jklad jkadjkad jkla kljad kjl testing test of the sample tester"
 			lb.addChild(btt);
 			
+			btt.addChild(Factory_prettyBox.drawPrettyBox(100,100,0x333333));
+			
 			lb.x = this.stage.stageWidth - 50;
-			lb.y = 10;*/
+			lb.y = 10;
 		
 			//test usage for DrawingUtils.drawPrettyBox()
 			/*lb.addChild(DrawingUtils.drawPrettyBox(50,25,color,0,true));
@@ -113,7 +155,22 @@ package com.clink.main
 			lb.addChild(DrawingUtils.drawPrettyBox(50,25,color,10,false));
 			
 			lb.addChild(DrawingUtils.drawPrettyBox(200,100,color,10,true,true,true));
-			lb.addChild(DrawingUtils.drawPrettyBox(50,100,color,10,false,true,true)); */
+			lb.addChild(DrawingUtils.drawPrettyBox(50,100,color,10,false,true,true));*/
+		}
+		
+		private function testBtnClick(e:MouseEvent):void
+		{
+			_sl.addListItem(Factory_prettyBox.drawPrettyBox(70,25,0xaa3333));
+		}
+		
+		private function testBtn2Click(e:MouseEvent):void
+		{
+			_sl.removeListItem(0);
+		}
+		
+		private function onTf2Change(e:Event):void
+		{
+			_sl.update();
 		}
 		
 		private function onChange(e:Event):void

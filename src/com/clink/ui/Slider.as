@@ -126,8 +126,8 @@ package com.clink.ui
 				_handle.y = _percent * (_trackHeight - _handle.height);
 			}
 			
-			/*var e:Event = new Event(Event.CHANGE,true);
-			this.dispatchEvent(e);*/
+			var e:Event = new Event(Event.CHANGE,true);
+			this.dispatchEvent(e);
 		}
 		
 		
@@ -162,8 +162,6 @@ package com.clink.ui
 			
 			if(value <= 1 && value >= 0)
 			{
-				trace("h: " + _handle.height);
-				trace("t: "+ _trackHeight);
 				
 				_handle.height = _trackHeight * value;
 				_perc = value;

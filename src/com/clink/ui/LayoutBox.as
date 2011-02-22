@@ -7,30 +7,6 @@ package com.clink.ui
 	 * and objects are added to it's displaylist using the addChild() method. When the LayoutBox is instantiated there are optional 
 	 * parameters which can be set to determine if the objects will be positioned horizontally, vertically or on a grid. There are 
 	 * also padding properties used for setting the space between objects. The colPadding option is used when grid mode is enabled.
-	 * @example Here is an example of use:
-	 * <listing version = 3.0>
-	 * layoutBox = new LayoutBox(false,10,true,5,5);
-	 *	layoutBox.x = 30;
-	 *	layoutBox.y = 30;
-	 *	addChild(layoutBox);
-	 *	
-	 *	var btn:ButtonBase = new ButtonBase();
-	 *	btn.label = "up";
-	 * btn.addEventListener(MouseEvent.CLICK, btnOnClick_Handler);
-	 *	layoutBox.addChild(btn);
-	 *	
-	 *	var btn2:ButtonBase = new ButtonBase();
-	 *	btn2.label = "down";
-	 * 	btn2.addEventListener(MouseEvent.CLICK, btnOnClick_Handler);
-	 *	layoutBox.addChild(btn2);
-	 *		
-	 *	for(var i:Number = 0; i < 13 ; i++)
-	 *	{
-	 *		var bt:ButtonBase = new ButtonBase
-	 *		bt.label = "btn " + i;
-	 *		layoutBox.addChild(bt);
-	 * 	}
-	 * </listing>
 	 * 
 	 * 
 	 */

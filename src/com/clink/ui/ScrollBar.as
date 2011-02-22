@@ -8,7 +8,12 @@ package com.clink.ui
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
-	
+	/**
+	 * This class creates a scrollbar component with arrow buttons. This draws the scrollbar programatically instead of importing movieClips.
+	 * The static functions can be used to change the color of the different scrollBar parts.
+	 * @author adamrensel
+	 * 
+	 */	
 	public class ScrollBar extends Sprite
 	{
 		private var _button1:Controller_button;
@@ -34,7 +39,13 @@ package com.clink.ui
 		private static var _buttonArrowColor:uint;
 		private static var _handleColor:uint;
 		private static var _scrollBarList:Array;
-		
+		/**
+		 * Instantiates a new scrollBar
+		 *  
+		 * @param length:Number Length of the scrollBar
+		 * @param isVertical:Boolean whether or not the scrollBar is vertical or not.
+		 * 
+		 */		
 		public function ScrollBar(length:Number,isVertical:Boolean = true)
 		{
 			super();
@@ -55,8 +66,10 @@ package com.clink.ui
 			drawScrollBar();
 		}
 		
+		//draws the handle of the scrollBar
 		private function drawHandle():void
 		{
+			//if its vertical draw this
 			if(_isVertical)
 			{
 				_handleLength = (_length - BUTTON_SIZE*2) * _handlePotential;
@@ -70,7 +83,7 @@ package com.clink.ui
 				
 				_handle.graphics.moveTo(3,_handle.height/2 + 3);
 				_handle.graphics.lineTo(BUTTON_SIZE - 3,_handle.height/2 + 3);
-			}else{
+			}else{//if its horizontal draw this
 				_handleLength = (_length - BUTTON_SIZE*2) * _handlePotential;
 				_handle = Factory_prettyBox.drawPrettyBox(_handleLength,BUTTON_SIZE,_handleColor);
 				
@@ -84,18 +97,20 @@ package com.clink.ui
 				_handle.graphics.lineTo(_handle.width/2 + 3,BUTTON_SIZE - 3);
 			}
 			
-			_track.buttonMode = true;
+			_handle.buttonMode = true;
 			_track.addChild(_handle);
 		}
 		
+		//draw the track of the scrollBar
 		private function drawTrack():void
 		{
+			//if vertical
 			if(_isVertical)
 			{
 				_trackLength = _length - BUTTON_SIZE*2;
 				_track = Factory_prettyBox.drawPrettyBox(BUTTON_SIZE,_trackLength,_trackColor,0,false,false,true);
 				_track.y = BUTTON_SIZE;
-			}else{
+			}else{//if horizontal
 				_trackLength = _length - BUTTON_SIZE*2;
 				_track = Factory_prettyBox.drawPrettyBox(_trackLength,BUTTON_SIZE,_trackColor,0,false,false,true);
 				_track.x = BUTTON_SIZE;
@@ -104,16 +119,13 @@ package com.clink.ui
 			this.addChild(_track);
 		}
 		
+		//draw the arrow buttons of the scrollBar
 		private function drawButtons():void
 		{
 			var button1Dir:String;
 			var button2Dir:String;
 			
-			if(_button1)
-			{
-				//_butto
-			}
-			
+			//determines the values of the button directions if its horizontal or vertical, these values get passed to the triangle Factory
 			if(_isVertical)
 			{
 				button1Dir = "up";
@@ -123,7 +135,7 @@ package com.clink.ui
 				button2Dir = "right";
 			}
 			
-			//up arrow button
+			//up/left arrow button
 			var btn1Up:Sprite = Factory_prettyBox.drawPrettyBox(16,16,_buttonColor,0,true);
 			var arrow1:Sprite = Factory_triangle.drawEqTriangle(8,3.5,_buttonArrowColor,button1Dir);
 			arrow1.x = 8;
@@ -139,7 +151,7 @@ package com.clink.ui
 			_button1 = new Controller_button(btn1Up);
 			_button1.downState = btn1Down;
 			
-			//down arrow button
+			//down/right arrow button
 			var btn2Up:Sprite = Factory_prettyBox.drawPrettyBox(16,16,_buttonColor,0,true);
 			var arrow3:Sprite = Factory_triangle.drawEqTriangle(8,3.5,_buttonArrowColor,button2Dir);
 			arrow3.x = 8;
@@ -155,6 +167,7 @@ package com.clink.ui
 			_button2 = new Controller_button(btn2Up);
 			_button2.downState = btn2Down;
 			
+			//position the buttons based on if vertical or horizontal
 			if(_isVertical)
 			{
 				_button2.y = _length - BUTTON_SIZE;
@@ -165,6 +178,7 @@ package com.clink.ui
 			this.addChild(_button1);
 			this.addChild(_button2);
 			
+			//add event listeners to control handle movement
 			_button1.addEventListener(MouseEvent.MOUSE_DOWN,onButtonDown);
 			_button1.addEventListener(MouseEvent.MOUSE_UP,onButtonUp);
 			_button2.addEventListener(MouseEvent.MOUSE_DOWN,onButtonDown);
@@ -172,6 +186,8 @@ package com.clink.ui
 		}
 		
 		///////////////////Callbacks///////////////////////
+		
+		//slider changes position
 		private function onChange(e:Event):void
 		{
 			_thisValue = _slider.value;
@@ -182,6 +198,7 @@ package com.clink.ui
 			
 		}
 		
+		//mouse down on buttons
 		private function onButtonDown(e:MouseEvent):void
 		{
 			_direction = 1;
@@ -195,11 +212,13 @@ package com.clink.ui
 			this.addEventListener(Event.ENTER_FRAME,onFrame);
 		}
 		
+		//mouse up
 		private function onButtonUp(e:MouseEvent):void
 		{
 			this.removeEventListener(Event.ENTER_FRAME,onFrame);
 		}
 		
+		//when mouse is down this listner gets activated and makes the bar scroll
 		private function onFrame(e:Event):void
 		{
 			var incr:Number = this.value + .1 * _direction;
@@ -215,18 +234,19 @@ package com.clink.ui
 					this.value = incr;
 					var e:Event = new Event(Event.CHANGE);
 					this.dispatchEvent(e);
-				}
-				
-			}
-			
-			
-			
+				}	
+			}	
 		}
 		
 		//////////////////Public methods//////////////////
+		
+		/**
+		 * Redraw the entire scrollbar 
+		 * 
+		 */		
 		public function drawScrollBar():void
 		{
-			trace("DRAWING!!!");
+			//remove all the children - helps with memory
 			while(this.numChildren > 0)
 			{
 				this.removeChildAt(0);
@@ -236,12 +256,14 @@ package com.clink.ui
 			drawButtons();			
 			drawHandle();
 			
+			//remove listeners
 			if(_slider)
 			{
 				_slider.removeEventListener(Event.CHANGE,onChange);
 			}
-			
+			//clear the _slider object
 			_slider = null;
+			//create a new slider object
 			if(_isVertical)
 			{
 				_slider = new Slider(_handle,_track);
@@ -254,7 +276,12 @@ package com.clink.ui
 		}
 		
 		////////////////Getters/Setters///////////////////
-		
+		/**
+		 * SETTER
+		 * Changes the size of the handle, usually used to indicate how many items are in whatever the scrollBar is controling 
+		 * @param percent:Number percent value of the handle size 1 being the size of the track
+		 * 
+		 */		
 		public function set handleSize(percent:Number):void
 		{
 		//	this.value = _slider.value;
@@ -271,7 +298,22 @@ package com.clink.ui
 			}
 			_slider.potential = _handlePotential;
 		}
+		/**
+		 *	GETTER for handle size returns a percent 
+		 * @return Number
+		 * 
+		 */		
+		public function get handleSize():Number
+		{
+			return _handlePotential;
+		}
 		
+		/**
+		 * SETTER
+		 * sets a manual value for the slider, takes a percent value 
+		 * @param percent:Number percent value between 1 and 0
+		 * 
+		 */		
 		public function set value(percent:Number):void
 		{
 			
@@ -281,7 +323,11 @@ package com.clink.ui
 			}
 			
 		}
-		
+		/**
+		 * GETTER gets value as a percent between 0 and 1 
+		 * @return Number
+		 * 
+		 */		
 		public function get value():Number
 		{
 			if(_slider)
@@ -294,24 +340,65 @@ package com.clink.ui
 				}
 			}else{
 				return -1;
-			}
-			
-			
+			}	
+		}
+		
+		/**
+		 * SETTER  for scrollBar length
+		 * @param value:Number sets length
+		 * 
+		 */		
+		public function set length(value:Number):void
+		{
+			_length = value;
+			drawScrollBar();
+		}
+		
+		/**
+		 * GETTER for scrollBar length 
+		 * @return Number
+		 * 
+		 */		
+		public function get length():Number
+		{
+			return _length
 		}
 		
 		
 		////////////////Static Methods///////////////////
-		public static function initScrollbars(buttonColor:String = "#aaaaaa", trackColor:String = "#ffffff", buttonArrowColor:String = "#333333", handleColor:String = "#aaaaaa"):void
+		/**
+		 * This method needs to be called before any scrollBars are instantiated.
+		 * 
+		 * 
+		 */		
+		public static function initScrollBars():void
+		{
+			setScrollBarColors();
+			_scrollBarList = [];
+		}
+		
+		/**
+		 * This method can set/change all scrollBar colors of all instantiated scrollBars
+		 * @param buttonColor:String Arrow Button color can be passed in as a css value ex. #FFFFFF or as an actionscript hex value 0xFFFFFF, either will work
+		 * @param trackColor:String Track color can be passed in as a css value ex. #FFFFFF or as an actionscript hex value 0xFFFFFF, either will work
+		 * @param buttonArrowColor:String Arrow color on the buttons can be passed in as a css value ex. #FFFFFF or as an actionscript hex value 0xFFFFFF, either will work
+		 * @param handleColor:String handle color can be passed in as a css value ex. #FFFFFF or as an actionscript hex value 0xFFFFFF, either will work
+		 * 
+		 */		
+		public static function setScrollBarColors(buttonColor:String = "#aaaaaa", trackColor:String = "#ffffff", buttonArrowColor:String = "#333333", handleColor:String = "#aaaaaa"):void
 		{
 			_buttonColor = uint(DrawingUtils.fixColorCode(buttonColor));
 			_trackColor = uint(DrawingUtils.fixColorCode(trackColor));
 			_buttonArrowColor = uint(DrawingUtils.fixColorCode(buttonArrowColor));
 			_handleColor = uint(DrawingUtils.fixColorCode(handleColor));
-			_scrollBarList = [];
 			
 			redDrawAll();
 		}
 		
+		/**
+		 * redraws all scrollbars instantiated 
+		 * 
+		 */		
 		public static function redDrawAll():void
 		{
 			for each(var sb:ScrollBar in _scrollBarList)

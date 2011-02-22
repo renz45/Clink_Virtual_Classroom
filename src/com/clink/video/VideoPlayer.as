@@ -278,7 +278,7 @@ package com.clink.video
 			}
 		}
 		
-		public function set netConnection(netConnection):void
+		public function set netConnection(netConnection:NetConnection):void
 		{
 			_nc = netConnection;
 		}
