@@ -27,6 +27,8 @@ package com.clink.ui
 		private var _percent:Number;
 		private var _perc:Number;
 		
+		private var _trackHeight:Number;
+		
 		private var _reverse:Boolean = false
 		
 		public function Slider(handle:Sprite,track:Sprite,horizontal:Boolean = false)
@@ -35,6 +37,7 @@ package com.clink.ui
 			_track = track;
 			_horizontal = horizontal;
 			
+			_trackHeight = _track.height;
 			
 			_track.addEventListener(MouseEvent.CLICK,track_ClickHandler);
 			
@@ -73,7 +76,7 @@ package com.clink.ui
 			{
 				_handle.startDrag(false,new Rectangle(0,0,_track.width - _handle.width,0));
 			}else{
-				_handle.startDrag(false,new Rectangle(0,0,0,_track.height - _handle.height));
+				_handle.startDrag(false,new Rectangle(0,0,0,_trackHeight - _handle.height));
 			}
 			_handle.stage.addEventListener(MouseEvent.MOUSE_UP,handle_mouseUpHandler);
 			_handle.addEventListener(Event.ENTER_FRAME, onFrame_Handler);
@@ -102,7 +105,7 @@ package com.clink.ui
 			{
 				perc = _handle.x / (_track.width - _handle.width);
 			}else{
-				perc = _handle.y / (_track.height - _handle.height);
+				perc = _handle.y / (_trackHeight - _handle.height);
 			}
 			
 			if (_percent != perc) 
@@ -120,8 +123,11 @@ package com.clink.ui
 			{
 				_handle.x = _percent * (_track.width - _handle.width);
 			}else{
-				_handle.y = _percent * (_track.height - _handle.height);
+				_handle.y = _percent * (_trackHeight - _handle.height);
 			}
+			
+			/*var e:Event = new Event(Event.CHANGE,true);
+			this.dispatchEvent(e);*/
 		}
 		
 		
@@ -153,11 +159,15 @@ package com.clink.ui
 		 */		
 		public function set potential(value:Number):void
 		{
+			
 			if(value <= 1 && value >= 0)
 			{
-				_handle.height = _track.height * value;
+				trace("h: " + _handle.height);
+				trace("t: "+ _trackHeight);
+				
+				_handle.height = _trackHeight * value;
 				_perc = value;
-				this.value = this.value;
+				//this.value = value;
 			}else{
 				if(value <= 0)
 				{
@@ -170,6 +180,7 @@ package com.clink.ui
 				}
 				
 			}
+			handlePosition();
 		}
 		/**
 		 *@private 

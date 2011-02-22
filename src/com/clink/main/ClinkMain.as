@@ -72,10 +72,11 @@ package com.clink.main
 			//sb.addEventListener(Event.CHANGE,onSbChange);
 			
 			sb2 = new ScrollBar(100,true);
-			this.addChild(sb2);
+			
 			sb2.x = 100;
 			sb2.y = 0;
-			
+			sb2.handleSize = 1;
+			sb2.value = 1;
 			sb2.addEventListener(Event.CHANGE,onSb2Change);
 			
 			
@@ -86,10 +87,11 @@ package com.clink.main
 			_tf.wordWrap = true;
 			_tf.type = TextFieldType.INPUT;
 			this.addChild(_tf);
-			this.setChildIndex(sb2,this.numChildren-1);
+			//this.setChildIndex(sb2,this.numChildren-1);
 			_tf.text = "klasd asd ada kda lad kladkaj akdj ajakd alkdjakla a ad ";
 			_tf.addEventListener(Event.CHANGE,onChange);
 			
+			_tf.y = -Math.round((_tf.height - 100) * sb2.value);
 			//test usage for Base_componentToolTip
 			/*Base_componentToolTip.initTooltips("#ffff99","#333333",11,400);
 			
@@ -119,18 +121,32 @@ package com.clink.main
 			var perc:Number = 100/_tf.height;
 			if(perc > 1)
 			{
+				if(sb2.parent == this)
+				{
+					this.removeChild(sb2);
+					
+				}
+				
 				sb2.handleSize = 1;	
 			}else{
+				
+				if(sb2.parent != this)
+				{
+					this.addChild(sb2);
+					sb2.value = 1;
+				}
+				
 				if(perc > .15)
 				{
 					sb2.handleSize = perc;
 				}else{
-					sb2.handleSize = perc;
+					sb2.handleSize = .15;
 				}
 			}
-			_tf.y = -(_tf.height - 100)
-			
-			sb2.value = 1;
+			//_tf.y = -(_tf.height - 100)
+			_tf.y = -Math.round((_tf.height - 100) * sb2.value);
+			//sb2.value = 1;
+			//trace(sb2.value);
 			
 		}
 		
@@ -143,9 +159,6 @@ package com.clink.main
 		private function onSb2Change(e:Event):void
 		{
 			_tf.y = -Math.round((_tf.height - 100) * sb2.value);
-			trace("y: "+_tf.y);
-			trace("h: "+_tf.height);
-			trace("v: " + sb2.value);
 		}
 		
 		public function setUserId(value:*):void

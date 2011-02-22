@@ -24,6 +24,7 @@ package com.clink.ui
 		private var _handlePos:Number;
 		private var _trackLength:Number;
 		private var _thisValue:Number;
+		private var _direction:Number;
 		
 		
 		private const BUTTON_SIZE:Number = 16;
@@ -48,7 +49,7 @@ package com.clink.ui
 		{
 			_scrollBarList.push(this);
 			
-			_handlePotential = .5;
+			_handlePotential = 1;
 			_thisValue = 0;
 			
 			drawScrollBar();
@@ -108,6 +109,11 @@ package com.clink.ui
 			var button1Dir:String;
 			var button2Dir:String;
 			
+			if(_button1)
+			{
+				//_butto
+			}
+			
 			if(_isVertical)
 			{
 				button1Dir = "up";
@@ -158,6 +164,11 @@ package com.clink.ui
 			
 			this.addChild(_button1);
 			this.addChild(_button2);
+			
+			_button1.addEventListener(MouseEvent.MOUSE_DOWN,onButtonDown);
+			_button1.addEventListener(MouseEvent.MOUSE_UP,onButtonUp);
+			_button2.addEventListener(MouseEvent.MOUSE_DOWN,onButtonDown);
+			_button2.addEventListener(MouseEvent.MOUSE_UP,onButtonUp);
 		}
 		
 		///////////////////Callbacks///////////////////////
@@ -167,12 +178,55 @@ package com.clink.ui
 			var e:Event = new Event(Event.CHANGE);
 			this.dispatchEvent(e);
 			
+			
+			
+		}
+		
+		private function onButtonDown(e:MouseEvent):void
+		{
+			_direction = 1;
+			
+			if(e.target == _button1)
+			{
+				
+				_direction = -1
+			}
+			
+			this.addEventListener(Event.ENTER_FRAME,onFrame);
+		}
+		
+		private function onButtonUp(e:MouseEvent):void
+		{
+			this.removeEventListener(Event.ENTER_FRAME,onFrame);
+		}
+		
+		private function onFrame(e:Event):void
+		{
+			var incr:Number = this.value + .1 * _direction;
+			
+			if(incr >=0 && incr <=1)
+			{
+				if(incr > 1)
+				{
+					this.value = 1;	
+				}else if(incr < 0){
+					this.value = 0;
+				}else if(this.value != incr){
+					this.value = incr;
+					var e:Event = new Event(Event.CHANGE);
+					this.dispatchEvent(e);
+				}
+				
+			}
+			
+			
+			
 		}
 		
 		//////////////////Public methods//////////////////
 		public function drawScrollBar():void
 		{
-			
+			trace("DRAWING!!!");
 			while(this.numChildren > 0)
 			{
 				this.removeChildAt(0);
@@ -203,27 +257,29 @@ package com.clink.ui
 		
 		public function set handleSize(percent:Number):void
 		{
+		//	this.value = _slider.value;
 			_thisValue = _slider.value;
 			//trace(percent);
 			
 			if(percent < .15)
 			{
 				_handlePotential = .15
+			}else if(percent > 1){
+				_handlePotential = 1;
 			}else{
 				_handlePotential = percent;
 			}
-				
-			
-			
-			drawScrollBar();
+			_slider.potential = _handlePotential;
 		}
 		
 		public function set value(percent:Number):void
 		{
+			
 			if(_slider)
 			{
 				_slider.value = percent;
 			}
+			
 		}
 		
 		public function get value():Number
@@ -239,6 +295,8 @@ package com.clink.ui
 			}else{
 				return -1;
 			}
+			
+			
 		}
 		
 		
