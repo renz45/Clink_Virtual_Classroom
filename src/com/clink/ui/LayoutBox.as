@@ -74,7 +74,7 @@ package com.clink.ui
 			
 		}
 		
-		private function updateLayout():void
+		public function updateLayout():void
 		{
 			var counter:Number = 0;
 			for each(var obj:DisplayObject in _objects)
@@ -83,17 +83,17 @@ package com.clink.ui
 				{
 					if(counter == 0)
 					{
-						obj.y = counter * (obj.height + _padding);
+						obj.y = 0;
 					}else{
-						obj.y = counter * (_objects[counter - 1].height + _padding);
+						obj.y = (_objects[counter - 1].y + _objects[counter - 1].height + _padding);
 					}
 					
 				}else{
 					if(counter == 0)
 					{
-						obj.x = counter * (obj.width + _padding);
+						obj.x = 0;
 					}else{
-						obj.x = counter * (_objects[counter - 1].width + _padding);
+						obj.x = (_objects[counter - 1].x + _objects[counter - 1].width + _padding);
 					}
 				}
 				counter++;

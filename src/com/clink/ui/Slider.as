@@ -28,6 +28,7 @@ package com.clink.ui
 		private var _perc:Number;
 		
 		private var _trackHeight:Number;
+		private var _trackWidth:Number;
 		
 		private var _reverse:Boolean = false
 		
@@ -38,6 +39,7 @@ package com.clink.ui
 			_horizontal = horizontal;
 			
 			_trackHeight = _track.height;
+			_trackWidth = _track.width;
 			
 			_track.addEventListener(MouseEvent.CLICK,track_ClickHandler);
 			
@@ -121,7 +123,7 @@ package com.clink.ui
 		{
 			if(_horizontal == true)
 			{
-				_handle.x = _percent * (_track.width - _handle.width);
+				_handle.x = _percent * (_trackWidth - _handle.width);
 			}else{
 				_handle.y = _percent * (_trackHeight - _handle.height);
 			}
@@ -148,9 +150,12 @@ package com.clink.ui
 		 */		
 		public function set value(value:Number):void
 		{
-			_percent = value;
-			
-			handlePosition();
+			if(value >=0 && value <= 1)
+			{
+				_percent = value;
+				
+				handlePosition();
+			}
 		}
 		/**
 		 *Used to set the size of the handle, the number is set or returned as a percentage. 
@@ -162,10 +167,13 @@ package com.clink.ui
 			
 			if(value <= 1 && value >= 0)
 			{
-				
-				_handle.height = _trackHeight * value;
+				if(_horizontal)
+				{
+					_handle.width = _trackWidth * value;
+				}else{
+					_handle.height = _trackHeight * value;
+				}
 				_perc = value;
-				//this.value = value;
 			}else{
 				if(value <= 0)
 				{

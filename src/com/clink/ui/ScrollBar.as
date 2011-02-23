@@ -64,6 +64,7 @@ package com.clink.ui
 			_thisValue = 0;
 			
 			drawScrollBar();
+			
 		}
 		
 		//draws the handle of the scrollBar
@@ -187,6 +188,9 @@ package com.clink.ui
 		
 		///////////////////Callbacks///////////////////////
 		
+		
+		
+		
 		//slider changes position
 		private function onChange(e:Event):void
 		{
@@ -284,9 +288,7 @@ package com.clink.ui
 		 */		
 		public function set handleSize(percent:Number):void
 		{
-		//	this.value = _slider.value;
 			_thisValue = _slider.value;
-			//trace(percent);
 			
 			if(percent < .15)
 			{

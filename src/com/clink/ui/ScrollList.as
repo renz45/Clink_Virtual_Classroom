@@ -79,7 +79,7 @@ package com.clink.ui
 			_sb.handleSize = 1;
 			
 			_sb.addEventListener(Event.CHANGE,onSbChange);
-			
+			this.addEventListener(MouseEvent.MOUSE_WHEEL,onMouseWheel);
 		}
 		
 		//updates the handle size and adds/removes the scrollBar if the list is big enough to need to scroll
@@ -107,12 +107,25 @@ package com.clink.ui
 				}else{
 					_sb.handleSize = .15;
 				}
-			}
-			
+			}	
 		}
 		
 		
 		/////////////callbacks///////////////
+		//mouse wheel scrolling
+		private function onMouseWheel(e:MouseEvent):void
+		{
+			if(_sb.value + (-e.delta / 50) < 0)
+			{
+				_sb.value = 0;
+				
+			}else if(_sb.value + (-e.delta / 50) > 1){
+				
+				_sb.value = 1;
+			}else{
+				_sb.value += -e.delta / 50;
+			}
+		}
 		
 		//when the scroll bar scrolls
 		private function onSbChange(e:Event):void
@@ -135,6 +148,7 @@ package com.clink.ui
 		public function update():void
 		{
 			updateHandleSize();
+			_container.updateLayout();
 		}
 		
 		/**

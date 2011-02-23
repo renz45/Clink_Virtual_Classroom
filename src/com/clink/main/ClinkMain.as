@@ -5,8 +5,11 @@ package com.clink.main
 	import com.clink.factories.Factory_prettyBox;
 	import com.clink.managers.Manager_remoteCommonSharedObject;
 	import com.clink.managers.Manager_remoteUserSharedObject;
+	import com.clink.misc.Keys;
+	import com.clink.misc.MacMouseWheelHandler;
 	import com.clink.ui.LayoutBox;
 	import com.clink.ui.ScrollBar;
+	import com.clink.ui.ScrollBox;
 	import com.clink.ui.ScrollList;
 	import com.clink.utils.DrawingUtils;
 	
@@ -38,6 +41,7 @@ package com.clink.main
 		private var _tf:TextField;
 		private var _tf2:TextField;
 		private var _sl:ScrollList;
+		private var _sBox:ScrollBox;
 		
 		public function ClinkMain()
 		{
@@ -62,6 +66,10 @@ package com.clink.main
 			_nc.addEventListener(NetStatusEvent.NET_STATUS,netStatusHandler);
 			
 			ScrollBar.initScrollBars();
+			Keys.init(this.stage);
+			
+			//fixes the mac mouse wheel scrolling issue
+			MacMouseWheelHandler.init(this.stage);
 			
 			////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			_sl = new ScrollList(100,200,"#ffffff");
@@ -97,52 +105,39 @@ package com.clink.main
 			_tf2.text = "This is a text field! type in me";
 			_tf2.addEventListener(Event.CHANGE,onTf2Change);
 			///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-			var color:uint = 0xff9999;
-			
-			var lb:LayoutBox = new LayoutBox();
-			this.addChild(lb);
 			
 			
-			sb = new ScrollBar(400,false);
-			this.addChild(sb);
-			sb.x = 117;
-			sb.y = 100;
+			_sBox = new ScrollBox(100,100,"#ffcccc");
+			this.addChild(_sBox);
+			_sBox.y = 170;
+			_sBox.x = 20;
 			
-			//sb.addEventListener(Event.CHANGE,onSbChange);
-			
-			sb2 = new ScrollBar(100,true);
-			
-			sb2.x = 100;
-			sb2.y = 0;
-			sb2.handleSize = 1;
-			sb2.value = 1;
-			sb2.addEventListener(Event.CHANGE,onSb2Change);
+			_sBox.addItem(Factory_prettyBox.drawPrettyBox(300,300,0x7777ff));
 			
 			
-			this.addChild(Factory_prettyBox.drawPrettyBox(110,100,0xffffff));
 			
-			_tf = new TextField();
-			_tf.autoSize = TextFieldAutoSize.CENTER;
-			_tf.wordWrap = true;
-			_tf.type = TextFieldType.INPUT;
-			this.addChild(_tf);
-			//this.setChildIndex(sb2,this.numChildren-1);
-			_tf.text = "klasd asd ada kda lad kladkaj akdj ajakd alkdjakla a ad ";
-			_tf.addEventListener(Event.CHANGE,onChange);
 			
-			_tf.y = -Math.round((_tf.height - 100) * sb2.value);
+			
+			
+			
+			
+			
+			
+			
+			
+			////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			
 			
 			//test usage for Base_componentToolTip
 			Base_componentToolTip.initTooltips("#ffff99","#333333",11,400);
 			
 			var btt:Base_componentToolTip = new Base_componentToolTip();
 			btt.message = "This is a sample tool tip for thekljadskl jklad jkadjkad jkla kljad kjl testing test of the sample tester"
-			lb.addChild(btt);
+			this.addChild(btt);
+			btt.x = 900;
 			
 			btt.addChild(Factory_prettyBox.drawPrettyBox(100,100,0x333333));
 			
-			lb.x = this.stage.stageWidth - 50;
-			lb.y = 10;
 		
 			//test usage for DrawingUtils.drawPrettyBox()
 			/*lb.addChild(DrawingUtils.drawPrettyBox(50,25,color,0,true));
@@ -173,49 +168,10 @@ package com.clink.main
 			_sl.update();
 		}
 		
-		private function onChange(e:Event):void
-		{
-			var perc:Number = 100/_tf.height;
-			if(perc > 1)
-			{
-				if(sb2.parent == this)
-				{
-					this.removeChild(sb2);
-					
-				}
-				
-				sb2.handleSize = 1;	
-			}else{
-				
-				if(sb2.parent != this)
-				{
-					this.addChild(sb2);
-					sb2.value = 1;
-				}
-				
-				if(perc > .15)
-				{
-					sb2.handleSize = perc;
-				}else{
-					sb2.handleSize = .15;
-				}
-			}
-			//_tf.y = -(_tf.height - 100)
-			_tf.y = -Math.round((_tf.height - 100) * sb2.value);
-			//sb2.value = 1;
-			//trace(sb2.value);
-			
-		}
-		
 		private function onSbChange(e:Event):void
 		{
 			
 			sb2.handleSize = sb.value;
-		}
-		
-		private function onSb2Change(e:Event):void
-		{
-			_tf.y = -Math.round((_tf.height - 100) * sb2.value);
 		}
 		
 		public function setUserId(value:*):void
