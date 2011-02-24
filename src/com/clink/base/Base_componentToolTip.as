@@ -163,8 +163,13 @@ package com.clink.base
 			_bgColor = uint(DrawingUtils.fixColorCode(bgColor));
 			_textColor = uint(DrawingUtils.fixColorCode(textColor));
 			_textSize = textSize;
-			_toolTipList = [];
+			
 			_initialized = true;
+			
+			if(!_toolTipList)
+			{
+				_toolTipList = [];
+			}
 		}
 		
 		//changes the bg color of all toolTips

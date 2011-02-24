@@ -50,6 +50,11 @@ package com.clink.ui
 		{
 			super();
 			
+			if(!_scrollBarList)
+			{
+				throw new Error("Please initialize this class by calling ScrollBar.initScrollBars() at the beginning of your application");
+			}
+			
 			_length = length;
 			_isVertical = isVertical;
 			
@@ -376,7 +381,11 @@ package com.clink.ui
 		public static function initScrollBars():void
 		{
 			setScrollBarColors();
-			_scrollBarList = [];
+			
+			if(!_scrollBarList)
+			{
+				_scrollBarList = [];
+			}
 		}
 		
 		/**

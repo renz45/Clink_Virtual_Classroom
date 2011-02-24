@@ -19,7 +19,7 @@ package com.clink.factories
 		 * This is intended to be used with almost every object created, so customization can be facilitated.
 		 * 
 		 */
-		public static function drawPrettyBox(width:Number, height:Number, fillColor:uint,cornerRadius:Number = 0, gradient:Boolean = false, reverseGradient:Boolean = false, reverseBorder:Boolean = false,strokeSize:Number = 1 ,alpha:Number = 1):Sprite
+		public static function drawPrettyBox(width:Number, height:Number, fillColor:uint,cornerRadius:Number = 0, gradient:Boolean = false, reverseGradient:Boolean = false, reverseBorder:Boolean = false,gradientContrast:Number = 2,strokeSize:Number = 1 ,alpha:Number = 1):Sprite
 		{
 			var drawIntoThis:Sprite = new Sprite();
 			var x:Number = 0;
@@ -32,7 +32,7 @@ package com.clink.factories
 			if(gradient)
 			{
 				borderColors = DrawingUtils.getBorderColors(fillColor,4);
-				var gradColors:Array = DrawingUtils.getBorderColors(fillColor,2);
+				var gradColors:Array = DrawingUtils.getBorderColors(fillColor,gradientContrast);
 				
 				var deg:Number = Convert.degreesToRadians(90);
 				var matrix:Matrix = new Matrix();
