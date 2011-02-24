@@ -7,7 +7,7 @@ package com.clink.loaders
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
 	
-	[Event(type="com.fs.loaders.loaderEvents.XmlComplete_Event",name="xmlLoaded")]
+	[Event(type="com.clink.loaders.loaderEvents.XmlComplete_Event",name="xmlLoaded")]
 	/**
 	 * class used for loading external XML files. The file path must be passed in as a string. The custom event XmlComplete_Event.XML_LOADED
 	 * is dispatched upon file loading completion. The XML file is stored in the event as XML in "event.loadedXML". 

@@ -9,7 +9,7 @@ package com.clink.loaders
 	import flash.events.EventDispatcher;
 	import flash.net.URLRequest;
 	
-	[Event(type="com.fs.loaders.loaderEvents.ImageComplete_Event",name="imageLoaded")]
+	[Event(type="com.clink.loaders.loaderEvents.ImageComplete_Event",name="imageLoaded")]
 	/**
 	 * Class which loads an external image. The path to the file needs to be passed in as a string. A custom event is dispatched upon load completion.
 	 * The ImageComplete_Event.IMAGE_LOADED event is dispatched with the image data stored as a bitmap in "event.imageLoaded"
