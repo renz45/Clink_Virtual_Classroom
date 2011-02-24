@@ -1,12 +1,14 @@
 package com.clink.main
 {
 	import com.clink.base.Base_componentToolTip;
+	import com.clink.events.BasicButtonEvent;
 	import com.clink.events.SharedObjectEvent;
 	import com.clink.factories.Factory_prettyBox;
 	import com.clink.managers.Manager_remoteCommonSharedObject;
 	import com.clink.managers.Manager_remoteUserSharedObject;
 	import com.clink.misc.Keys;
 	import com.clink.misc.MacMouseWheelHandler;
+	import com.clink.ui.BasicButton;
 	import com.clink.ui.LayoutBox;
 	import com.clink.ui.ScrollBar;
 	import com.clink.ui.ScrollBox;
@@ -23,6 +25,7 @@ package com.clink.main
 	import flash.text.TextFieldAutoSize;
 	import flash.text.TextFieldType;
 	import flash.text.TextFormat;
+	import flash.ui.Keyboard;
 	
 	public class ClinkMain extends Sprite
 	{
@@ -65,11 +68,18 @@ package com.clink.main
 			_nc.connect(_appURL,_username);
 			_nc.addEventListener(NetStatusEvent.NET_STATUS,netStatusHandler);
 			
+			//initialize scrollbars
 			ScrollBar.initScrollBars();
+			
+			//initialize keyboard class
 			Keys.init(this.stage);
 			
 			//fixes the mac mouse wheel scrolling issue
 			MacMouseWheelHandler.init(this.stage);
+			
+			//init buttons
+			BasicButton.init();
+			BasicButton.isGradient = true;
 			
 			////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			_sl = new ScrollList(100,200,"#ffffff");
@@ -79,7 +89,7 @@ package com.clink.main
 			
 			for(var i:int = 1; i < 5; i++)
 			{
-				var b:Sprite = Factory_prettyBox.drawPrettyBox(70,25,0xaa3333);
+				var b:Sprite = Factory_prettyBox.drawPrettyBox(70,25,0xaa3333,0,true);
 				_sl.addListItem(b);
 			}
 			
@@ -126,20 +136,35 @@ package com.clink.main
 			btt.x = 900;
 			
 			btt.addChild(Factory_prettyBox.drawPrettyBox(100,100,0x333333));
+			///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			
+			var bt:BasicButton = new BasicButton(30,30,true);
+			bt.x = 10;
+			bt.y = 10;
+			bt.upIcon = "icons/raiseHand.png";
+			bt.overIcon = "icons/raiseHandOver.png";
+			bt.downIcon = "icons/raiseHand.png";
+			//bt.ShortCutKey = Keyboard.CONTROL;
+			bt.down();
+			this.addChild(bt);
+			
+			var bt2:BasicButton = new BasicButton(30,30,true);
+			bt2.x = 46;
+			bt2.y = 10;
+			this.addChild(bt2);
+			
+			//bt2.setToggleGroup([bt2,bt]);
+			//bt.setToggleGroup([bt,bt2]);
+			bt2.enableToggle();
+			bt.enableToggle();
+			
+			bt.addEventListener(BasicButtonEvent.BUTTON_DOWN,onButtonDown);
+			
+		}
 		
-			//test usage for DrawingUtils.drawPrettyBox()
-			/*lb.addChild(DrawingUtils.drawPrettyBox(50,25,color,0,true));
-			lb.addChild(DrawingUtils.drawPrettyBox(50,25,color,0,false));
-			
-			lb.addChild(DrawingUtils.drawPrettyBox(50,25,color,0,true,true,true));
-			lb.addChild(DrawingUtils.drawPrettyBox(50,25,color,0,false,true,true));
-			
-			lb.addChild(DrawingUtils.drawPrettyBox(50,25,color,10,true));
-			lb.addChild(DrawingUtils.drawPrettyBox(50,25,color,10,false));
-			
-			lb.addChild(DrawingUtils.drawPrettyBox(200,100,color,10,true,true,true));
-			lb.addChild(DrawingUtils.drawPrettyBox(50,100,color,10,false,true,true));*/
+		private function onButtonDown(e:BasicButtonEvent):void
+		{
+			trace("BUTTON");
 		}
 		
 		private function testBtnClick(e:MouseEvent):void
