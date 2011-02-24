@@ -23,6 +23,7 @@ package com.clink.controllers
 			_upState = upState;
 			
 			init();
+			enable();
 		}
 		
 		private function init():void
@@ -33,7 +34,7 @@ package com.clink.controllers
 			this.buttonMode = true;
 			this.mouseChildren = false;
 			
-			enable();
+			
 		}
 		
 		///////////////Callbacks////////////
@@ -88,6 +89,7 @@ package com.clink.controllers
 		
 		public function up():void
 		{
+			
 			this.setChildIndex(_upState,this.numChildren - 1);
 			
 			_state = "up";
@@ -95,6 +97,7 @@ package com.clink.controllers
 		
 		public function down():void
 		{
+			
 			if(_downState)
 			{
 				this.setChildIndex(_downState,this.numChildren - 1);
@@ -111,9 +114,13 @@ package com.clink.controllers
 			{
 				this.removeChild(_upState);	
 			}
-			
 			_upState = upstate;
-			this.addChildAt(_upState,this.numChildren - 1);
+			if(this.numChildren == 0)
+			{
+				this.addChild(_upState);
+			}else{
+				this.addChildAt(_upState,this.numChildren - 1);
+			}
 		}
 		
 		public function get upState():Sprite
@@ -156,6 +163,11 @@ package com.clink.controllers
 		public function get enabled():Boolean
 		{
 			return _isEnabled;
+		}
+		
+		public function get State():String
+		{
+			return _state;
 		}
 	}
 }
