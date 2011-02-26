@@ -1,9 +1,11 @@
 package com.clink.main
 {
 	import com.clink.base.Base_componentToolTip;
-	import com.clink.events.BasicButtonEvent;
+	import com.clink.controllers.Controller_Dragable;
 	import com.clink.events.SharedObjectEvent;
 	import com.clink.factories.Factory_prettyBox;
+	import com.clink.loaders.EasyXmlLoader;
+	import com.clink.loaders.loaderEvents.XmlComplete_Event;
 	import com.clink.managers.Manager_remoteCommonSharedObject;
 	import com.clink.managers.Manager_remoteUserSharedObject;
 	import com.clink.misc.Keys;
@@ -14,11 +16,15 @@ package com.clink.main
 	import com.clink.ui.ScrollBox;
 	import com.clink.ui.ScrollList;
 	import com.clink.utils.DrawingUtils;
+	import com.clink.utils.ParseConfigXML;
+	import com.clink.valueObjects.VO_Settings;
 	
 	import flash.display.Sprite;
+	import flash.display.Stage;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.events.NetStatusEvent;
+	import flash.media.Camera;
 	import flash.net.NetConnection;
 	import flash.net.Responder;
 	import flash.text.TextField;
@@ -29,203 +35,117 @@ package com.clink.main
 	
 	public class ClinkMain extends Sprite
 	{
+		//netConnection
 		private var _nc:NetConnection;
-		private var _serverUserID:int;
 		
+		//connection info
 		private var _appURL:String;
 		private var _username:String;
+		private var _serverUserID:int;
+		private var _userPermission:String;
 		
-		private var _userBasedSO:Manager_remoteUserSharedObject;
-		private var _commonSO:Manager_remoteCommonSharedObject;
+		private var _configInfo:VO_Settings;
+
+		//stage
+		private var _stage:Stage;
 		
-		//test
-		private var sb:ScrollBar;
-		private var sb2:ScrollBar;
-		private var _tf:TextField;
-		private var _tf2:TextField;
-		private var _sl:ScrollList;
-		private var _sBox:ScrollBox;
+		//ui elements
+		private var _sidebar:Main_SideBar;
 		
-		public function ClinkMain()
+		public function ClinkMain(stage:Stage)
 		{
 			super();
+
 			
-			_appURL = "rtmp://localhost/Clink_ServerSideApp";
+			_stage = stage;
+			
+			loadConfig();
+		}
+		
+		private function loadConfig():void
+		{
+			var xl:EasyXmlLoader = new EasyXmlLoader("config.xml");
+			xl.addEventListener(XmlComplete_Event.XML_LOADED,parseConfigXML);
+			
+			//passed in via flash vars or read from database
 			_username = "Adam";
+			_userPermission = "teacher";
+		}
+		
+		private function init():void
+		{	
 			
-			this.addEventListener(Event.ADDED_TO_STAGE, onStage);
-		}
-		
-		private function onStage(e:Event):void
-		{
-			testInit();
-		}
-		
-		private function testInit():void
-		{
+			//initialize scrollbars
+			ScrollBar.initScrollBars();
+			//initialize keyboard class
+			Keys.init(_stage);
+			//fixes the mac mouse wheel scrolling issue
+			MacMouseWheelHandler.init(_stage);
+			//init buttons
+			BasicButton.init();
+			//init tooltips
+			Base_componentToolTip.initTooltips();
+			//init sharedObject managers
+			Manager_remoteCommonSharedObject.init();
+			Manager_remoteUserSharedObject.init();
+			
+			
+			
+			
+			//These values are colors that will eventually be set by a xml config file
+			BasicButton.isGradient = _configInfo.basicButton_isGradient;
+			BasicButton.setButtonColors(_configInfo.basicButton_upStateColor,_configInfo.basicButton_downStateColor,_configInfo.basicButton_overStateColor);
+			ScrollBar.setScrollBarColors(_configInfo.scrollBar_buttonColor,_configInfo.scrollBar_trackColor,_configInfo.scrollBar_arrowColor,_configInfo.scrollBar_handleColor);
+			Base_componentToolTip.bgColor = _configInfo.toolTip_bgColor;
+			Base_componentToolTip.textColor = _configInfo.toolTip_textColor;
+			Base_componentToolTip.textSize = _configInfo.toolTip_textSize;
+			Base_componentToolTip.toolTipDisplayDelay = _configInfo.toolTip_displayDelay;
+			
+			_appURL = _configInfo.appURL;
+			
+			_configInfo.username = _username;
+			_configInfo.userPermission = _userPermission;
+			
+			//connect the NetConnection to the Red5 server
 			_nc = new NetConnection();
 			_nc.client = this;
 			_nc.connect(_appURL,_username);
 			_nc.addEventListener(NetStatusEvent.NET_STATUS,netStatusHandler);
 			
-			//initialize scrollbars
-			ScrollBar.initScrollBars();
-			
-			//initialize keyboard class
-			Keys.init(this.stage);
-			
-			//fixes the mac mouse wheel scrolling issue
-			MacMouseWheelHandler.init(this.stage);
-			
-			//init buttons
-			BasicButton.init();
-			BasicButton.isGradient = true;
-			
-			////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-			_sl = new ScrollList(100,200,"#ffffff");
-			this.addChild(_sl);
-			_sl.x = 400;
-			_sl.y = 130;
-			
-			for(var i:int = 1; i < 5; i++)
-			{
-				var b:Sprite = Factory_prettyBox.drawPrettyBox(70,25,0xaa3333,0,true);
-				_sl.addListItem(b);
-			}
-			
-			var btn:Sprite = Factory_prettyBox.drawPrettyBox(70,30,0x3333aa);
-			this.addChild(btn);
-			btn.x = 320;
-			btn.y = 140;
-			btn.addEventListener(MouseEvent.CLICK,testBtnClick);
-			
-			var btn2:Sprite = Factory_prettyBox.drawPrettyBox(70,30,0x3333aa);
-			this.addChild(btn2);
-			btn2.x = 320;
-			btn2.y = 190;
-			btn2.addEventListener(MouseEvent.CLICK,testBtn2Click);
-			
-			_tf2 = new TextField();
-			_tf2.autoSize = TextFieldAutoSize.LEFT;
-			_tf2.width = 70;
-			_tf2.wordWrap = true;
-			_tf2.type = TextFieldType.INPUT;
-			_sl.addListItem(_tf2);
-			_sl.value = 1;
-			_tf2.text = "This is a text field! type in me";
-			_tf2.addEventListener(Event.CHANGE,onTf2Change);
-			///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-			
-			
-			_sBox = new ScrollBox(100,100,"#ffcccc");
-			this.addChild(_sBox);
-			_sBox.y = 170;
-			_sBox.x = 20;
-			
-			_sBox.addItem(Factory_prettyBox.drawPrettyBox(300,300,0x7777ff));
-
-			////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-			
-			
-			//test usage for Base_componentToolTip
-			Base_componentToolTip.initTooltips("#ffff99","#333333",11,400);
-			
-			var btt:Base_componentToolTip = new Base_componentToolTip();
-			btt.message = "This is a sample tool tip for thekljadskl jklad jkadjkad jkla kljad kjl testing test of the sample tester"
-			this.addChild(btt);
-			btt.x = 900;
-			
-			btt.addChild(Factory_prettyBox.drawPrettyBox(100,100,0x333333));
-			///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-			
-			var bt:BasicButton = new BasicButton(30,30,true);
-			bt.x = 10;
-			bt.y = 10;
-			bt.upIcon = "icons/raiseHand.png";
-			bt.overIcon = "icons/raiseHandOver.png";
-			bt.downIcon = "icons/raiseHand.png";
-			//bt.ShortCutKey = Keyboard.CONTROL;
-			bt.down();
-			this.addChild(bt);
-			
-			var bt2:BasicButton = new BasicButton(30,30,true);
-			bt2.x = 46;
-			bt2.y = 10;
-			this.addChild(bt2);
-			
-			//bt2.setToggleGroup([bt2,bt]);
-			//bt.setToggleGroup([bt,bt2]);
-			bt2.enableToggle();
-			bt.enableToggle();
-			
-			bt.addEventListener(BasicButtonEvent.BUTTON_DOWN,onButtonDown);
-			
+			_configInfo.netConnection = _nc;
 		}
 		
-		private function onButtonDown(e:BasicButtonEvent):void
-		{
-			trace("BUTTON");
-		}
-		
-		private function testBtnClick(e:MouseEvent):void
-		{
-			_sl.addListItem(Factory_prettyBox.drawPrettyBox(70,25,0xaa3333));
-		}
-		
-		private function testBtn2Click(e:MouseEvent):void
-		{
-			_sl.removeListItem(0);
-		}
-		
-		private function onTf2Change(e:Event):void
-		{
-			_sl.update();
-		}
-		
-		private function onSbChange(e:Event):void
-		{
-			
-			sb2.handleSize = sb.value;
-		}
-		
+		//called by the server and assigns a user ID
 		public function setUserId(value:*):void
 		{
-			trace("Your user ID is:  "+value);
+			trace("[Red5][Connect] Your user ID is: "+value);
 			_serverUserID = value;
 			
-			//common
+			_configInfo.userID = _serverUserID;
+			//set up ui elements
 			
-			/*	var commonSOTemplate:Object = {file:"my_house.jpg",currentLayer:1,layerList:{1:"fred",2:"ashley",3:"teacher"}};
-			_commonSO = new Manager_remoteCommonSharedObject("commonSO",commonSOTemplate,_nc);
-			
-			_commonSO.addEventListener(SharedObjectEvent.CONNECTED,onConnected);
-			_commonSO.addEventListener(SharedObjectEvent.CHANGED,onChange);*/
-			
-			//userBasedSO
-			/*	var userSOTemplate:Object = {name:"Adam", gender:"Male", age:26, dog:"Adley", mousePos:{x:234,y:876}};
-			
-			_userBasedSO = new Manager_remoteUserSharedObject(_nc,_serverUserID,"UserBasedSO",userSOTemplate);
-			
-			_userBasedSO.addEventListener(SharedObjectEvent.CONNECTED,onConnected);
-			_userBasedSO.addEventListener(SharedObjectEvent.CHANGED,onChange);*/
+			setUpSidebar();
 			
 		}
 		
-		/*private function onConnected(e:SharedObjectEvent):void
-		{
-		//var sampleProp:Object = _userBasedSO.getProperty("mousePos");
-		//_userBasedSO.setProperty("dog", "zack");
+		private function setUpSidebar():void
+		{	
+			
+			_sidebar = new Main_SideBar(_configInfo);
+			this.addChild(_sidebar);
+			_sidebar.x = (_stage.stageWidth/2 + 960/2) - _sidebar.width;
 		
-		_commonSO.setProperty("file","myCooki.gif");
 		}
 		
-		private function onChange(e:SharedObjectEvent):void
+		
+		//////////////////////////Call backs///////////////////////////////
+		
+		private function parseConfigXML(e:XmlComplete_Event):void
 		{
-		_commonSO.setProperty("currentLayer",4);
-		}*/
+			_configInfo = ParseConfigXML.parseConfig(e.loadedXML);
+			init();
+		}
 		
-		
-		/////////////////////////////////////////////////////////
 		public function onBWDone():void
 		{
 			
