@@ -1,5 +1,6 @@
 package com.clink.ui
 {
+	import com.clink.base.Base_componentToolTip;
 	import com.clink.controllers.Controller_button;
 	import com.clink.events.BasicButtonEvent;
 	import com.clink.factories.Factory_prettyBox;
@@ -30,7 +31,7 @@ package com.clink.ui
 	 * @author adamrensel
 	 * 
 	 */	
-	public class BasicButton extends Sprite
+	public class BasicButton extends Base_componentToolTip
 	{
 		private var _buttonControl:Controller_button;
 		private var _btnWidth:Number;
@@ -148,7 +149,9 @@ package com.clink.ui
 		{
 			if(e.keyCode == _keyCode)
 			{
+				
 				_buttonControl.down();
+				this.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_DOWN));
 			}
 		}
 		
@@ -156,7 +159,9 @@ package com.clink.ui
 		{
 			if(e.keyCode == _keyCode)
 			{
+				
 				_buttonControl.up();
+				this.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_UP));
 			}
 		}
 		
@@ -567,7 +572,7 @@ package com.clink.ui
 		 * @param keyCode:Number needs to be a keyboard keycode or nothing will happen
 		 * 
 		 */		
-		public function set ShortCutKey(keyCode:Number):void
+		public function set shortCutKey(keyCode:Number):void
 		{
 			//if the keycode doesnt exist remove the keyboard listeners. If there is a keycode than start an enterframe to look for the stage so keyboard listeners can be started
 			if(keyCode)
