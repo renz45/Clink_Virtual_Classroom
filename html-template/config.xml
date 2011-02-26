@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+
+<clink skinPath="skinAssets/" iconPath="skinAssets/icons/" skinImagesPath="skinAssets/uiIcons/" modulePath="modules/">
+	<ui>
+		<basicButton>
+			<isGradient>true</isGradient>
+			<upStateColor>#666666</upStateColor>
+			<downStateColor>#333333</downStateColor>
+			<overStateColor>#111111</overStateColor>	
+		</basicButton>
+		
+		<scrollBar>
+			<buttonColor>#aaaaaa</buttonColor>
+			<arrowColor>#888888</arrowColor>
+			<trackColor>#666666</trackColor>
+			<handleColor>#aaaaaa</handleColor>
+		</scrollBar>
+		
+		<toolTip>
+			<bgColor>#ffffaa</bgColor>
+			<textColor>#333333</textColor>
+			<textSize>10</textSize>
+			<displayDelay>1500</displayDelay>
+		</toolTip>
+		
+		<sideBar>
+			<bgColor>#333333</bgColor>
+			<isGradient>true</isGradient>
+			<cornerRadius>0</cornerRadius>
+		</sideBar>
+	</ui>
+	
+	<settings>
+		<!-- server app on the Red5 server -->
+		<appURL>rtmp://localhost/Clink_ServerSideApp</appURL>
+	</settings>
+	
+	<buttons>
+		<!-- Don't change names, they link the xml to the buttons -->
+		<button>
+			<name>cameraToggle</name>
+			<toolTip>Toggle Camera</toolTip>
+			<icons>
+				<up>cameraToggle.png</up>
+				<down>cameraToggle.png</down>
+				<over>cameraToggle.png</over>
+			</icons>
+		</button>
+		
+		<button>
+			<name>micToggle</name>
+			<toolTip>Toggle Mic</toolTip>
+			<icons>
+				<up>micToggle.png</up>
+				<down>micToggle.png</down>
+				<over>micToggle.png</over>
+			</icons>
+		</button>
+		
+		<button>
+			<name>volume</name>
+			<toolTip>Volume</toolTip>
+			<icons>
+				<up>volume.png</up>
+				<down>volume.png</down>
+				<over>volume.png</over>
+			</icons>
+		</button>
+		
+		<button>
+			<name>pushToTalk</name>
+			<toolTip>Push to talk (cntrl)</toolTip>
+			<icons>
+				<up>pushToTalk.png</up>
+				<down>pushToTalk.png</down>
+				<over>pushToTalk.png</over>
+			</icons>
+		</button>
+		
+	</buttons>
+</clink>
