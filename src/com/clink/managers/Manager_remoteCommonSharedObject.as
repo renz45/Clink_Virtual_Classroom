@@ -24,9 +24,16 @@ package com.clink.managers
 		private var _isPersistent:Boolean;
 		private var _nc:NetConnection;
 		
+		private static var _soList:Array;
+		
 		public function Manager_remoteCommonSharedObject(SOName:String,template:Object,nc:NetConnection, isPersistent:Boolean = false)
 		{
 			super();
+			
+			if(!_soList)
+			{
+				throw new Error("Please init this manager by calling the static function init()");
+			}
 			
 			_SOName = SOName;
 			_template = template;
@@ -40,7 +47,7 @@ package com.clink.managers
 		private function soCreationResponder(msg:String):void
 		{
 			//output from the server, return msg
-			trace(msg);
+			trace("[Red5][Common SO] "+msg);
 			
 			//connect to the SO after it's created on the server side
 			_SO = SharedObject.getRemote(_SOName,_nc.uri,false);
@@ -51,6 +58,12 @@ package com.clink.managers
 		
 		private function make():void
 		{
+			//add this so to a static object so we can reference the list
+			if(_soList.indexOf(_SOName) == -1)
+			{
+				_soList.push(_SOName);
+			}
+			
 			//create a new byteArray and write the template object to the byteArray
 			var TemplateAMF:ByteArray = new ByteArray();
 			TemplateAMF.writeObject(_template);
@@ -242,6 +255,18 @@ package com.clink.managers
 			}
 			throw new Error("A property with name: " + propertyName + " does not exist within this sharedObject");
 			
+		}
+		
+		////////////////Static///////////////////
+		
+		public static function init():void
+		{
+			_soList = [];
+		}
+		
+		public static function get sharedObjectList():Array
+		{
+			return _soList;
 		}
 	}
 }

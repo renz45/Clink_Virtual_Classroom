@@ -1,6 +1,7 @@
 package com.clink.managers
 {
 	import com.clink.events.SharedObjectEvent;
+	import com.clink.utils.ArrayUtils;
 	import com.clink.utils.VarUtils;
 	
 	import flash.display.Sprite;
@@ -31,6 +32,8 @@ package com.clink.managers
 		private var _cachedSOData:Object;
 		private var _isPersistent:Boolean;
 		
+		private static var _soList:Array;
+		
 		/**
 		 * This class manages remoteUserSharedObjects. This communicates with the Red5 server in order to dynamically create sharedObjects.
 		 * These sharedObjects have slots based off of user IDs. These types of sharedObjects are used for things which only the user or 
@@ -47,6 +50,10 @@ package com.clink.managers
 		public function Manager_remoteUserSharedObject(nc:NetConnection, userID:int, SOName:String, SOTemplate:Object, isPersistent:Boolean = false)
 		{
 			
+			if(!_soList)
+			{
+				throw new Error("please initialize this class by calling the static method init()");
+			}
 			_nc = nc;
 			_userID = userID;
 			_SOName = SOName;
@@ -61,7 +68,9 @@ package com.clink.managers
 		private function soCreationResponder(msg:String):void
 		{
 			//output from the server, return msg
-			trace(msg);
+			trace("[Red5][UserBased SO] " + msg);
+			
+			
 			
 			//connect to the SO after it's created on the server side
 			_SO = SharedObject.getRemote(_SOName,_nc.uri,false);
@@ -72,6 +81,12 @@ package com.clink.managers
 		
 		private function make():void
 		{
+			//store this so in the static object _soList so we can reference the list from outside where it is created
+			if(_soList.indexOf(_SOName) == -1)
+			{
+				_soList.push(_SOName);
+			}
+			
 			//create a new byteArray and write the template object to the byteArray
 			var TemplateAMF:ByteArray = new ByteArray();
 			TemplateAMF.writeObject(_SOTemplate);
@@ -339,6 +354,17 @@ package com.clink.managers
 			{
 				throw new Error("Property: " + propertyName + " was not found within this remoteUserSharedObject");
 			}
+		}
+		
+		///////////Static//////////
+		public static function init():void
+		{
+			_soList = [];
+		}
+		
+		public static function get sharedObjectList():Array
+		{
+			return _soList;
 		}
 	}
 }
