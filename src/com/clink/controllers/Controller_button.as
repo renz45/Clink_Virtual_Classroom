@@ -46,6 +46,7 @@ package com.clink.controllers
 		
 		private function onOut(e:MouseEvent):void
 		{
+			
 			up();
 		}
 		
