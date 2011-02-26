@@ -5,11 +5,13 @@ package com.clink.base
 	
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
+	import flash.events.TimerEvent;
 	import flash.geom.Point;
 	import flash.text.Font;
 	import flash.text.TextField;
 	import flash.text.TextFieldAutoSize;
 	import flash.text.TextFormat;
+	import flash.utils.Timer;
 	
 	import flashx.textLayout.formats.TextAlign;
 
@@ -27,6 +29,7 @@ package com.clink.base
 		private var _toolTip:Sprite;
 		
 		private var _toolTipPadding:Number = 2;
+		private var _delayTimer:Timer;
 		
 		private static var _bgColor:uint;
 		private static var _textColor:uint
@@ -35,6 +38,7 @@ package com.clink.base
 		private static var _toolTipWidth:Number;
 		private static var _font:Font;
 		private static var _initialized:Boolean = false;
+		private static var _displayDelay:Number;
 		
 		public function Base_componentToolTip()
 		{
@@ -54,6 +58,7 @@ package com.clink.base
 		{
 			_msg = "";
 			
+			_delayTimer = new Timer(0);
 			_toolTipList.push(this);
 			
 			this.addEventListener(MouseEvent.ROLL_OVER,onMouseOver);
@@ -61,31 +66,46 @@ package com.clink.base
 			
 		}
 		
-		private function onMouseOver(e:MouseEvent):void
+		private function onTimerComplete(e:TimerEvent):void
 		{
-			_toolTip.x = 0;
-			_toolTip.y = _toolTip.height * -1
+			var stagePos:Point = localToGlobal(new Point(mouseX,mouseY));
 			
-			var stagePos:Point = localToGlobal(new Point(_toolTip.x,_toolTip.y));
-			
+			_toolTip.x = stagePos.x;
+			_toolTip.y = stagePos.y - _toolTip.height;
+		
 			//check to make sure the tooltip is on the stage, if not move it down so it can be seen
-			if(stagePos.y < 0)
+			if(stagePos.y - _toolTip.height < 0)
 			{
-				_toolTip.y += Math.abs(stagePos.y);
+				_toolTip.y = 0;
 			}
-	
+			
 			//checks to make sure the tooltip doesn't continue off the right of the stage, if it does it is moved left until it's edge meets the stage
 			if(stagePos.x + _toolTip.width > this.stage.stageWidth)
 			{
-				_toolTip.x -= (stagePos.x + _toolTip.width) - this.stage.stageWidth;
+				_toolTip.x -= this.stage.stageWidth - _toolTip.width;
 			}
-				
-			this.addChild(_toolTip);
+			
+			this.stage.addChild(_toolTip);
+		}
+		
+		private function onMouseOver(e:MouseEvent):void
+		{
+			if(_toolTip)
+			{
+				_delayTimer.delay = _displayDelay;
+				_delayTimer.start();
+				_delayTimer.addEventListener(TimerEvent.TIMER,onTimerComplete);
+			}
 		}
 		
 		private function onMouseOut(e:MouseEvent):void
 		{
-			this.removeChild(_toolTip);
+			_delayTimer.reset();
+			
+			if(_toolTip && _toolTip.parent == this.stage)
+			{
+				this.stage.removeChild(_toolTip);
+			}
 		}
 		///////////////PUBLIC METHODS//////////////
 		
@@ -115,7 +135,7 @@ package com.clink.base
 			}
 			
 			//draw the tooltip bg and add the textfield to the background centering it with padding
-			_toolTip = Factory_prettyBox.drawPrettyBox(tf.width + _toolTipPadding*2, tf.height + _toolTipPadding*2,_bgColor,0);
+			_toolTip = Factory_prettyBox.drawPrettyBox(tf.width + _toolTipPadding*2, tf.height + _toolTipPadding*2,_bgColor,0,false,false,false,2,1,.8);
 			tf.x = tf.y = _toolTipPadding;
 			_toolTip.addChild(tf);
 
@@ -158,6 +178,7 @@ package com.clink.base
 		 */
 		public static function initTooltips(bgColor:String = "#666666", textColor:String = "#ffffff", textSize:Number = 10,toolTipWidth:Number = 100):void
 		{	
+			_displayDelay = 0;
 			_font = new HelveticaRegular();
 			_toolTipWidth = toolTipWidth;
 			_bgColor = uint(DrawingUtils.fixColorCode(bgColor));
@@ -279,6 +300,26 @@ package com.clink.base
 		public static function get toolTipFont():Font
 		{
 			return _font;
+		}
+		
+		/**
+		 * setter for the tooltip display delay 
+		 * @param delay:Number delay in milliseconds
+		 * 
+		 */		
+		public static function set toolTipDisplayDelay(delay:Number):void
+		{
+			_displayDelay = delay;
+		}
+		
+		/**
+		 * getter for tool tip display delay 
+		 * @return Number in milliseconds
+		 * 
+		 */		
+		public function get toolTipDisplayDelay():Number
+		{
+			return _displayDelay;
 		}
 		
 		/**
