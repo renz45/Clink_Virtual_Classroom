@@ -28,6 +28,9 @@ package com.clink.video
 		private var _streamName:String;
 		private var _volume:Number = 1;
 		private var _bufferTime:int;
+		
+		private var _vpWidth:Number;
+		private var _vpHeight:Number;
 		/**
 		 * Creates a videoPlayer object. This method requires an application URL as a string to establish a connection to.(server address)
 		 * @param appURL address of the server.
@@ -42,11 +45,14 @@ package com.clink.video
 		
 		private function init():void
 		{
-			//_nc = new NetConnection();
-			//_nc.client = this;
-			_nc.connect(_appURL);
-			_nc.addEventListener(NetStatusEvent.NET_STATUS,ncStatus);
+			_vpHeight = this.height;
+			_vpWidth = this.width;
 			
+			//_nc.connect(_appURL);
+			if(!_nc.connected)
+			{
+				_nc.addEventListener(NetStatusEvent.NET_STATUS,ncStatus);
+			}
 		}//end init
 		
 		private function setupNS():void
@@ -91,8 +97,8 @@ package com.clink.video
 		 */
 		public function onMetaData(info:Object):void
 		{
-			_vp.width = info.width;
-			_vp.height = info.height;
+			//_vp.width = info.width;
+			//_vp.height = info.height;
 			_duration = info.duration;
 		}
 		
@@ -131,7 +137,8 @@ package com.clink.video
 				
 				_vp = new Video();
 				_vp.attachNetStream(_ns);
-	
+				_vp.width = _vpWidth;
+				_vp.height = _vpHeight;
 				this.addChild(_vp);
 				
 				_ns.play(_streamName);
@@ -147,11 +154,12 @@ package com.clink.video
 			if(_ns)
 			{
 				_ns.close();
+			
 				_vp.clear();
 				
-				if(_vp && this.contains(_vp))
+				while(this.numChildren > 0)
 				{
-					this.removeChild(_vp);
+					this.removeChildAt(0);
 				}
 			}//end if
 		}//end stop
@@ -285,6 +293,18 @@ package com.clink.video
 		public function get netConnection():NetConnection
 		{
 			return _nc;
+		}
+		
+		override public function set width(value:Number):void
+		{
+			//super.width = value;
+			_vpWidth = value;
+		}
+		
+		override public function set height(value:Number):void
+		{
+			//super.height = value;
+			_vpHeight = value;
 		}
 	}
 }
