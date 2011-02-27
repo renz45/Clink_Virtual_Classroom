@@ -27,6 +27,8 @@ package com.clink.main
 	import flash.media.Camera;
 	import flash.net.NetConnection;
 	import flash.net.Responder;
+	import flash.system.Security;
+	import flash.system.SecurityPanel;
 	import flash.text.TextField;
 	import flash.text.TextFieldAutoSize;
 	import flash.text.TextFieldType;
@@ -64,17 +66,18 @@ package com.clink.main
 		
 		private function loadConfig():void
 		{
-			var xl:EasyXmlLoader = new EasyXmlLoader("config.xml");
-			xl.addEventListener(XmlComplete_Event.XML_LOADED,parseConfigXML);
-			
 			//passed in via flash vars or read from database
 			_username = "Adam";
 			_userPermission = "teacher";
+			
+			var xl:EasyXmlLoader = new EasyXmlLoader("config.xml");
+			xl.addEventListener(XmlComplete_Event.XML_LOADED,parseConfigXML);
 		}
 		
 		private function init():void
 		{	
-			
+			//pops up a settings menu asking for camera permission
+			Security.showSettings(SecurityPanel.PRIVACY);
 			//initialize scrollbars
 			ScrollBar.initScrollBars();
 			//initialize keyboard class
@@ -84,15 +87,12 @@ package com.clink.main
 			//init buttons
 			BasicButton.init();
 			//init tooltips
-			Base_componentToolTip.initTooltips();
+			Base_componentToolTip.initTooltips(_stage);
 			//init sharedObject managers
 			Manager_remoteCommonSharedObject.init();
 			Manager_remoteUserSharedObject.init();
 			
-			
-			
-			
-			//These values are colors that will eventually be set by a xml config file
+			//These values are colors that are set with the config.xml
 			BasicButton.isGradient = _configInfo.basicButton_isGradient;
 			BasicButton.setButtonColors(_configInfo.basicButton_upStateColor,_configInfo.basicButton_downStateColor,_configInfo.basicButton_overStateColor);
 			ScrollBar.setScrollBarColors(_configInfo.scrollBar_buttonColor,_configInfo.scrollBar_trackColor,_configInfo.scrollBar_arrowColor,_configInfo.scrollBar_handleColor);
@@ -113,6 +113,8 @@ package com.clink.main
 			_nc.addEventListener(NetStatusEvent.NET_STATUS,netStatusHandler);
 			
 			_configInfo.netConnection = _nc;
+			
+			
 		}
 		
 		//called by the server and assigns a user ID
@@ -122,8 +124,8 @@ package com.clink.main
 			_serverUserID = value;
 			
 			_configInfo.userID = _serverUserID;
-			//set up ui elements
 			
+			//set up ui elements
 			setUpSidebar();
 			
 		}
@@ -156,12 +158,14 @@ package com.clink.main
 			trace(e.info.code);
 			if(e.info.code == "NetConnection.Connect.Success")
 			{
-				//setUpApplication();
+				///instead of calling a method here after connection success, we call it when the userID gets passed
 			}
 			
 			if(e.info.code == "NetConnection.Connect.Failed")
 			{
 				trace("connection failed!!");
+				
+				//display some sort of error message
 			}
 		}
 	}
