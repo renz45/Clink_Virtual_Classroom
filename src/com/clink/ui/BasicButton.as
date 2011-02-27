@@ -313,6 +313,16 @@ package com.clink.ui
 			_toggleGroup = buttonGroup;
 		}
 		
+		public function enable():void
+		{
+			_buttonControl.enable();
+		}
+		
+		public function disable():void
+		{
+			_buttonControl.disable();
+		}
+		
 		///////////////////Statics///////////////////
 		
 		/**
@@ -595,6 +605,11 @@ package com.clink.ui
 		public function get shortCutKey():Number
 		{
 			return _keyCode;
+		}
+		
+		public function get state():String
+		{
+			return _buttonControl.State;
 		}
 	}
 }
