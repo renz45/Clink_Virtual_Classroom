@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 
-<clink skinPath="skinAssets/" iconPath="skinAssets/icons/" skinImagesPath="skinAssets/uiIcons/" modulePath="modules/">
+<clink skinPath="skinAssets/" iconPath="skinAssets/icons/" skinImagesPath="skinAssets/uiImages/" modulePath="modules/">
 	<ui>
 		<basicButton>
 			<isGradient>true</isGradient>
@@ -27,6 +27,12 @@
 			<bgColor>#333333</bgColor>
 			<isGradient>true</isGradient>
 			<cornerRadius>0</cornerRadius>
+			<videoBg>videoBg.png</videoBg>
+			<videoBufferTime>0</videoBufferTime>
+			<volumeTrackColor>#666666</volumeTrackColor>
+			<volumeTriangleColor>#ffffff</volumeTriangleColor>
+			<volumeHandleColor>#555555</volumeHandleColor>
+			<micGain>100</micGain>
 		</sideBar>
 	</ui>
 	

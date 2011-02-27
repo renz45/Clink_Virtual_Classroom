@@ -35,6 +35,12 @@ package com.clink.utils
 			vos.sideBar_BgColor = xml.ui.sideBar.bgColor;
 			vos.sideBar_isGradient = xml.ui.sideBar.isGradient;
 			vos.sideBar_cornerRadius = xml.ui.sideBar.cornerRadius;
+			vos.sideBar_videoBg = (xml.@skinImagesPath).toString() + (xml.ui.sideBar.videoBg).toString();
+			vos.sideBar_videoBufferTime = xml.ui.sideBar.videoBufferTime;
+			vos.sideBar_volumeTrackColor = xml.ui.sideBar.volumeTrackColor;
+			vos.sideBar_volumeTriangleColor = xml.ui.sideBar.volumeTriangleColor;
+			vos.sideBar_volumeHandleColor = xml.ui.sideBar.volumeHandleColor;
+			vos.sideBar_micGain = xml.ui.sideBar.micGain;
 			
 			vos.appURL = xml.settings.appURL;
 			
@@ -42,7 +48,6 @@ package com.clink.utils
 			//button icon config
 			for each(var b:XML in xml.buttons.button)
 			{
-				trace(b.name);
 				switch((b.name).toString())
 				{
 					case "cameraToggle":

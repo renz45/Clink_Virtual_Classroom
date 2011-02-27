@@ -26,6 +26,13 @@ package com.clink.valueObjects
 		public var sideBar_BgColor:String;
 		public var sideBar_isGradient:Boolean;
 		public var sideBar_cornerRadius:Number;
+		public var sideBar_videoBg:String;
+		public var sideBar_videoBufferTime:Number;
+		public var sideBar_volumeTrackColor:String;
+		public var sideBar_volumeTriangleColor:String;
+		public var sideBar_volumeHandleColor:String;
+		public var sideBar_micGain:Number;
+		
 		
 		//general settings
 		public var appURL:String;
