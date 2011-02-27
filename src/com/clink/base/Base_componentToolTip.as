@@ -4,6 +4,7 @@ package com.clink.base
 	import com.clink.utils.DrawingUtils;
 	
 	import flash.display.Sprite;
+	import flash.display.Stage;
 	import flash.events.MouseEvent;
 	import flash.events.TimerEvent;
 	import flash.geom.Point;
@@ -39,6 +40,7 @@ package com.clink.base
 		private static var _font:Font;
 		private static var _initialized:Boolean = false;
 		private static var _displayDelay:Number;
+		private static var _stage:Stage;
 		
 		public function Base_componentToolTip()
 		{
@@ -80,12 +82,12 @@ package com.clink.base
 			}
 			
 			//checks to make sure the tooltip doesn't continue off the right of the stage, if it does it is moved left until it's edge meets the stage
-			if(stagePos.x + _toolTip.width > this.stage.stageWidth)
+			if(stagePos.x + _toolTip.width > _stage.stageWidth)
 			{
-				_toolTip.x -= this.stage.stageWidth - _toolTip.width;
+				_toolTip.x -= _stage.stageWidth - _toolTip.width;
 			}
 			
-			this.stage.addChild(_toolTip);
+			_stage.addChild(_toolTip);
 		}
 		
 		private function onMouseOver(e:MouseEvent):void
@@ -102,9 +104,9 @@ package com.clink.base
 		{
 			_delayTimer.reset();
 			
-			if(_toolTip && _toolTip.parent == this.stage)
+			if(_toolTip && _toolTip.parent == _stage)
 			{
-				this.stage.removeChild(_toolTip);
+				_stage.removeChild(_toolTip);
 			}
 		}
 		///////////////PUBLIC METHODS//////////////
@@ -115,6 +117,10 @@ package com.clink.base
 		 */
 		public function drawToolTip():void
 		{
+			if(_toolTip && _toolTip.parent == _stage)
+			{
+				_stage.removeChild(_toolTip);
+			}
 			_toolTip = null;
 			
 			//create text field 
@@ -176,8 +182,9 @@ package com.clink.base
 		 * @param toolTipWidth:Number maximum width the tooltip can be
 		 * 
 		 */
-		public static function initTooltips(bgColor:String = "#666666", textColor:String = "#ffffff", textSize:Number = 10,toolTipWidth:Number = 100):void
+		public static function initTooltips(stage:Stage,bgColor:String = "#666666", textColor:String = "#ffffff", textSize:Number = 10,toolTipWidth:Number = 100):void
 		{	
+			_stage = stage;
 			_displayDelay = 0;
 			_font = new HelveticaRegular();
 			_toolTipWidth = toolTipWidth;
