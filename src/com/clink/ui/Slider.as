@@ -2,6 +2,7 @@ package com.clink.ui
 {
 	import flash.display.MovieClip;
 	import flash.display.Sprite;
+	import flash.display.Stage;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.events.MouseEvent;
@@ -31,6 +32,7 @@ package com.clink.ui
 		private var _trackWidth:Number;
 		
 		private var _reverse:Boolean = false
+			
 		
 		public function Slider(handle:Sprite,track:Sprite,horizontal:Boolean = false)
 		{
@@ -46,10 +48,11 @@ package com.clink.ui
 			_handle.buttonMode = true;
 			_handle.addEventListener(MouseEvent.MOUSE_DOWN,handle_mouseDownHandler);
 			
+			
 			updateValue();
 			
-			
 		}
+		
 		private function track_ClickHandler(evt:MouseEvent):void
 		{
 		
@@ -72,6 +75,7 @@ package com.clink.ui
 			}
 			updateValue();
 		}
+		
 		private function handle_mouseDownHandler(evt:MouseEvent):void
 		{
 			if(_horizontal == true)
@@ -80,15 +84,16 @@ package com.clink.ui
 			}else{
 				_handle.startDrag(false,new Rectangle(0,0,0,_trackHeight - _handle.height));
 			}
-			_handle.stage.addEventListener(MouseEvent.MOUSE_UP,handle_mouseUpHandler);
+			_track.addEventListener(MouseEvent.MOUSE_UP,handle_mouseUpHandler);
 			_handle.addEventListener(Event.ENTER_FRAME, onFrame_Handler);
 			this.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_DOWN));
 			
 		}
 		private function handle_mouseUpHandler(evt:MouseEvent):void
 		{
+			_track.removeEventListener(MouseEvent.MOUSE_UP,handle_mouseUpHandler);
 			_handle.stopDrag();
-			_handle.stage.removeEventListener(MouseEvent.MOUSE_UP,handle_mouseUpHandler);
+			
 			_handle.removeEventListener(Event.ENTER_FRAME, onFrame_Handler);
 			
 			this.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_UP));
