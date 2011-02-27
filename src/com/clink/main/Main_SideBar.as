@@ -23,6 +23,7 @@ package com.clink.main
 		{
 			super();
 			
+			_configInfo = configInfo;
 			init();
 		}
 		
@@ -51,7 +52,7 @@ package com.clink.main
 									isTalking:false,
 									isCameraOn:false,
 									isMicOn:false,
-									streamName:_configInfo.username + _configInfo.userID.toString(),
+									streamName:(_configInfo.userID).toString(),
 									disconnect:false};
 			
 			_userSO = new Manager_remoteUserSharedObject(_configInfo.netConnection,_configInfo.userID,"userSO",template);
