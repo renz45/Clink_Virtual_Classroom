@@ -29,6 +29,7 @@ package com.clink.main
 	import flash.net.Responder;
 	import flash.system.Security;
 	import flash.system.SecurityPanel;
+	import flash.text.Font;
 	import flash.text.TextField;
 	import flash.text.TextFieldAutoSize;
 	import flash.text.TextFieldType;
@@ -115,6 +116,8 @@ package com.clink.main
 			_configInfo.netConnection = _nc;
 			
 			
+			
+			
 		}
 		
 		//called by the server and assigns a user ID
@@ -128,6 +131,25 @@ package com.clink.main
 			//set up ui elements
 			setUpSidebar();
 			
+			
+			//testing purposes only////////////////////////////////////////////////////////////////////////////////////
+			var _tf:TextField;
+			_tf = new TextField();
+			_tf.text = _username + "("+ _configInfo.userID + ")";
+			_tf.maxChars = 20;
+			_tf.height = 14;
+			_tf.width = 145;
+			_tf.x = 7;
+			_tf.y = 4;
+			_tf.selectable = false;
+			_tf.mouseEnabled = false;
+			
+			var hv:Font = new HelveticaRegular();
+			var _tff1:TextFormat = new TextFormat(hv.fontName,12,0xffffff);
+			this.addChild(_tf);
+			
+			_tf.setTextFormat(_tff1);
+			/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		}
 		
 		private function setUpSidebar():void
