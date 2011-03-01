@@ -4,6 +4,7 @@ package com.clink.managers
 	import com.clink.utils.VarUtils;
 	
 	import flash.display.Sprite;
+	import flash.events.AsyncErrorEvent;
 	import flash.events.SyncEvent;
 	import flash.net.NetConnection;
 	import flash.net.Responder;
@@ -52,6 +53,7 @@ package com.clink.managers
 			//connect to the SO after it's created on the server side
 			_SO = SharedObject.getRemote(_SOName,_nc.uri,false);
 			_SO.addEventListener(SyncEvent.SYNC,OnSync);
+			_SO.addEventListener(AsyncErrorEvent.ASYNC_ERROR,onSOError);
 			_SO.client = this;
 			_SO.connect(_nc);
 		}
@@ -73,6 +75,11 @@ package com.clink.managers
 
 			//call the function 'createCommonSO' on the Red5 server
 			_nc.call("createCommonSO", r, TemplateAMF, _SOName, _isPersistent);
+		}
+		
+		private function onSOError(e:AsyncErrorEvent):void
+		{
+			trace("[Manager_remoteCommonSharedObject]["+_SOName+"][ERROR] " + e.error);
 		}
 		
 		private function OnSync(e:SyncEvent):void
