@@ -9,7 +9,7 @@ package com.clink.video
 	import flash.net.NetConnection;
 	import flash.net.NetStream;
 	/**
-	 * This videoPlayer class is used to establish a connection to a media server and stream video.  It has the capability to just stream a video, or to
+	 * This videoChatPlayer class is used to establish a connection to a media server and stream video.  It has the capability to just stream a video, or to
 	 * publish live and recorded video.
 	 * 
 	 */
@@ -32,7 +32,7 @@ package com.clink.video
 		private var _vpWidth:Number;
 		private var _vpHeight:Number;
 		/**
-		 * Creates a videoPlayer object. This method requires an application URL as a string to establish a connection to.(server address)
+		 * Creates a videoChatPlayer object. This method requires a NetConnection for which to connect netStreams through
 		 * @param appURL address of the server.
 		 */
 		public function VideoChatPlayer(netConnection:NetConnection)
@@ -310,6 +310,8 @@ package com.clink.video
 		{
 			_vpHeight = value;
 		}
+		
+		
 		
 	}
 }
