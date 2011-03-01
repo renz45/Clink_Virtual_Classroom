@@ -3,6 +3,7 @@ package com.clink.main
 	import com.clink.controllers.Controller_Dragable;
 	import com.clink.factories.Factory_prettyBox;
 	import com.clink.managers.Manager_remoteUserSharedObject;
+	import com.clink.ui.UserListItem;
 	import com.clink.utils.DrawingUtils;
 	import com.clink.valueObjects.VO_Settings;
 	
@@ -18,6 +19,7 @@ package com.clink.main
 		private var _configInfo:VO_Settings;
 		
 		private var _vm:VideoMonitor;
+		private var _userList:UserList;
 		
 		public function Main_SideBar(configInfo:VO_Settings)
 		{
@@ -39,6 +41,7 @@ package com.clink.main
 		
 		private function createComponents():void
 		{
+			//create the user SharedObject which keeps track of all users
 			var template:Object = {userPermission:_configInfo.userPermission, 
 									username:_configInfo.username,
 									isHidden:false,
@@ -53,16 +56,25 @@ package com.clink.main
 									isCameraOn:false,
 									isMicOn:false,
 									streamName:(_configInfo.userID).toString(),
-									disconnect:false};
+									disconnect:false,
+									connected:false};
 			
 			_userSO = new Manager_remoteUserSharedObject(_configInfo.netConnection,_configInfo.userID,"userSO",template);
 			
+			//create and position the videoMonitor
 			_vm = new VideoMonitor(_configInfo,_userSO);
-			
-			this.addChild(_vm);
 			_vm.x = 6;
 			_vm.y = 6;
 			
+			//create and position the userList
+			_userList = new UserList(_configInfo,_userSO);
+			_userList.y = _vm.height+10;
+			
+			this.addChild(_userList);
+			
+			//the video monitor needs to be the top child in the sidebar object so the volume slider doesnt get lost, I will need to revisit this later.
+			
+			this.addChild(_vm);
 		}
 		
 		private function draw():void
