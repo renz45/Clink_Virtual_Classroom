@@ -51,7 +51,6 @@ package com.clink.ui
 		
 		private function init():void
 		{
-			_itemList = [];
 			
 			//create the bg if a color is given
 			if(_bgColor)
@@ -163,14 +162,29 @@ package com.clink.ui
 			updateHandleSize();
 		}
 		
+		public function addListItemAt(item:DisplayObject,index:int):void
+		{
+			_container.addChildAt(item,index);
+			
+			updateHandleSize();
+		}
+		
 		/**
 		 * Removes an item from the scrolling list 
 		 * @param itemIndex:int removes an item from the list at a certain index
 		 * 
 		 */		
-		public function removeListItem(itemIndex:int):void
+		public function removeListItemAt(itemIndex:int):void
 		{
 			_container.removeChildAt(itemIndex);
+			
+			updateHandleSize();
+			
+		}
+		
+		public function removeListItem(item:*):void
+		{
+			_container.removeChildAt(_container.items.indexOf(item));
 			
 			updateHandleSize();
 			
