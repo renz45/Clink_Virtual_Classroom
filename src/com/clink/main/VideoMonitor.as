@@ -76,7 +76,7 @@ package com.clink.main
 		{
 			//set default vaules
 			_volume = 1;
-			_bufferTime = _configInfo.sideBar_videoBufferTime;
+			_bufferTime = _configInfo.videoMonitor_videoBufferTime;
 			
 			_isMute = false;
 			
@@ -90,7 +90,7 @@ package com.clink.main
 			_streamPublisher = new VideoChatPlayer(_configInfo.netConnection);
 			
 			//load an image for the background of the the video play area
-			var eil:EasyImageLoader = new EasyImageLoader(_configInfo.sideBar_videoBg);
+			var eil:EasyImageLoader = new EasyImageLoader(_configInfo.videoMonitor_videoBg);
 			eil.addEventListener(ImageComplete_Event.IMAGE_LOADED,bgImgLoaded);
 			
 			_vpBox = Factory_prettyBox.drawPrettyBox(220,145,0xffffff,0,false,false,true);
@@ -151,7 +151,7 @@ package com.clink.main
 			if(Microphone.getMicrophone())
 			{
 				_micBtn.message = _configInfo.micBtn_toolTip;
-				Microphone.getMicrophone().gain = _configInfo.sideBar_micGain;
+				Microphone.getMicrophone().gain = _configInfo.videoMonitor_micGain;
 			}else{
 				//if there is no mic than change the tooltip to an error message
 				_micBtn.message = "Please attach a microphone to use this function";
@@ -185,8 +185,8 @@ package com.clink.main
 			
 			//create the volume slider
 			//slider background
-			_volumeSlider = Factory_prettyBox.drawPrettyBox(28,100,uint(DrawingUtils.fixColorCode(_configInfo.sideBar_volumeTrackColor)),0,true,true,true);
-			var trackTri:Sprite = Factory_triangle.drawEqTriangle(50,140,uint(DrawingUtils.fixColorCode(_configInfo.sideBar_volumeTriangleColor)),"down");
+			_volumeSlider = Factory_prettyBox.drawPrettyBox(28,100,uint(DrawingUtils.fixColorCode(_configInfo.videoMonitor_volumeTrackColor)),0,true,true,true);
+			var trackTri:Sprite = Factory_triangle.drawEqTriangle(50,140,uint(DrawingUtils.fixColorCode(_configInfo.videoMonitor_volumeTriangleColor)),"down");
 			trackTri.y = 51;
 			_volumeSlider.addChild(trackTri);
 			var triMask:Sprite = new Sprite();
@@ -205,7 +205,7 @@ package com.clink.main
 			_volumeSlider.addChild(track);
 			
 			//handle
-			var handle:Sprite = Factory_prettyBox.drawPrettyBox(30,15,uint(DrawingUtils.fixColorCode(_configInfo.sideBar_volumeHandleColor)),0,true);
+			var handle:Sprite = Factory_prettyBox.drawPrettyBox(30,15,uint(DrawingUtils.fixColorCode(_configInfo.videoMonitor_volumeHandleColor)),0,true);
 			track.addChild(handle);
 			
 			//attach the slider controller
