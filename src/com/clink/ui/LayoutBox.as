@@ -48,6 +48,21 @@ package com.clink.ui
 			
 			return child;
 		}
+		
+		override public function addChildAt(child:DisplayObject, index:int):DisplayObject
+		{
+			_objects.splice(index,0,child);
+			super.addChildAt(child,index);
+			
+			if(_gridLayout)
+			{
+				grid();
+			}else{
+				updateLayout();
+			}
+			
+			return child;
+		}
 		/**
 		 * Removes a display object from the Layout Box 
 		 * @param child
