@@ -27,12 +27,44 @@
 			<bgColor>#333333</bgColor>
 			<isGradient>true</isGradient>
 			<cornerRadius>0</cornerRadius>
-			<videoBg>videoBg.png</videoBg>
-			<videoBufferTime>0</videoBufferTime>
-			<volumeTrackColor>#666666</volumeTrackColor>
-			<volumeTriangleColor>#ffffff</volumeTriangleColor>
-			<volumeHandleColor>#555555</volumeHandleColor>
-			<micGain>100</micGain>
+			
+			<videoMonitor>
+				<videoBg>videoBg.png</videoBg>
+				<videoBufferTime>0</videoBufferTime>
+				<volumeTrackColor>#666666</volumeTrackColor>
+				<volumeTriangleColor>#ffffff</volumeTriangleColor>
+				<volumeHandleColor>#555555</volumeHandleColor>
+				<micGain>100</micGain>
+			</videoMonitor>
+			
+			<userList>
+				<userListButton>
+					<isGradient>false</isGradient>
+					<upStateColor>#dddddd</upStateColor>
+					<downStateColor></downStateColor>
+					<overStateColor></overStateColor>
+				</userListButton>
+				
+				<backgroundColor>#4C879E</backgroundColor>
+				<backgroundIsGradient>false</backgroundIsGradient>
+				
+				<headerColor>#ff3019</headerColor>
+				<headerIsGradient>true</headerIsGradient>
+				<headerArrowColor>#ffffff</headerArrowColor>
+				
+				<scrollListBackgroundColor>#ffffff</scrollListBackgroundColor>
+			</userList>
+			
+			<userListItem>
+				<backgroundColor>#333333</backgroundColor>
+				<textColor>#ffffff</textColor>
+				<handRaisedColor>#ff9700</handRaisedColor>
+				<thumbUpColor>#00ff00</thumbUpColor>
+				<thumbDownColor>#ff0000</thumbDownColor>
+				<laughColor>#ffff00</laughColor>
+				<isGradient>true</isGradient>
+			</userListItem>
+			
 		</sideBar>
 	</ui>
 	
@@ -43,6 +75,8 @@
 	
 	<buttons>
 		<!-- Don't change names, they link the xml to the buttons -->
+		
+		<!-- Video Monitor buttons -->
 		<button>
 			<name>cameraToggle</name>
 			<toolTip>Toggle Camera</toolTip>
@@ -80,6 +114,58 @@
 				<up>pushToTalk.png</up>
 				<down>pushToTalk.png</down>
 				<over>pushToTalk.png</over>
+			</icons>
+		</button>
+		
+		<!-- User List buttons -->
+		
+		<button>
+			<name>raiseHand</name>
+			<toolTip>Raise your Hand</toolTip>
+			<icons>
+				<up>raiseHand.png</up>
+				<down>raiseHandOver.png</down>
+				<over>raiseHandOver.png</over>
+			</icons>
+		</button>
+		
+		<button>
+			<name>thumbUp</name>
+			<toolTip>Put your thumb up</toolTip>
+			<icons>
+				<up>thumbUp.png</up>
+				<down>thumbUpOver.png</down>
+				<over>thumbUpOver.png</over>
+			</icons>
+		</button>
+		
+		<button>
+			<name>thumbDown</name>
+			<toolTip>Put your thumb down</toolTip>
+			<icons>
+				<up>thumbDown.png</up>
+				<down>thumbDownOver.png</down>
+				<over>thumbDownOver.png</over>
+			</icons>
+		</button>
+		
+		<button>
+			<name>laugh</name>
+			<toolTip>Laugh a little, or a lot</toolTip>
+			<icons>
+				<up>laugh.png</up>
+				<down>laughOver.png</down>
+				<over>laughOver.png</over>
+			</icons>
+		</button>
+		
+		<button>
+			<name>away</name>
+			<toolTip>Set your status to away</toolTip>
+			<icons>
+				<up>away.png</up>
+				<down>away.png</down>
+				<over>away.png</over>
 			</icons>
 		</button>
 		

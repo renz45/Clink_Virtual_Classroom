@@ -35,13 +35,36 @@ package com.clink.utils
 			vos.sideBar_BgColor = xml.ui.sideBar.bgColor;
 			vos.sideBar_isGradient = xml.ui.sideBar.isGradient;
 			vos.sideBar_cornerRadius = xml.ui.sideBar.cornerRadius;
-			vos.sideBar_videoBg = (xml.@skinImagesPath).toString() + (xml.ui.sideBar.videoBg).toString();
-			vos.sideBar_videoBufferTime = xml.ui.sideBar.videoBufferTime;
-			vos.sideBar_volumeTrackColor = xml.ui.sideBar.volumeTrackColor;
-			vos.sideBar_volumeTriangleColor = xml.ui.sideBar.volumeTriangleColor;
-			vos.sideBar_volumeHandleColor = xml.ui.sideBar.volumeHandleColor;
-			vos.sideBar_micGain = xml.ui.sideBar.micGain;
-			
+				//videoMonitor
+				vos.videoMonitor_videoBg = (xml.@skinImagesPath).toString() + (xml.ui.sideBar.videoMonitor.videoBg).toString();
+				vos.videoMonitor_videoBufferTime = xml.ui.sideBar.videoMonitor.videoBufferTime;
+				vos.videoMonitor_volumeTrackColor = xml.ui.sideBar.videoMonitor.volumeTrackColor;
+				vos.videoMonitor_volumeTriangleColor = xml.ui.sideBar.videoMonitor.volumeTriangleColor;
+				vos.videoMonitor_volumeHandleColor = xml.ui.sideBar.videoMonitor.volumeHandleColor;
+				vos.videoMonitor_micGain = xml.ui.sideBar.videoMonitor.micGain;
+				//userList
+				vos.userListButton_isGradient = xml.ui.sideBar.userList.userListButton.isGradient;
+				vos.userListButton_upStateColor = xml.ui.sideBar.userList.userListButton.upStateColor;
+				vos.userListButton_downStateColor = xml.ui.sideBar.userList.userListButton.downStateColor;
+				vos.userListButton_overStateColor = xml.ui.sideBar.userList.userListButton.overStateColor;
+				
+				vos.userList_backgroundColor = xml.ui.sideBar.userList.backgroundColor;
+				vos.userList_backgroundIsGradient = xml.ui.sideBar.userList.backgroundIsGradient;
+				
+				vos.userList_headerColor = xml.ui.sideBar.userList.headerColor;
+				vos.userList_headerIsGradient = xml.ui.sideBar.userList.headerIsGradient;
+				vos.userList_headerArrowColor = xml.ui.sideBar.userList.headerArrowColor;
+				
+				vos.userList_scrollListBackgroundColor = xml.ui.sideBar.userList.scrollListBackgroundColor;
+				//userListItem
+				vos.userListItem_backgroundColor = xml.ui.sideBar.userListItem.backgroundColor;
+				vos.userListItem_textColor = xml.ui.sideBar.userListItem.textColor;
+				vos.userListItem_handRaisedColor = xml.ui.sideBar.userListItem.handRaisedColor;
+				vos.userListItem_thumbUpColor = xml.ui.sideBar.userListItem.thumbUpColor;
+				vos.userListItem_thumbDownColor = xml.ui.sideBar.userListItem.thumbDownColor;
+				vos.userListItem_laughColor = xml.ui.sideBar.userListItem.laughColor;
+				vos.userListItem_isGradient = xml.ui.sideBar.userListItem.isGradient;
+				
 			vos.appURL = xml.settings.appURL;
 			
 			var imgPath:String = (xml.@iconPath).toString();
@@ -50,6 +73,7 @@ package com.clink.utils
 			{
 				switch((b.name).toString())
 				{
+					//video monitor buttons
 					case "cameraToggle":
 						vos.cameraBtn_upIcon = imgPath + (b.icons.up).toString();
 						vos.cameraBtn_downIcon = imgPath + (b.icons.down).toString();
@@ -76,6 +100,41 @@ package com.clink.utils
 						vos.pushToTalkBtn_downIcon = imgPath + (b.icons.down).toString();
 						vos.pushToTalkBtn_overIcon = imgPath + (b.icons.over).toString();
 						vos.pushToTalkBtn_toolTip = b.toolTip;
+						break;
+					//userList Buttons
+					case "raiseHand":
+						vos.raiseHandBtn_upIcon = imgPath + (b.icons.up).toString();
+						vos.raiseHandBtn_downIcon = imgPath + (b.icons.down).toString();
+						vos.raiseHandBtn_overIcon = imgPath + (b.icons.over).toString();
+						vos.raiseHandBtn_toolTip = b.toolTip;
+						break;
+					
+					case "thumbUp":
+						vos.thumbUpBtn_upIcon = imgPath + (b.icons.up).toString();
+						vos.thumbUpBtn_downIcon = imgPath + (b.icons.down).toString();
+						vos.thumbUpBtn_overIcon = imgPath + (b.icons.over).toString();
+						vos.thumbUpBtn_toolTip = b.toolTip;
+						break;
+					
+					case "thumbDown":
+						vos.thumbDownBtn_upIcon = imgPath + (b.icons.up).toString();
+						vos.thumbDownBtn_downIcon = imgPath + (b.icons.down).toString();
+						vos.thumbDownBtn_overIcon = imgPath + (b.icons.over).toString();
+						vos.thumbDownBtn_toolTip = b.toolTip;
+						break;
+					
+					case "laugh":
+						vos.laughBtn_upIcon = imgPath + (b.icons.up).toString();
+						vos.laughBtn_downIcon = imgPath + (b.icons.down).toString();
+						vos.laughBtn_overIcon = imgPath + (b.icons.over).toString();
+						vos.laughBtn_toolTip = b.toolTip;
+						break;
+					
+					case "away":
+						vos.awayBtn_upIcon = imgPath + (b.icons.up).toString();
+						vos.awayBtn_downIcon = imgPath + (b.icons.down).toString();
+						vos.awayBtn_overIcon = imgPath + (b.icons.over).toString();
+						vos.awayBtn_toolTip = b.toolTip;
 						break;
 				}
 			}

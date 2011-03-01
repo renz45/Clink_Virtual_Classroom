@@ -26,13 +26,34 @@ package com.clink.valueObjects
 		public var sideBar_BgColor:String;
 		public var sideBar_isGradient:Boolean;
 		public var sideBar_cornerRadius:Number;
-		public var sideBar_videoBg:String;
-		public var sideBar_videoBufferTime:Number;
-		public var sideBar_volumeTrackColor:String;
-		public var sideBar_volumeTriangleColor:String;
-		public var sideBar_volumeHandleColor:String;
-		public var sideBar_micGain:Number;
+		//videoMonitor
+		public var videoMonitor_videoBg:String;
+		public var videoMonitor_videoBufferTime:Number;
+		public var videoMonitor_volumeTrackColor:String;
+		public var videoMonitor_volumeTriangleColor:String;
+		public var videoMonitor_volumeHandleColor:String;
+		public var videoMonitor_micGain:Number;
+		//user List
+		public var userListButton_isGradient:Boolean;
+		public var userListButton_upStateColor:String;
+		public var userListButton_downStateColor:String;
+		public var userListButton_overStateColor:String;
 		
+		public var userList_backgroundColor:String;
+		public var userList_backgroundIsGradient:Boolean;
+		public var userList_headerColor:String;
+		public var userList_headerIsGradient:Boolean;
+		public var userList_headerArrowColor:String;
+		
+		public var userList_scrollListBackgroundColor:String;
+		//userListItem
+		public var userListItem_backgroundColor:String;
+		public var userListItem_textColor:String;
+		public var userListItem_handRaisedColor:String;
+		public var userListItem_thumbUpColor:String;
+		public var userListItem_thumbDownColor:String;
+		public var userListItem_laughColor:String;
+		public var userListItem_isGradient:Boolean;
 		
 		//general settings
 		public var appURL:String;
@@ -43,6 +64,7 @@ package com.clink.valueObjects
 		public var netConnection:NetConnection;
 		
 		//buttons
+		//videoMonitor Buttons
 		public var cameraBtn_toolTip:String;
 		public var cameraBtn_upIcon:String;
 		public var cameraBtn_downIcon:String;
@@ -62,6 +84,32 @@ package com.clink.valueObjects
 		public var pushToTalkBtn_upIcon:String;
 		public var pushToTalkBtn_downIcon:String;
 		public var pushToTalkBtn_overIcon:String;
+		
+		//userList
+		public var raiseHandBtn_toolTip:String
+		public var raiseHandBtn_upIcon:String
+		public var raiseHandBtn_downIcon:String
+		public var raiseHandBtn_overIcon:String
+		
+		public var thumbUpBtn_toolTip:String
+		public var thumbUpBtn_upIcon:String
+		public var thumbUpBtn_downIcon:String
+		public var thumbUpBtn_overIcon:String
+		
+		public var thumbDownBtn_toolTip:String
+		public var thumbDownBtn_upIcon:String
+		public var thumbDownBtn_downIcon:String
+		public var thumbDownBtn_overIcon:String
+		
+		public var laughBtn_toolTip:String
+		public var laughBtn_upIcon:String
+		public var laughBtn_downIcon:String
+		public var laughBtn_overIcon:String
+		
+		public var awayBtn_toolTip:String
+		public var awayBtn_upIcon:String
+		public var awayBtn_downIcon:String
+		public var awayBtn_overIcon:String
 		
 		public function VO_Settings()
 		{
