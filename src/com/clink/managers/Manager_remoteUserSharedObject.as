@@ -5,6 +5,7 @@ package com.clink.managers
 	import com.clink.utils.VarUtils;
 	
 	import flash.display.Sprite;
+	import flash.events.AsyncErrorEvent;
 	import flash.events.SyncEvent;
 	import flash.net.NetConnection;
 	import flash.net.Responder;
@@ -75,6 +76,7 @@ package com.clink.managers
 			//connect to the SO after it's created on the server side
 			_SO = SharedObject.getRemote(_SOName,_nc.uri,false);
 			_SO.addEventListener(SyncEvent.SYNC,OnSync);
+			_SO.addEventListener(AsyncErrorEvent.ASYNC_ERROR,onSOError);
 			_SO.client = this;
 			_SO.connect(_nc);
 		}
@@ -101,6 +103,11 @@ package com.clink.managers
 			_nc.call("createUserBasedSO", r, TemplateAMF, userID, _SOName, _isPersistent);
 		}
 		
+		private function onSOError(e:AsyncErrorEvent):void
+		{
+			trace("[Manager_remoteUserSharedObject]["+_SOName+"][ERROR] " + e.error);
+		}
+		
 		//sharedObject sync event callback
 		private function OnSync(e:SyncEvent):void
 		{
@@ -112,7 +119,6 @@ package com.clink.managers
 				{
 					//when another client changes the so
 					case "change":	
-						
 						//I'm caching the SharedObject at certain points in order to make a comparison when a key is changed. This way I can
 						//dispatch an event with the exact slot, property, and value instead of only having a slot to work with. I'm hoping this
 						//makes certain aspects of code more efficiant later on, and it's much easier to work with. I'm hoping this doesn't impact
@@ -150,10 +156,28 @@ package com.clink.managers
 						break;
 					
 					//when this client changes the SO
-					//Instead of dispatching an event here, im dispatching at the setProperty() method instead. I'm doing this because it's easier to
-					//figure out what keys and values are being changed instead of having to run more comparisons.
 					case "success":
+						if(!(i.name in _cachedSOData))
+						{
+							_cachedSOData = VarUtils.copyObject(_SO.data);
+						}
 						
+						//dispatch UserSharedObjectEvent.CLIENT_CHANGED with slot, attributeName, and attributeValue variables
+						var evt2:SharedObjectEvent = new SharedObjectEvent(SharedObjectEvent.CLIENT_CHANGED);
+						
+						var data2:Object =  _SO.data[i.name];
+						for(var prop2:String in data2)
+						{
+							//VarUtils.compareObjects is a compare method I made to compare objects. This comparison should work no matter the datatype
+							if(!VarUtils.compareObjects(data2[prop2], _cachedSOData[i.name][prop2]))
+							{
+								evt2.sharedObjectSlot = i.name;
+								evt2.propertyName = prop2;
+								evt2.propertyValue = data2[prop2];
+								this.dispatchEvent(evt2);
+							}
+						}
+						_cachedSOData = VarUtils.copyObject(_SO.data);
 						break;
 					
 					//when SO first connects successfully, dispatch a UserSharedObjectEvent.CONNECTED event
@@ -313,12 +337,23 @@ package com.clink.managers
 		 *
 		 * @param propertyName:String name of the property within the sharedObject to change
 		 * @param propertyValue:* the value changed within the property
+		 * @param userID:int (optional) the default slot that is changed is the current client, but if changing another user's slot is required it can be set here.
 		 * 
 		 * @return void
 		 */
-		public function setProperty(propertyName:String,propertyValue:*):void
+		public function setProperty(propertyName:String,propertyValue:*,userID:int = -1):void
 		{
-			var data:Object = _SO.data[_userID];
+			
+			var slot:String;
+			
+			if(userID > -1)
+			{
+				slot = userID.toString();
+			}else{
+				slot = _userID.toString();
+			}
+			
+			var data:Object = _SO.data[slot];
 			var foundProp:Boolean = false;
 			
 			for(var prop:String in data)
@@ -332,15 +367,10 @@ package com.clink.managers
 					if(VarUtils.getDataType(data[prop]) == VarUtils.getDataType(propertyValue))
 					{
 						data[prop] = propertyValue;
-						_SO.setProperty(_userID.toString(),data);
-						_SO.setDirty(_userID.toString());
+						_SO.setProperty(slot,data);
+						_SO.setDirty(slot);
 						
-						//dispatch UserSharedObjectEvent.CLIENT_CHANGED with slot, attributeName, and attributeValue variables
-						var evt:SharedObjectEvent = new SharedObjectEvent(SharedObjectEvent.CLIENT_CHANGED);
-						evt.sharedObjectSlot = _userID.toString();
-						evt.propertyName = propertyName;
-						evt.propertyValue = propertyValue;
-						this.dispatchEvent(evt);
+						
 						
 					}else{
 						throw new Error("The data type for Property: " + propertyName + " does not match the expected datatype of " + VarUtils.getDataType(data[prop]));
