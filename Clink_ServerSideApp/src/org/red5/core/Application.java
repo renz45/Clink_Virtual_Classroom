@@ -10,6 +10,7 @@ package org.red5.core;
  */
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.red5.io.amf3.ByteArray;
 import org.red5.io.utils.ObjectMap;
@@ -19,12 +20,10 @@ import org.red5.server.api.IScope;
 import org.red5.server.api.service.ServiceUtils;
 import org.red5.server.api.so.ISharedObject;
 
-
 public class Application extends ApplicationAdapter {
 	
-	private ArrayList<ISharedObject> _userSOList;
-	private ArrayList<ISharedObject> _commonSOList;
-	private ArrayList<String> _connectedUserList;
+	private HashMap<String, HashMap<String,ArrayList<ISharedObject>>> _classSoList;
+	private HashMap<String, ArrayList<String>> _classUserList;
 	private IScope _scope;
 	
 	public boolean appStart(IScope scope) {
@@ -32,16 +31,20 @@ public class Application extends ApplicationAdapter {
 		System.out.println("[Clink][AppStart] Clink - ServerSide App start");
 		
 		_scope = scope;
-		_userSOList = new ArrayList<ISharedObject>();
-		_commonSOList = new ArrayList<ISharedObject>();
-		_connectedUserList = new ArrayList<String>();
+		
+		_classSoList = new HashMap<String, HashMap<String,ArrayList<ISharedObject>>>();
+		_classUserList = new HashMap<String, ArrayList<String>>();
+		
+		//_classSoList.get("classID").get("commonSOList") //commonSO ArrayList
+		//_classSoList.get("classID").get("userSOList") //userSO ArrayList
+		//_classUserList.get(classID) //userID ArrayList
 		
 		return true;
 	}
 	
 	//creates sharedObjects based on an object template, userID and a sharedObject name
 	//This method is called from the client side where the template object is encoded into a byteArray
-	public String createUserBasedSO(ByteArray template, String userID, String SOName, Boolean isPersistent)
+	public String createUserBasedSO(ByteArray template, String userID, String SOName,String classId, Boolean isPersistent)
 	{
 		String msg = "";
 		
@@ -57,14 +60,14 @@ public class Application extends ApplicationAdapter {
 			//push the new shared object into the userSoList, this list is used to keep track of all sharedObjects that use
 			//the userID as a slot key. This is used at the disconnect(IConnection conn, IScope scope) to remove slots when
 			//a user gets disconnected.
-			_userSOList.add(_userSOList.size(), getSharedObject(_scope, SOName));
+			_classSoList.get(classId).get("userSOList").add(_classSoList.get(classId).get("userSOList").size(), getSharedObject(_scope, SOName));
 			
 			//building return msg which gets sent to the response handler client side, this indicates a new sharedObject was created.
 			msg = "user based Shared Object created with name: " + SOName + " and";
 		}
 		
 		//pull up the named SO and give it a temporary variable
-		System.out.println("[Clink Server][User Base SO] loading template for user: " + userID + " into the user based SO -> "+ SOName);
+		System.out.println("[Clink Server][User Base SO] loading template for user: " + userID + " into the user based SO -> "+ SOName + " for class with an id: " + classId);
 		ISharedObject SO = getSharedObject(_scope, SOName);
 		
 		//create a new blank object 'soTemplate' then read the AMF byteArray into the new object.
@@ -80,24 +83,24 @@ public class Application extends ApplicationAdapter {
 	}//end createUserBasedSO
 	
 	@SuppressWarnings("unchecked")
-	public String createCommonSO(ByteArray template, String SOName, Boolean isPersistent)
+	public String createCommonSO(ByteArray template, String SOName, String classId, Boolean isPersistent)
 	{
 		String msg = "";
 		
-		System.out.println("[Clink Server][Common SO] starting the Common SO creation process");
+		System.out.println("[Clink Server][Common SO] starting the Common SO creation process for class with id: " + classId);
 
 		//test if an SharedObject with the name of SOName already exists, if not a new SharedObject is created
 		if(!getSharedObjectNames(_scope).contains(SOName))
 		{
-			System.out.println("[Clink Server][Common SO] creating a new common SO with the name of "+ SOName);
+			System.out.println("[Clink Server][Common SO] creating a new common SO with the name of "+ SOName + " in class with id: " + classId);
 			
 			createSharedObject(_scope, SOName, isPersistent);
 			
 			ISharedObject SO = getSharedObject(_scope, SOName);
-			_commonSOList.add(_commonSOList.size(), SO);
+			_classSoList.get(classId).get("commonSOList").add(_classSoList.get(classId).get("commonSOList").size(), SO);
 		
 			//pull up the named SO and give it a temporary variable
-			System.out.println("[Clink Server][Common SO] loading template into thecommon SO -> "+ SOName);
+			System.out.println("[Clink Server][Common SO] loading template into the common SO -> "+ SOName + " for class with id: " + classId);
 			
 			
 			//create a new blank object 'soTemplate' then read the AMF byteArray into the new object, cast that object as an ObjectMap so we can work with it
@@ -116,17 +119,17 @@ public class Application extends ApplicationAdapter {
 			//update the return msg
 			msg += "common sharedObject: "+ SOName + " was created";
 		}else{
-			System.out.println("[Clink Server][Common SO] A common shared Object with the name "+SOName+" already exists and is ready to connect");
+			System.out.println("[Clink Server][Common SO] A common shared Object with the name "+SOName+" already exists in class: " + classId + " and is ready to connect");
 			msg = "Common sharedObject with name: " + SOName + " already exists, it's ready to read/change";
 		}
 		return msg;
 	}//end createCommonSO
 	
 	//changed a common sharedObjects value for given propertyName to given propertyValue
-	public String updateCommonSO(String propertyName, Object propertyValue, String SOName)
+	public String updateCommonSO(String propertyName, Object propertyValue, String SOName, String classId)
 	{
 		System.out.println(" ");
-		System.out.println("[Clink][UpdateCommonSO] changing the property: "+propertyName + " to the value:" + propertyValue);
+		System.out.println("[Clink][UpdateCommonSO] changing the property: "+propertyName + " to the value:" + propertyValue + " in class with id: " + classId);
 		
 		ISharedObject SO = getSharedObject(_scope, SOName);
 		SO.setAttribute(propertyName, propertyValue);
@@ -134,11 +137,13 @@ public class Application extends ApplicationAdapter {
 		return "Property: '" + propertyName + "' Changed to value: " + propertyValue + " in Common SharedObject " + SOName ;
 	}
 	
+	
+	
 	/** {@inheritDoc} */
     @Override
 	public boolean connect(IConnection conn, IScope scope, Object[] params) {
     	//reject the user if no username is given
-    	if(params ==null || params.length ==0)
+    	if(params == null || params.length ==0)
     	{
     		rejectClient("No username given");
     	}
@@ -153,21 +158,37 @@ public class Application extends ApplicationAdapter {
  
     	//pull out the username from the params, get the userID from the client
 		String username = params[0].toString();
+		String classId = params[1].toString();
+		
+		if(_classUserList.containsKey(classId) == false)
+		{
+			HashMap<String, ArrayList<ISharedObject>> SOLists = new HashMap<String, ArrayList<ISharedObject>>();
+			SOLists.put("commonSOList", new ArrayList<ISharedObject>());
+			SOLists.put("userSOList", new ArrayList<ISharedObject>());
+			
+			ArrayList<String> userList = new ArrayList<String>();
+			
+			_classSoList.put(classId, SOLists);
+			_classUserList.put(classId, userList);
+		}
+		
+		
 		String uid = conn.getClient().getId();
 		
 		//add user id to the connectedUserList to keep track of users serverside
-		_connectedUserList.add(uid);
+		_classUserList.get(classId).add(uid);
 		
-    	System.out.println("[Clink Server][Connect] sending the client with userId of: "+uid+ " and username: "+username+" the userId assigned by the server");
+    	System.out.println("[Clink Server][Connect] sending the client in the class "+ classId +" with userId of: "+uid+ " and username: "+username+" the userId assigned by the server");
     	
     	//this calls a method 'setUserId' on the client side when the client connects and gives the client the userId assigned by the server
     	ServiceUtils.invokeOnConnection(conn, "setUserId", new Object[]{uid});
     	
-    	System.out.println("[Clink Server][Connect] There are " + _connectedUserList.size() +" users now connected to the server");
+    	//***************System.out.println("[Clink Server][Connect] There are " + _connectedUserList.size() +" users now connected to the server");
+    	System.out.println("[Clink Server][Connect] There are " + _classUserList.get(classId).size() +" users now connected to the server for class with id: " + classId);
     	
 		return true;
-	}
-
+    }
+    
     
 	/** {@inheritDoc} */
     @Override
@@ -178,54 +199,62 @@ public class Application extends ApplicationAdapter {
 		
 		//pulls the user id from the connection that was disconnected
 		String uid = conn.getClient().getId();
-		System.out.println("[Clink Server][Disconnect] User with ID:" + uid + " has disconnected from the server");
+		
+		String classId = "";
 		
 		//loop through _connectedUserList and remove the user id who disconnected
-		int k = 0;
-		while(k < _connectedUserList.size())
-		{
-			if(_connectedUserList.get(k) == uid)
-			{
-				_connectedUserList.remove(k);
-			}
+		
+		//find the classId based on the userId
+		for (String key : _classUserList.keySet()) {
 			
-			k++;
+		   for(int i = 0; i < _classUserList.get(key).size(); i++)
+		   {
+			   if(_classUserList.get(key).get(i) == uid)
+			   {
+				   classId = key;
+				   _classUserList.get(key).remove(i);
+				   break;
+			   }
+		   }
 		}
-		if(_userSOList.size() > 0)
+
+		System.out.println("[Clink Server][Disconnect] User with ID:" + uid + " has disconnected from the server in class with id " + classId);
+		
+		if(_classSoList.get(classId).get("userSOList").size() > 0)
 		{
-			System.out.println("[Clink Server][Disconnect] Removing the user with ID of "+uid+" from the following SharedObjects:");
+			System.out.println("[Clink Server][Disconnect] Removing the user from class: "+ classId +" with ID of "+uid+" from the following SharedObjects:");
 		}
 		//loop through the userSOList and remove all slots represented by the user who disconnected
 		int i = 0;
 		
-		while(i < _userSOList.size())
+		while(i < _classSoList.get(classId).get("userSOList").size())
 		{
-			System.out.println("[Clink Server][Disconnect] "+_userSOList.get(i).getName());
-			_userSOList.get(i).removeAttribute(uid);
+			System.out.println("[Clink Server][Disconnect] "+_classSoList.get(classId).get("userSOList").get(i).getName());
+			_classSoList.get(classId).get("userSOList").get(i).removeAttribute(uid);
 			
 			//if there are no users in the SO than close the SO and remove it from the sharedObject list
-			if(_userSOList.get(i).getAttributeNames().isEmpty())
+			if(_classSoList.get(classId).get("userSOList").get(i).getAttributeNames().isEmpty())
 			{
-				System.out.println("[Clink Server][Disconnect] closing " + _userSOList.get(i).getName()+ " and removing it from the sharedObject List");
-				_userSOList.get(i).close();
-				_userSOList.remove(i);
+				System.out.println("[Clink Server][Disconnect] closing " + _classSoList.get(classId).get("userSOList").get(i).getName()+ " and removing it from the sharedObject List for class with id: " + classId);
+				_classSoList.get(classId).get("userSOList").get(i).close();
+				_classSoList.get(classId).get("userSOList").remove(i);
 			}
 			i++;
 		}
 		
 		/*if the _connectedUserList array is empty, this indicates that there are no long any users who are connected. If no users are connected
 		 * then we want to close all sharedObjects in the _commonSOList, and remove them from the list */
-		System.out.println("[Clink Server][Disconnect] There are " + _connectedUserList.size() +" users connected to the server");
-		if(_connectedUserList.size() == 0)
+		System.out.println("[Clink Server][Disconnect] There are " + _classUserList.get(classId).size() +" users connected to the server for class with id: " + classId);
+		if(_classUserList.get(classId).size() == 0)
 		{
 			
-			System.out.println("[Clink Server][Disconnect] Closing and removing the following common sharedObjects from the _commonSOList:");
+			System.out.println("[Clink Server][Disconnect] Closing and removing the following common sharedObjects for class "+ classId +" from the _commonSOList:");
 			int j = 0;
-			while(j < _commonSOList.size())
+			while(j < _classSoList.get(classId).get("commonSOList").size())
 			{
-				System.out.println("[Clink Server][Disconnect] "+_commonSOList.get(j).getName());
-				_commonSOList.get(j).close();
-				_commonSOList.remove(j);
+				System.out.println("[Clink Server][Disconnect] "+ _classSoList.get(classId).get("commonSOList").get(j).getName());
+				_classSoList.get(classId).get("commonSOList").get(j).close();
+				_classSoList.get(classId).get("commonSOList").remove(j);
 				
 				j++;
 			}
