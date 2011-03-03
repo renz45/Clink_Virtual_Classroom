@@ -2,6 +2,7 @@ package com.clink.main
 {
 	import com.clink.controllers.Controller_Dragable;
 	import com.clink.factories.Factory_prettyBox;
+	import com.clink.managers.Manager_remoteCommonSharedObject;
 	import com.clink.managers.Manager_remoteUserSharedObject;
 	import com.clink.ui.UserListItem;
 	import com.clink.utils.DrawingUtils;
@@ -75,6 +76,17 @@ package com.clink.main
 			//the video monitor needs to be the top child in the sidebar object so the volume slider doesnt get lost, I will need to revisit this later.
 			
 			this.addChild(_vm);
+			
+			//create chat sharedObject
+			var chatTemplate:Object = {1:{name:"Clink",msg:"Hello, welcome to class."}};
+			
+			var chatSO:Manager_remoteCommonSharedObject = new Manager_remoteCommonSharedObject("chatSO",chatTemplate,_configInfo.netConnection);
+			
+			//create and position the text chat
+			var tc:TextChat = new TextChat(chatSO,_configInfo);
+			tc.x = 6;
+			tc.y = _userList.y + _userList.height + 6;
+			this.addChild(tc);
 		}
 		
 		private function draw():void
