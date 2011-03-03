@@ -14,6 +14,8 @@ package com.clink.ui
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
+	import flash.text.TextField;
+	import flash.text.TextFormat;
 	import flash.ui.Keyboard;
 	
 	import org.osmf.layout.AbsoluteLayoutFacet;
@@ -47,6 +49,9 @@ package com.clink.ui
 		private var _overIcon:DisplayObject;
 		private var _keyCode:Number;
 		private var _toggleGroup:Array;
+		private var _label:String;
+		
+		private var _shortcutKeyIsClick:Boolean;
 		
 		private static var _buttonList:Array;
 		private static var _upColor:uint;
@@ -55,6 +60,7 @@ package com.clink.ui
 		private static var _cornerRadius:Number;
 		private static var _isGradient:Boolean;
 		private static var _gradientContrast:Number
+		
 		/**
 		 * constructor for BasicButton, a width and height are required. Rollover mode can also be set. 
 		 * @param width:Number width of the button
@@ -151,7 +157,12 @@ package com.clink.ui
 			{
 				
 				_buttonControl.down();
-				this.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_DOWN));
+				if(_shortcutKeyIsClick)
+				{
+					this.dispatchEvent(new MouseEvent(MouseEvent.CLICK));
+				}else{
+					this.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_DOWN));
+				}
 			}
 		}
 		
@@ -161,7 +172,11 @@ package com.clink.ui
 			{
 				
 				_buttonControl.up();
-				this.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_UP));
+				
+				if(!_shortcutKeyIsClick)
+				{
+					this.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_UP));
+				}
 			}
 		}
 		
@@ -321,6 +336,28 @@ package com.clink.ui
 		public function disable():void
 		{
 			_buttonControl.disable();
+		}
+		
+		public function setLabel(label:String,textFormat:TextFormat, topBottomPadding:Number = 6):void
+		{
+			_label = label;
+			
+			var btnLabels:Array = [];
+			for(var i:int = 0; i < 3; i++)
+			{
+				var submitLabel:TextField = new TextField();
+				submitLabel.embedFonts = true;
+				submitLabel.defaultTextFormat = textFormat;
+				submitLabel.selectable = false;
+				submitLabel.text = label;
+				submitLabel.width = _btnWidth;
+				submitLabel.height = _btnHeight - topBottomPadding;
+				btnLabels.push(submitLabel);
+			}
+
+			this.upIcon = btnLabels[0];
+			this.downIcon = btnLabels[1];
+			this.overIcon = btnLabels[2];
 		}
 		
 		///////////////////Statics///////////////////
@@ -508,6 +545,7 @@ package com.clink.ui
 			}else if(displayObjectOrPath is DisplayObject){
 				_upIcon = null;
 				_upIcon = displayObjectOrPath;
+				redraw();
 			}else{
 				throw new Error("The upIcon method requires a String path to external file or a displayObject for icon");
 			}
@@ -534,8 +572,9 @@ package com.clink.ui
 				var elD:EasyImageLoader = new EasyImageLoader(displayObjectOrPath);
 				elD.addEventListener(ImageComplete_Event.IMAGE_LOADED,onDownIconLoaded);
 			}else if(displayObjectOrPath is DisplayObject){
-				_overIcon = null;
+				_downIcon = null;
 				_downIcon = displayObjectOrPath;
+				redraw();
 			}else{
 				throw new Error("The downIcon method requires a String path to external file or a displayObject for icon");
 			}
@@ -564,6 +603,7 @@ package com.clink.ui
 			}else if(displayObjectOrPath is DisplayObject){
 				_overIcon = null;
 				_overIcon = displayObjectOrPath;
+				redraw();
 			}else{
 				throw new Error("The overIcon method requires a String path to external file or a displayObject for icon");
 			}
@@ -582,7 +622,7 @@ package com.clink.ui
 		 * @param keyCode:Number needs to be a keyboard keycode or nothing will happen
 		 * 
 		 */		
-		public function set shortCutKey(keyCode:Number):void
+		public function setShortCutKey(keyCode:Number, isMouseClick:Boolean = false):void
 		{
 			//if the keycode doesnt exist remove the keyboard listeners. If there is a keycode than start an enterframe to look for the stage so keyboard listeners can be started
 			if(keyCode)
@@ -596,6 +636,8 @@ package com.clink.ui
 					this.stage.removeEventListener(KeyboardEvent.KEY_UP,onKeyUp);
 				}
 			}
+			
+			_shortcutKeyIsClick = isMouseClick;
 		}
 		/**
 		 * getter for keycode assigned to the shortcut key 
@@ -611,5 +653,6 @@ package com.clink.ui
 		{
 			return _buttonControl.State;
 		}
+		
 	}
 }
