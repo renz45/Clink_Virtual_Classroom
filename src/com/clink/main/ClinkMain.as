@@ -44,6 +44,7 @@ package com.clink.main
 		//connection info
 		private var _appURL:String;
 		private var _username:String;
+		private var _classId:String;
 		private var _serverUserID:int;
 		private var _userPermission:String;
 		
@@ -77,6 +78,8 @@ package com.clink.main
 		
 		private function init():void
 		{	
+			_classId = 'WSP';//_configInfo.classId;
+			
 			//pops up a settings menu asking for camera permission
 			Security.showSettings(SecurityPanel.PRIVACY);
 			//initialize scrollbars
@@ -90,8 +93,8 @@ package com.clink.main
 			//init tooltips
 			Base_componentToolTip.initTooltips(_stage);
 			//init sharedObject managers
-			Manager_remoteCommonSharedObject.init();
-			Manager_remoteUserSharedObject.init();
+			Manager_remoteCommonSharedObject.init(_classId);
+			Manager_remoteUserSharedObject.init(_classId);
 			
 			//These values are colors that are set with the config.xml
 			BasicButton.isGradient = _configInfo.basicButton_isGradient;
@@ -107,10 +110,11 @@ package com.clink.main
 			_configInfo.username = _username;
 			_configInfo.userPermission = _userPermission;
 			
+			
 			//connect the NetConnection to the Red5 server
 			_nc = new NetConnection();
 			_nc.client = this;
-			_nc.connect(_appURL,_username);
+			_nc.connect(_appURL,_username,_classId);
 			_nc.addEventListener(NetStatusEvent.NET_STATUS,netStatusHandler);
 			
 			_configInfo.netConnection = _nc;
