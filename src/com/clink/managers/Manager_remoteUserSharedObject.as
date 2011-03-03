@@ -34,6 +34,7 @@ package com.clink.managers
 		private var _isPersistent:Boolean;
 		
 		private static var _soList:Array;
+		private static var _classId:String;
 		
 		/**
 		 * This class manages remoteUserSharedObjects. This communicates with the Red5 server in order to dynamically create sharedObjects.
@@ -57,7 +58,7 @@ package com.clink.managers
 			}
 			_nc = nc;
 			_userID = userID;
-			_SOName = SOName;
+			_SOName = SOName + _classId;
 			_SOTemplate = SOTemplate;
 			_isPersistent = isPersistent;
 				
@@ -100,7 +101,7 @@ package com.clink.managers
 			var userID:String = _userID.toString();
 			
 			//call the function 'createUserBasedSO' on the Red5 server
-			_nc.call("createUserBasedSO", r, TemplateAMF, userID, _SOName, _isPersistent);
+			_nc.call("createUserBasedSO", r, TemplateAMF, userID, _SOName,_classId, _isPersistent);
 		}
 		
 		private function onSOError(e:AsyncErrorEvent):void
@@ -387,14 +388,25 @@ package com.clink.managers
 		}
 		
 		///////////Static//////////
-		public static function init():void
+		public static function init(classId:String):void
 		{
+			_classId = classId
 			_soList = [];
 		}
 		
 		public static function get sharedObjectList():Array
 		{
 			return _soList;
+		}
+		
+		public static function set classID(id:String):void
+		{
+			_classId = id;
+		}
+		
+		public static function get classId():String
+		{
+			return _classId;
 		}
 	}
 }

@@ -26,6 +26,7 @@ package com.clink.managers
 		private var _nc:NetConnection;
 		
 		private static var _soList:Array;
+		private static var _classId:String;
 		
 		public function Manager_remoteCommonSharedObject(SOName:String,template:Object,nc:NetConnection, isPersistent:Boolean = false)
 		{
@@ -36,7 +37,7 @@ package com.clink.managers
 				throw new Error("Please init this manager by calling the static function init()");
 			}
 			
-			_SOName = SOName;
+			_SOName = SOName + _classId;
 			_template = template;
 			_isPersistent = isPersistent;
 			_nc = nc;
@@ -74,7 +75,7 @@ package com.clink.managers
 			var r:Responder = new Responder(soCreationResponder);
 
 			//call the function 'createCommonSO' on the Red5 server
-			_nc.call("createCommonSO", r, TemplateAMF, _SOName, _isPersistent);
+			_nc.call("createCommonSO", r, TemplateAMF, _SOName, _classId,_isPersistent);
 		}
 		
 		private function onSOError(e:AsyncErrorEvent):void
@@ -253,7 +254,7 @@ package com.clink.managers
 					//if the datatype of the passed in propertyValue matches the property value existing within the sharedObject
 					if(VarUtils.getDataType(propertyValue) == VarUtils.getDataType(data[prop]))
 					{
-						_nc.call("updateCommonSO",r,propertyName,propertyValue,_SOName);
+						_nc.call("updateCommonSO",r,propertyName,propertyValue,_SOName,_classId);
 						return
 					}else{
 						throw new Error("The data type of the value your trying to change isn't the expected: " + VarUtils.getDataType(data[prop]));
@@ -264,16 +265,35 @@ package com.clink.managers
 			
 		}
 		
+		
+		public function addProperty(propertyName:String,propertyValue:*):void
+		{
+			var data:Object = _SO.data;
+			var r:Responder = new Responder(commonSOChangeHandler);
+			_nc.call("updateCommonSO",r,propertyName,propertyValue,_SOName,_classId);
+		}
+		
 		////////////////Static///////////////////
 		
-		public static function init():void
+		public static function init(classId:String):void
 		{
+			_classId = classId;
 			_soList = [];
 		}
 		
 		public static function get sharedObjectList():Array
 		{
 			return _soList;
+		}
+		
+		public static function setClassId(id:String):void
+		{
+			_classId = id;
+		}
+		
+		public function get ClassId():String
+		{
+			return _classId;
 		}
 	}
 }

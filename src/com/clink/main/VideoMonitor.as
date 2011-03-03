@@ -176,7 +176,7 @@ package com.clink.main
 			_pushToTalkBtn.downIcon = _configInfo.pushToTalkBtn_downIcon;
 			_pushToTalkBtn.overIcon = _configInfo.pushToTalkBtn_overIcon;
 			_pushToTalkBtn.message = _configInfo.pushToTalkBtn_toolTip;
-			_pushToTalkBtn.shortCutKey = Keyboard.CONTROL;
+			_pushToTalkBtn.setShortCutKey(Keyboard.CONTROL);
 			_pushToTalkBtn.addEventListener(MouseEvent.MOUSE_DOWN,talkBtnDown);
 			_pushToTalkBtn.addEventListener(MouseEvent.MOUSE_UP,talkBtnUp);
 			_btnLB.addChild(_pushToTalkBtn);
