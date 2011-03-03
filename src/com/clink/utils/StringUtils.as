@@ -1,8 +1,8 @@
 package com.clink.utils
 {
-	public class ChopText
+	public class StringUtils
 	{
-		public function ChopText()
+		public function StringUtils()
 		{
 		}
 		/**
@@ -112,7 +112,6 @@ package com.clink.utils
 			
 			return trimmedString;
 		}
-		
 
 
 	}
