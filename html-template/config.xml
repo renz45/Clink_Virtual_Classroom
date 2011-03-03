@@ -71,6 +71,8 @@
 	<settings>
 		<!-- server app on the Red5 server -->
 		<appURL>rtmp://localhost/Clink_ServerSideApp</appURL>
+		<!-- <appURL>rtmp://67.159.60.60/Clink_ServerSideApp</appURL> -->
+		<classroomId>2</classroomId><!-- can be a number or a string, it doesn't matter -->
 	</settings>
 	
 	<buttons>

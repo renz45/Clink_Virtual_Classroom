@@ -64,8 +64,12 @@ package com.clink.utils
 				vos.userListItem_thumbDownColor = xml.ui.sideBar.userListItem.thumbDownColor;
 				vos.userListItem_laughColor = xml.ui.sideBar.userListItem.laughColor;
 				vos.userListItem_isGradient = xml.ui.sideBar.userListItem.isGradient;
-				
+			
+			//Red5 Server Path
 			vos.appURL = xml.settings.appURL;
+			
+			//class Id
+			vos.classId = xml.settings.classroomId;
 			
 			var imgPath:String = (xml.@iconPath).toString();
 			//button icon config

@@ -57,6 +57,7 @@ package com.clink.valueObjects
 		
 		//general settings
 		public var appURL:String;
+		public var classId:String;
 		public var username:String;
 		public var userPermission:String;
 		public var userID:Number;
