@@ -17,6 +17,7 @@ package com.clink.main
 	import com.clink.ui.ScrollList;
 	import com.clink.utils.DrawingUtils;
 	import com.clink.utils.ParseConfigXML;
+	import com.clink.utils.StringUtils;
 	import com.clink.valueObjects.VO_Settings;
 	
 	import flash.display.Sprite;
@@ -56,6 +57,10 @@ package com.clink.main
 		//ui elements
 		private var _sidebar:Main_SideBar;
 		
+		
+		//for demo purposes
+		private var sl:sampleLogin;
+		
 		public function ClinkMain(stage:Stage)
 		{
 			super();
@@ -63,13 +68,38 @@ package com.clink.main
 			
 			_stage = stage;
 			
+			//loadConfig();
+			
+			//this will normally be handled by php, and will be if I have the time.
+			setUpSampleLogin();
+		}
+		
+		private function setUpSampleLogin():void
+		{
+			sl = new sampleLogin();
+			sl.x = _stage.stageWidth/2 - sl.width/2;
+			sl.y = 100;
+			sl.tf_username.maxChars = 15;
+			sl.tf_username.multiline = false;
+			sl.tf_username.wordWrap = false;
+			this.addChild(sl);
+			sl.btn_submit.buttonMode = true;
+			sl.btn_submit.mouseChildren = false;
+			sl.btn_submit.addEventListener(MouseEvent.CLICK, onSubmit);
+		}
+		
+		private function onSubmit(e:MouseEvent):void
+		{
+			_username = StringUtils.trimLineBreaks(sl.tf_username.text.split(" ").join("_"));
+			_username = _username.split(" ").join("");
+			this.removeChild(sl);
 			loadConfig();
 		}
 		
 		private function loadConfig():void
 		{
 			//passed in via flash vars or read from database
-			_username = "Adam";
+			//_username = "Adam";
 			_userPermission = "teacher";
 			
 			var xl:EasyXmlLoader = new EasyXmlLoader("config.xml");
@@ -78,7 +108,7 @@ package com.clink.main
 		
 		private function init():void
 		{	
-			_classId = 'WSP';//_configInfo.classId;
+			_classId = '1';//_configInfo.classId;
 			
 			//pops up a settings menu asking for camera permission
 			Security.showSettings(SecurityPanel.PRIVACY);
@@ -118,10 +148,7 @@ package com.clink.main
 			_nc.addEventListener(NetStatusEvent.NET_STATUS,netStatusHandler);
 			
 			_configInfo.netConnection = _nc;
-			
-			
-			
-			
+	
 		}
 		
 		//called by the server and assigns a user ID
