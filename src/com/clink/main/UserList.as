@@ -1,8 +1,10 @@
 package com.clink.main
 {
 	import com.clink.events.SharedObjectEvent;
+	import com.clink.events.UserListItemEvent;
 	import com.clink.factories.Factory_prettyBox;
 	import com.clink.factories.Factory_triangle;
+	import com.clink.managers.Manager_remoteCommonSharedObject;
 	import com.clink.managers.Manager_remoteUserSharedObject;
 	import com.clink.ui.LayoutBox;
 	import com.clink.ui.ScrollList;
@@ -48,12 +50,13 @@ package com.clink.main
 			
 			_configInfo = configInfo;
 			_userSO = userSO;
-			
 			init();
 		}
 		
 		private function init():void
 		{
+			UserListItem.init();
+			
 			_isHandRaised = false;
 			_isThumbUp = false;
 			_isThumbDown = false;
@@ -67,6 +70,7 @@ package com.clink.main
 			
 			UserListButton.init(_configInfo.userListButton_upStateColor,_configInfo.userListButton_downStateColor,_configInfo.userListButton_overStateColor);
 			UserListButton.isGradient = _configInfo.userListButton_isGradient;
+			
 			
 			//add event listners to the sharedObject
 			_userSO.addEventListener(SharedObjectEvent.CHANGED,onSoChanged);
@@ -126,6 +130,7 @@ package com.clink.main
 			rhb.upIcon = _configInfo.raiseHandBtn_upIcon;
 			rhb.downIcon = _configInfo.raiseHandBtn_downIcon;
 			rhb.overIcon = _configInfo.raiseHandBtn_overIcon;
+			rhb.enableToggle();
 			rhb.message = _configInfo.raiseHandBtn_toolTip;
 			rhb.addEventListener(MouseEvent.CLICK,onRaiseHand);
 			_btnLB.addChild(rhb);
@@ -177,11 +182,12 @@ package com.clink.main
 			var permission:String = _userSO.getProperty("userPermission",slot) as String
 			
 			//remove the slot.toString() back to only username after testing is complete
-			var uli:UserListItem = new UserListItem(username +slot.toString() +" ( "+permission.charAt(0).toLowerCase() + " )","#333333","#ffffff","#FF9700","#00FF00","#FF0000","#FFFF00",_userSO,true);
-			uli.userID = slot;
+			var uli:UserListItem = new UserListItem(username +slot.toString(),_configInfo,_userSO,_configInfo.userPermission,slot,true);
 			
 			//create the label using the username and slot number so we always have a unique label
 			_userScrollList.addListItem(uli,username + slot.toString());
+			
+			_userScrollList.update();
 		}
 		
 		private function findItem(slot:int):UserListItem
@@ -194,7 +200,52 @@ package com.clink.main
 					break;
 				}
 			}
+			
+			for each(var item:UserListItem in _userScrollList.topItems)
+			{
+				if(item.userID == slot)
+				{
+					return item;
+					break;
+				}
+			}
+			
 			return null;
+		}
+		
+		private function removeFromSort(slot:String):void
+		{
+			for(var i:int = 0; i < _userScrollList.items.length; i++)
+			{
+				if(_userScrollList.items[i]["item"].userID == slot)
+				{
+					_userScrollList.removeListItem(_userScrollList.items[i]["item"],_userScrollList.items[i]["label"]);
+					break;
+				}
+			}
+			_userScrollList.update();
+		}
+		
+		private function removeFromTop(slot:String):void
+		{
+			for each(var k:UserListItem in _userScrollList.topItems)
+			{
+				if(k.userID == int(slot))
+				{
+					_userScrollList.removeTopItem(k);
+				}
+			}
+			_userScrollList.update();
+		}
+		
+		private function raiseHandOrganize(slot:String):void
+		{
+			var handRaisedItem:UserListItem = findItem(int(slot))
+			handRaisedItem.raiseHandEnable();
+			removeFromSort(slot);
+			
+			_userScrollList.addTopItem(handRaisedItem);
+			_userScrollList.update();
 		}
 		
 		//////////////////////////CallBacks////////////////////////////
@@ -277,19 +328,32 @@ package com.clink.main
 			switch(e.propertyName)
 			{
 				case "connected":
-
+					
 					if(e.propertyValue == true && e.sharedObjectSlot != (_configInfo.userID).toString())
 					{
-						populateList(int(e.sharedObjectSlot));
+						if(_userSO.sharedObject.data[e.sharedObjectSlot]["isHandRaised"])
+						{
+							raiseHandOrganize(e.sharedObjectSlot);
+						}else{
+							populateList(int(e.sharedObjectSlot));
+						}
+						
 					}
 					break;
 				case "isHandRaised":
 					if(e.propertyValue)
 					{//true
-						findItem(int(e.sharedObjectSlot)).raiseHandEnable();
+						raiseHandOrganize(e.sharedObjectSlot);
 						
 					}else{//false
+						var handDownItem:UserListItem;
+						
+						removeFromTop(e.sharedObjectSlot);
+						
+						populateList(int(e.sharedObjectSlot));
+						
 						findItem(int(e.sharedObjectSlot)).raiseHandDisable();
+						_userScrollList.update();
 					}
 					break;
 				case "isThumbUp":
@@ -327,6 +391,11 @@ package com.clink.main
 						findItem(int(e.sharedObjectSlot)).awayDisable();
 					}
 					break;
+				case "isTalking":
+					
+					findItem(int(e.sharedObjectSlot)).talking();
+					
+					break;
 			}
 		}
 		
@@ -342,23 +411,17 @@ package com.clink.main
 				//check if any have their hands raised
 				if(data[k]["isHandRaised"] == true)
 				{
-					findItem(int(k)).raiseHandEnable();
+					raiseHandOrganize(k);
+					
 				}
 			}
-			
 			_userSO.setProperty("connected",true);
 		}
 		
 		private function onSoDelete(e:SharedObjectEvent):void
 		{	
-			for(var i:int = 0; i < _userScrollList.items.length; i++)
-			{
-				if(_userScrollList.items[i]["item"].userID == e.sharedObjectSlot)
-				{
-					_userScrollList.removeListItem(_userScrollList.items[i]["item"],_userScrollList.items[i]["label"]);
-					break;
-				}
-			}
+			removeFromSort(e.sharedObjectSlot);
+			removeFromTop(e.sharedObjectSlot);
 		}
 	}
 }
