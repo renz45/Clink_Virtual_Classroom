@@ -58,7 +58,8 @@ package com.clink.main
 									isMicOn:false,
 									streamName:(_configInfo.userID).toString(),
 									disconnect:false,
-									connected:false};
+									connected:false,
+									isGroupMute:false};
 			
 			_userSO = new Manager_remoteUserSharedObject(_configInfo.netConnection,_configInfo.userID,"userSO",template);
 			
@@ -78,7 +79,7 @@ package com.clink.main
 			this.addChild(_vm);
 			
 			//create chat sharedObject
-			var chatTemplate:Object = {1:{name:"Clink",msg:"Hello, welcome to class."}};
+			var chatTemplate:Object = {1:{name:_configInfo.textChat_welcomeUsername,msg:_configInfo.textChat_welcomeMessage}};
 			
 			var chatSO:Manager_remoteCommonSharedObject = new Manager_remoteCommonSharedObject("chatSO",chatTemplate,_configInfo.netConnection);
 			
