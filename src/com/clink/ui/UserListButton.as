@@ -237,9 +237,11 @@ package com.clink.ui
 			}
 			
 			//call the setUpIcon method which resizes and centers the icons according to the button size
+			
 			setUpIcon(_upIcon,_upBtn);
 			setUpIcon(_downIcon,_downBtn);
 			setUpIcon(_overIcon,_overBtn);
+			
 			
 			//if the button is set to down than make sure it looks like it's down, this preserves the state through multiple redraws
 			if(_isDown)
