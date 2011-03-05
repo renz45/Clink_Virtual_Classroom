@@ -305,7 +305,7 @@ package com.clink.managers
 				if(data[userIDStr])
 				{
 					//checks to make sure the property exists, if not throw an error
-					if(data[userIDStr][property])
+					if(data[userIDStr].hasOwnProperty(property))
 					{
 						return data[userIDStr][property]
 					}else{
@@ -321,7 +321,7 @@ package com.clink.managers
 				for(var k:String in data)
 				{
 					//checks to make sure the property exists in the object
-					if(data[k][property])
+					if((data[k] as Object).hasOwnProperty(property))
 					{
 						propertyList[k] = data[k][property];
 					}else{
