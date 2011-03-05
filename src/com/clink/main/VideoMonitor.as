@@ -61,6 +61,7 @@ package com.clink.main
 		private var _hasCamera:Boolean;
 		private var _hasMic:Boolean;
 		private var _isMute:Boolean;
+		private var _isGroupMute:Boolean;
 		
 		public function VideoMonitor(configInfo:VO_Settings,userSO:Manager_remoteUserSharedObject)
 		{
@@ -79,7 +80,7 @@ package com.clink.main
 			_bufferTime = _configInfo.videoMonitor_videoBufferTime;
 			
 			_isMute = false;
-			
+			_isGroupMute = false;
 			_streamList = [];
 			_streamNameList = [];
 			
@@ -396,7 +397,7 @@ package com.clink.main
 		private function talkBtnDown(e:MouseEvent):void
 		{
 			//this mute settings comes from the sharedObject, the teacher can mute other users
-			if(!_isMute)
+			if(!_isMute  && !_isGroupMute)
 			{
 				if(!(Camera.getCamera().muted) /*|| _userSO.getProperty("isMute", _configInfo.userID)*/)
 				{
@@ -456,6 +457,12 @@ package com.clink.main
 					if(int(e.sharedObjectSlot) == _configInfo.userID)
 					{
 						_isMute = e.propertyValue as Boolean;
+					}
+					break;
+				case "isGroupMute":
+					if(int(e.sharedObjectSlot) == _configInfo.userID)
+					{
+						_isGroupMute = e.propertyValue as Boolean;
 					}
 					break;
 			}
