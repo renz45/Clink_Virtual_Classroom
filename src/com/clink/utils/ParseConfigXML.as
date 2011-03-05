@@ -12,7 +12,7 @@ package com.clink.utils
 		public static function parseConfig(xml:XML):VO_Settings
 		{
 			var vos:VO_Settings = new VO_Settings();
-			
+			var imgPath:String = (xml.@iconPath).toString();
 			//basic button config
 			vos.basicButton_isGradient = xml.ui.basicButton.isGradient as Boolean;
 			vos.basicButton_upStateColor = xml.ui.basicButton.upStateColor;
@@ -63,7 +63,19 @@ package com.clink.utils
 				vos.userListItem_thumbUpColor = xml.ui.sideBar.userListItem.thumbUpColor;
 				vos.userListItem_thumbDownColor = xml.ui.sideBar.userListItem.thumbDownColor;
 				vos.userListItem_laughColor = xml.ui.sideBar.userListItem.laughColor;
+				vos.userListItem_awayColor = xml.ui.sideBar.userListItem.awayColor;
 				vos.userListItem_isGradient = xml.ui.sideBar.userListItem.isGradient;
+				vos.userListItem_talkingIcon = imgPath + (xml.ui.sideBar.userListItem.talkingIcon).toString();
+				vos.userListItem_emoteTextColor = xml.ui.sideBar.userListItem.emoteTextColor;
+				//textChat
+				vos.textChat_backgroundColor = xml.ui.sideBar.textChat.backgroundColor;
+				vos.textChat_textColor = xml.ui.sideBar.textChat.textColor;
+				vos.textChat_usernameChatLabelColor = xml.ui.sideBar.textChat.usernameChatLabelColor;
+				vos.textChat_urlLinkColor = xml.ui.sideBar.textChat.urlLinkColor;
+				vos.textChat_welcomeMessage = xml.ui.sideBar.textChat.welcomeMessage;
+				vos.textChat_welcomeUsername = xml.ui.sideBar.textChat.welcomeUsername;
+				vos.textChat_textSize = xml.ui.sideBar.textChat.textSize;
+				vos.textChat_usernameTextSize = xml.ui.sideBar.textChat.usernameTextSize;
 			
 			//Red5 Server Path
 			vos.appURL = xml.settings.appURL;
@@ -71,7 +83,7 @@ package com.clink.utils
 			//class Id
 			vos.classId = xml.settings.classroomId;
 			
-			var imgPath:String = (xml.@iconPath).toString();
+			
 			//button icon config
 			for each(var b:XML in xml.buttons.button)
 			{
@@ -139,6 +151,24 @@ package com.clink.utils
 						vos.awayBtn_downIcon = imgPath + (b.icons.down).toString();
 						vos.awayBtn_overIcon = imgPath + (b.icons.over).toString();
 						vos.awayBtn_toolTip = b.toolTip;
+						break;
+					
+					case "presenter":
+						vos.presenterBtn_upIcon = imgPath + (b.icons.up).toString();
+						vos.presenterBtn_downIcon = imgPath + (b.icons.down).toString();
+						vos.presenterBtn_toolTip = b.toolTip;
+						break;
+					
+					case "mute":
+						vos.muteBtn_upIcon = imgPath + (b.icons.up).toString();
+						vos.muteBtn_downIcon = imgPath + (b.icons.down).toString();
+						vos.muteBtn_toolTip = b.toolTip;
+						break;
+					
+					case "boot":
+						vos.bootBtn_upIcon = imgPath + (b.icons.up).toString();
+						vos.bootBtn_downIcon = imgPath + (b.icons.down).toString();
+						vos.bootBtn_toolTip = b.toolTip;
 						break;
 				}
 			}

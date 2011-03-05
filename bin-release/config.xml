@@ -65,6 +65,17 @@
 				<isGradient>true</isGradient>
 			</userListItem>
 			
+			<textChat>
+				<backgroundColor>#ffffff</backgroundColor>
+				<textColor>#555555</textColor>
+				<textSize>12</textSize>
+				<usernameTextSize>14</usernameTextSize>
+				<usernameChatLabelColor>#000077</usernameChatLabelColor>
+				<urlLinkColor>#0000ff</urlLinkColor>
+				<welcomeMessage>Hello, welcome to class.</welcomeMessage>
+				<welcomeUsername>Clink</welcomeUsername>
+			</textChat>
+			
 		</sideBar>
 	</ui>
 	

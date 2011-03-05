@@ -58,12 +58,29 @@
 			<userListItem>
 				<backgroundColor>#333333</backgroundColor>
 				<textColor>#ffffff</textColor>
+				<emoteTextColor>#ffffff</emoteTextColor>
 				<handRaisedColor>#ff9700</handRaisedColor>
 				<thumbUpColor>#00ff00</thumbUpColor>
 				<thumbDownColor>#ff0000</thumbDownColor>
 				<laughColor>#ffff00</laughColor>
+				<awayColor>#aaaaaa</awayColor>
 				<isGradient>true</isGradient>
+				<talkingIcon>volume.png</talkingIcon>
+				
+				
+				
 			</userListItem>
+			
+			<textChat>
+				<backgroundColor>#ffffff</backgroundColor>
+				<textColor>#555555</textColor>
+				<textSize>12</textSize>
+				<usernameTextSize>14</usernameTextSize>
+				<usernameChatLabelColor>#000077</usernameChatLabelColor>
+				<urlLinkColor>#0000ff</urlLinkColor>
+				<welcomeMessage>Hello, welcome to class.</welcomeMessage>
+				<welcomeUsername>Clink</welcomeUsername>
+			</textChat>
 			
 		</sideBar>
 	</ui>
@@ -168,6 +185,34 @@
 				<up>away.png</up>
 				<down>away.png</down>
 				<over>away.png</over>
+			</icons>
+		</button>
+		
+		<!-- user list item buttons -->
+		<button>
+			<name>presenter</name>
+			<toolTip>Make Presenter</toolTip>
+			<icons>
+				<up>presenter.png</up>
+				<down>presenter.png</down>
+			</icons>
+		</button>
+		
+		<button>
+			<name>mute</name>
+			<toolTip>Mute this user</toolTip>
+			<icons>
+				<up>mute.png</up>
+				<down>mute.png</down>
+			</icons>
+		</button>
+		
+		<button>
+			<name>boot</name>
+			<toolTip>Boot this user from the class</toolTip>
+			<icons>
+				<up>disconnect.png</up>
+				<down>disconnect.png</down>
 			</icons>
 		</button>
 		

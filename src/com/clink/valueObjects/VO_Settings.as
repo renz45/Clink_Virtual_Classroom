@@ -53,7 +53,20 @@ package com.clink.valueObjects
 		public var userListItem_thumbUpColor:String;
 		public var userListItem_thumbDownColor:String;
 		public var userListItem_laughColor:String;
+		public var userListItem_awayColor:String;
 		public var userListItem_isGradient:Boolean;
+		public var userListItem_talkingIcon:String;
+		public var userListItem_emoteTextColor:String;
+		
+		//text chat
+		public var textChat_backgroundColor:String;
+		public var textChat_textColor:String;
+		public var textChat_usernameChatLabelColor:String;
+		public var textChat_urlLinkColor:String;
+		public var textChat_welcomeMessage:String;
+		public var textChat_welcomeUsername:String;
+		public var textChat_textSize:Number;
+		public var textChat_usernameTextSize:Number;
 		
 		//general settings
 		public var appURL:String;
@@ -111,6 +124,20 @@ package com.clink.valueObjects
 		public var awayBtn_upIcon:String
 		public var awayBtn_downIcon:String
 		public var awayBtn_overIcon:String
+		
+		//userListItem
+		public var muteBtn_toolTip:String;
+		public var muteBtn_upIcon:String;
+		public var muteBtn_downIcon:String;
+		
+		public var presenterBtn_toolTip:String;
+		public var presenterBtn_upIcon:String;
+		public var presenterBtn_downIcon:String;
+		
+		public var bootBtn_toolTip:String;
+		public var bootBtn_upIcon:String;
+		public var bootBtn_downIcon:String;
+		
 		
 		public function VO_Settings()
 		{
