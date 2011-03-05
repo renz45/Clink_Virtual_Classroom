@@ -57,6 +57,10 @@ package com.clink.main
 		//ui elements
 		private var _sidebar:Main_SideBar;
 		
+		//constants
+		public static const TEACHER_PERMISSION:String = "teacher";
+		public static const STUDENT_PERMISSION:String = "student";
+		
 		
 		//for demo purposes
 		private var sl:sampleLogin;
@@ -68,12 +72,13 @@ package com.clink.main
 			
 			_stage = stage;
 			
-			//loadConfig();
+			loadConfig();
 			
 			//this will normally be handled by php, and will be if I have the time.
-			setUpSampleLogin();
+			//setUpSampleLogin();
 		}
 		
+		///////////////////////////////////////TEST LOGIN//////////////////////////////////////////
 		private function setUpSampleLogin():void
 		{
 			sl = new sampleLogin();
@@ -95,12 +100,13 @@ package com.clink.main
 			this.removeChild(sl);
 			loadConfig();
 		}
+		///////////////////////////////////////END TEST LOGIN//////////////////////////////////////////
 		
 		private function loadConfig():void
 		{
 			//passed in via flash vars or read from database
-			//_username = "Adam";
-			_userPermission = "teacher";
+			_username = "Adam";
+			_userPermission = ClinkMain.TEACHER_PERMISSION;
 			
 			var xl:EasyXmlLoader = new EasyXmlLoader("config.xml");
 			xl.addEventListener(XmlComplete_Event.XML_LOADED,parseConfigXML);
@@ -108,7 +114,7 @@ package com.clink.main
 		
 		private function init():void
 		{	
-			_classId = '1';//_configInfo.classId;
+			_classId = _configInfo.classId;
 			
 			//pops up a settings menu asking for camera permission
 			Security.showSettings(SecurityPanel.PRIVACY);
