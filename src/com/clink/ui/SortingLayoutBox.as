@@ -68,14 +68,13 @@ package com.clink.ui
 		 */		
 		public function removeItem(item:DisplayObject,sortByLabel:String):void
 		{
-			trace("removing this!: " + sortByLabel);
 			
 			for(var i:int = 0; i < _items.length; i++)
 			{
 				if(_items[i]["label"] == sortByLabel)
 				{
 					this.removeChild(_items[i]["item"]);
-					items.splice(i,1);
+					_items.splice(i,1);
 				}
 			}
 			

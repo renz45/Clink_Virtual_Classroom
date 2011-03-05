@@ -18,9 +18,11 @@ package com.clink.ui
 	{
 		private var _itemList:Array;
 		private var _sb:ScrollBar;
-		private var _container:SortingLayoutBox;
 		private var _mask:Sprite;
 		private var _bg:Sprite;
+		private var _sortingLB:SortingLayoutBox;
+		private var _mainLB:LayoutBox;
+		private var _topLB:LayoutBox;
 		
 		private var _boxHeight:Number;
 		private var _boxWidth:Number;
@@ -59,9 +61,15 @@ package com.clink.ui
 				this.addChild(_bg);
 			}
 			
-			//new layoutBox
-			_container = new SortingLayoutBox(true,0);
-			this.addChild(_container);
+			//new layoutBoxes
+			
+			_mainLB = new LayoutBox(true,0);
+			_topLB = new LayoutBox(true,0);
+			_sortingLB = new SortingLayoutBox(true,0);
+			
+			this.addChild(_mainLB);
+			_mainLB.addChild(_topLB);
+			_mainLB.addChild(_sortingLB);
 			
 			//create and set mask
 			_mask = new Sprite();
@@ -69,7 +77,7 @@ package com.clink.ui
 			_mask.graphics.drawRect(0,0,_boxWidth,_boxHeight);
 			_mask.graphics.endFill();
 			this.addChild(_mask);
-			_container.mask = _mask;
+			_mainLB.mask = _mask;
 			
 			//create scrollbar
 			_sb = new ScrollBar(_boxHeight,true);
@@ -84,7 +92,7 @@ package com.clink.ui
 		//updates the handle size and adds/removes the scrollBar if the list is big enough to need to scroll
 		private function updateHandleSize():void
 		{
-			var perc:Number = _boxHeight/_container.height;
+			var perc:Number = _boxHeight/_mainLB.height;
 			if(perc > 1)
 			{
 				if(_sb.parent == this)
@@ -131,9 +139,9 @@ package com.clink.ui
 		{
 			if(_sb.parent == this)
 			{
-				_container.y = -Math.round((_container.height - _boxHeight) * _sb.value);
+				_mainLB.y = -Math.round((_mainLB.height - _boxHeight) * _sb.value);
 			}else{
-				_container.y = 0;
+				_mainLB.y = 0;
 			}
 			
 		}
@@ -147,7 +155,9 @@ package com.clink.ui
 		public function update():void
 		{
 			updateHandleSize();
-			_container.updateLayout();
+			_sortingLB.updateLayout();
+			_topLB.updateLayout();
+			_mainLB.updateLayout();
 		}
 		
 		/**
@@ -157,7 +167,7 @@ package com.clink.ui
 		 */		
 		public function addListItem(item:DisplayObject,sortByLabel:String,arraySortSetting:uint = -1):void
 		{
-			_container.addItem(item,sortByLabel,arraySortSetting);
+			_sortingLB.addItem(item,sortByLabel,arraySortSetting);
 			
 			updateHandleSize();
 		}
@@ -165,10 +175,22 @@ package com.clink.ui
 		
 		public function removeListItem(item:DisplayObject,sortByLabel:String):void
 		{
-			_container.removeItem(item,sortByLabel);
+			_sortingLB.removeItem(item,sortByLabel);
 			
 			updateHandleSize();
 			
+		}
+		
+		public function addTopItem(item:DisplayObject):void
+		{
+			_topLB.addChild(item);
+			updateHandleSize();
+		}
+		
+		public function removeTopItem(item:DisplayObject):void
+		{
+			_topLB.removeChild(item);
+			updateHandleSize();
 		}
 		
 		/**
@@ -178,7 +200,7 @@ package com.clink.ui
 		 */		
 		public function set items(items:Array):void
 		{
-			_container.items = items;
+			_sortingLB.items = items;
 		}
 		
 		/**
@@ -188,7 +210,12 @@ package com.clink.ui
 		 */		
 		public function get items():Array
 		{
-			return _container.items;
+			return _sortingLB.items;
+		}
+		
+		public function get topItems():Array
+		{
+			return _topLB.items;
 		}
 		
 		public function set value(value:Number):void
@@ -200,6 +227,7 @@ package com.clink.ui
 		{
 			return _sb.value;
 		}
+		
 		////////////static methods////////////
 		
 		////////////getters/setters////////////
