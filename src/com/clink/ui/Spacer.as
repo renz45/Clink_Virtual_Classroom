@@ -22,6 +22,7 @@ package com.clink.ui
 			this.graphics.beginFill(0xffffff,0);
 			this.graphics.drawRect(0,0,_width,_height);
 			this.graphics.endFill();
+			this.mouseEnabled = false;
 		}
 	}
 }
