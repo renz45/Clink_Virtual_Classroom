@@ -4,6 +4,14 @@ package org.red5.core;
  * This is the server side code for clink the virtual classroom. I'm creating userID based sharedObjects on the server
  * side and keeping track of them. When a user leaves/disconnects their slots are removed from all userID based sharedObjects.
  * 
+ * This code had been modified so that it can be used for multiple classroom instances at one time. Now when a user connects to the server through a net
+ * connection a classID is required. This ID is a string, so a unique class name would suffice. This eliminates the need to have an app for each classroom.
+ * This means using some multi-dimensional hashmaps so the hashmap access code can look a bit confusing, this is the general way to access the individual
+ * lists for the sharedObject types and user ids now:
+ * 
+ * _classSoList.get("classID").get("commonSOList") //commonSO ArrayList
+ * _classSoList.get("classID").get("userSOList") //userSO ArrayList
+ * _classUserList.get(classID) //userID ArrayList
  * 
  * by Adam Rensel for the virtual classroom Clink
  * 
@@ -32,12 +40,11 @@ public class Application extends ApplicationAdapter {
 		
 		_scope = scope;
 		
+		//create the new hashmaps the hold information about all classrooms connected
 		_classSoList = new HashMap<String, HashMap<String,ArrayList<ISharedObject>>>();
 		_classUserList = new HashMap<String, ArrayList<String>>();
 		
-		//_classSoList.get("classID").get("commonSOList") //commonSO ArrayList
-		//_classSoList.get("classID").get("userSOList") //userSO ArrayList
-		//_classUserList.get(classID) //userID ArrayList
+		
 		
 		return true;
 	}
@@ -160,6 +167,7 @@ public class Application extends ApplicationAdapter {
 		String username = params[0].toString();
 		String classId = params[1].toString();
 		
+		//if a class Id doesnt exist then make a new slot in the main hashmaps with the class Id as the key and insert the new base hashmaps holding sharedObjects and userIds
 		if(_classUserList.containsKey(classId) == false)
 		{
 			HashMap<String, ArrayList<ISharedObject>> SOLists = new HashMap<String, ArrayList<ISharedObject>>();
@@ -205,6 +213,9 @@ public class Application extends ApplicationAdapter {
 		//loop through _connectedUserList and remove the user id who disconnected
 		
 		//find the classId based on the userId
+		//in all the other functions we can pass in a classID from the client everytime we need to do something, on disconnect we don't have that option since the
+		//server calls this automatically. So instead we have to loop through the user list looking for that user Id and than figure out the classId based on where
+		//the user Id is found. Then we can proceed to remove the other sharedObject slots related to the disconnected user.
 		for (String key : _classUserList.keySet()) {
 			
 		   for(int i = 0; i < _classUserList.get(key).size(); i++)
