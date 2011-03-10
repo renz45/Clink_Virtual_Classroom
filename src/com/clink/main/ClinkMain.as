@@ -3,6 +3,7 @@ package com.clink.main
 	import com.clink.base.Base_componentToolTip;
 	import com.clink.controllers.Controller_Dragable;
 	import com.clink.events.SharedObjectEvent;
+	import com.clink.events.SideBarEvent;
 	import com.clink.factories.Factory_prettyBox;
 	import com.clink.loaders.EasyXmlLoader;
 	import com.clink.loaders.loaderEvents.XmlComplete_Event;
@@ -10,6 +11,8 @@ package com.clink.main
 	import com.clink.managers.Manager_remoteUserSharedObject;
 	import com.clink.misc.Keys;
 	import com.clink.misc.MacMouseWheelHandler;
+	import com.clink.module.BaseModule;
+	import com.clink.module.Module_Controller;
 	import com.clink.ui.BasicButton;
 	import com.clink.ui.LayoutBox;
 	import com.clink.ui.ScrollBar;
@@ -18,6 +21,7 @@ package com.clink.main
 	import com.clink.utils.DrawingUtils;
 	import com.clink.utils.ParseConfigXML;
 	import com.clink.utils.StringUtils;
+	import com.clink.valueObjects.VO_ModuleApi;
 	import com.clink.valueObjects.VO_Settings;
 	
 	import flash.display.Sprite;
@@ -50,7 +54,8 @@ package com.clink.main
 		private var _userPermission:String;
 		
 		private var _configInfo:VO_Settings;
-
+		private var _moduleApiInfo:VO_ModuleApi;
+		
 		//stage
 		private var _stage:Stage;
 		
@@ -108,6 +113,8 @@ package com.clink.main
 			_username = "Adam";
 			_userPermission = ClinkMain.TEACHER_PERMISSION;
 			
+			_moduleApiInfo = new VO_ModuleApi();
+			
 			var xl:EasyXmlLoader = new EasyXmlLoader("config.xml");
 			xl.addEventListener(XmlComplete_Event.XML_LOADED,parseConfigXML);
 		}
@@ -146,7 +153,6 @@ package com.clink.main
 			_configInfo.username = _username;
 			_configInfo.userPermission = _userPermission;
 			
-			
 			//connect the NetConnection to the Red5 server
 			_nc = new NetConnection();
 			_nc.client = this;
@@ -154,7 +160,6 @@ package com.clink.main
 			_nc.addEventListener(NetStatusEvent.NET_STATUS,netStatusHandler);
 			
 			_configInfo.netConnection = _nc;
-	
 		}
 		
 		//called by the server and assigns a user ID
@@ -195,11 +200,71 @@ package com.clink.main
 			_sidebar = new Main_SideBar(_configInfo);
 			this.addChild(_sidebar);
 			_sidebar.x = (_stage.stageWidth/2 + 960/2) - _sidebar.width;
+			
+			_sidebar.addEventListener(SideBarEvent.CHAT_SO_LOADED,sidebarSOLoaded);
+			_sidebar.addEventListener(SideBarEvent.USER_SO_LOADED,sidebarSOLoaded);
 		
+		}
+		
+		private function loadModules():void
+		{
+			//load values into the moduleApiInfo VO that needs to be shared to the modules api
+			_moduleApiInfo.basicButton_isGradient = _configInfo.basicButton_isGradient;
+			_moduleApiInfo.basicButton_upStateColor = _configInfo.basicButton_upStateColor;
+			_moduleApiInfo.basicButton_downStateColor = _configInfo.basicButton_downStateColor;
+			_moduleApiInfo.basicButton_overStateColor = _configInfo.basicButton_overStateColor;
+			_moduleApiInfo.basicButton_labelColor = _configInfo.basicButton_labelColor;
+			
+			_moduleApiInfo.scrollBar_buttonColor = _configInfo.scrollBar_buttonColor;
+			_moduleApiInfo.scrollBar_arrowColor = _configInfo.scrollBar_arrowColor;
+			_moduleApiInfo.scrollBar_trackColor = _configInfo.scrollBar_trackColor;
+			_moduleApiInfo.scrollBar_handleColor =  _configInfo.scrollBar_handleColor;
+			
+			_moduleApiInfo.toolTip_bgColor = _configInfo.toolTip_bgColor;
+			_moduleApiInfo.toolTip_textColor = _configInfo.toolTip_textColor;
+			_moduleApiInfo.toolTip_textSize = _configInfo.toolTip_textSize;
+			_moduleApiInfo.toolTip_displayDelay = _configInfo.toolTip_displayDelay;
+			
+			_moduleApiInfo.appURL = _configInfo.appURL;
+			_moduleApiInfo.classId = _configInfo.classId;
+			_moduleApiInfo.username = _configInfo.username;
+			_moduleApiInfo.userPermission = _configInfo.userPermission;
+			_moduleApiInfo.userID = _configInfo.userID;
+			_moduleApiInfo.modulePath = _configInfo.modulePath;
+			
+			_moduleApiInfo.netConnection = _configInfo.netConnection;
+			
+			var moduleController:Module_Controller = new Module_Controller(_moduleApiInfo);
+			this.addChild(moduleController);
+			
+			moduleController.x = (_stage.stageWidth/2 + 960/2) - moduleController.width - _sidebar.width;
+			
+			this.addChild(new BaseModule());
+			
 		}
 		
 		
 		//////////////////////////Call backs///////////////////////////////
+		
+		private function sidebarSOLoaded(e:SideBarEvent):void
+		{
+			
+			if(e.userSO)
+			{
+				_moduleApiInfo.userSO = e.userSO;
+			}
+			
+			if(e.chatSO)
+			{
+				_moduleApiInfo.chatSO = e.chatSO;
+				_moduleApiInfo.textChat = _sidebar.textChatObject;
+			}
+			
+			if(_moduleApiInfo.chatSO && _moduleApiInfo.userSO)
+			{
+				loadModules();
+			}
+		}
 		
 		private function parseConfigXML(e:XmlComplete_Event):void
 		{
