@@ -114,12 +114,12 @@ package com.clink.managers
 		{
 			for each(var i:Object in e.changeList)
 			{
-				//create a new userSharedObjectEvent to be used in the switch statements below
-				var evt:SharedObjectEvent;
+				
 				switch(i.code)
 				{
 					//when another client changes the so
 					case "change":	
+					case "success":
 						//I'm caching the SharedObject at certain points in order to make a comparison when a key is changed. This way I can
 						//dispatch an event with the exact slot, property, and value instead of only having a slot to work with. I'm hoping this
 						//makes certain aspects of code more efficiant later on, and it's much easier to work with. I'm hoping this doesn't impact
@@ -132,7 +132,7 @@ package com.clink.managers
 						}
 						
 						//designating evt as a CHANGED event
-						evt = new SharedObjectEvent(SharedObjectEvent.CHANGED);
+						//create a new userSharedObjectEvent to be used in the switch statements below
 						
 						//loop through the sharedObject slot - i.name and compare the values to the values in the cached SO. If the values don't match we are going
 						//to assume the value is the changed value and create a custom event with properties for slot, attributeName, and attributeValue
@@ -143,41 +143,28 @@ package com.clink.managers
 							//VarUtils.compareObjects is a compare method I made to compare objects. This comparison should work no matter the datatype
 							if(!VarUtils.compareObjects(data[prop], _cachedSOData[i.name][prop]))
 							{
+								var evt:SharedObjectEvent;
+								if(i.code == "success")
+								{
+									evt = new SharedObjectEvent(SharedObjectEvent.CLIENT_CHANGED);
+								}else{
+									evt = new SharedObjectEvent(SharedObjectEvent.CHANGED);
+								}
+								
 								evt.sharedObjectSlot = i.name;
 								evt.propertyName = prop;
 								evt.propertyValue = data[prop];
 								
-								_cachedSOData = VarUtils.copyObject(_SO.data);
-
+								//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+								//removed this line to fix a bug that caused events not to fire when properties were change at nearly the same time.//
+								//im not sure if it will cause another bug, so i'm leaving this note here.																										//
+								//_cachedSOData = VarUtils.copyObject(_SO.data);																																//
+								//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+								
 								this.dispatchEvent(evt);
 							}
 						}
 						
-						_cachedSOData = VarUtils.copyObject(_SO.data);
-						break;
-					
-					//when this client changes the SO
-					case "success":
-						if(!(i.name in _cachedSOData))
-						{
-							_cachedSOData = VarUtils.copyObject(_SO.data);
-						}
-						
-						//dispatch UserSharedObjectEvent.CLIENT_CHANGED with slot, attributeName, and attributeValue variables
-						var evt2:SharedObjectEvent = new SharedObjectEvent(SharedObjectEvent.CLIENT_CHANGED);
-						
-						var data2:Object =  _SO.data[i.name];
-						for(var prop2:String in data2)
-						{
-							//VarUtils.compareObjects is a compare method I made to compare objects. This comparison should work no matter the datatype
-							if(!VarUtils.compareObjects(data2[prop2], _cachedSOData[i.name][prop2]))
-							{
-								evt2.sharedObjectSlot = i.name;
-								evt2.propertyName = prop2;
-								evt2.propertyValue = data2[prop2];
-								this.dispatchEvent(evt2);
-							}
-						}
 						_cachedSOData = VarUtils.copyObject(_SO.data);
 						break;
 					
@@ -344,7 +331,6 @@ package com.clink.managers
 		 */
 		public function setProperty(propertyName:String,propertyValue:*,userID:int = -1):void
 		{
-			
 			var slot:String;
 			
 			if(userID > -1)
@@ -370,9 +356,7 @@ package com.clink.managers
 						data[prop] = propertyValue;
 						_SO.setProperty(slot,data);
 						_SO.setDirty(slot);
-						
-						
-						
+
 					}else{
 						throw new Error("The data type for Property: " + propertyName + " does not match the expected datatype of " + VarUtils.getDataType(data[prop]));
 					}
