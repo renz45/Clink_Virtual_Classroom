@@ -54,6 +54,8 @@ package com.clink.ui
 		
 		private var _slot:Number;
 		
+		private var _isAway:Boolean;
+		
 		private var _timer:Timer;
 		
 		private static var _userListItemList:Array;
@@ -73,6 +75,8 @@ package com.clink.ui
 		
 		private function init():void
 		{
+			_isAway = false;
+			
 			//keeps track of all the list items, this is used to help the rollover moderator panel disppear properly if the list is scrolled over quickly
 			_userListItemList.push(this);
 			
@@ -192,6 +196,11 @@ package com.clink.ui
 				{
 					_pb.down();
 				}
+				
+				if(_userSO.getProperty("isAway",_userID))
+				{
+					this.awayEnable();
+				}
 			}
 			
 			//set default symbols if someone is mute or a presenter at login
@@ -214,9 +223,9 @@ package com.clink.ui
 		//fades a bg added to the list item, these are the emote colors
 		private function fadeThis(bg:DisplayObject):Boolean
 		{
-			if(_counter % 10 == 0)
+			if(_counter % 2 == 0)
 			{
-				if(bg.alpha - .1 < 0)
+				if(bg.alpha - .01 < 0)
 				{
 					bg.alpha = 0;
 					if(bg.parent == this)
@@ -227,7 +236,7 @@ package com.clink.ui
 					
 					return false
 				}else{
-					bg.alpha -= .1;
+					bg.alpha -= .01;
 				}
 			}
 			
@@ -486,12 +495,14 @@ package com.clink.ui
 		public function awayEnable():void
 		{
 			this.addChildAt(_awayBg,this.numChildren);
+			_isAway = true;
 		}
 		
 		//sets the away bg to off
 		public function awayDisable():void
 		{
 			removeAwayStatus();
+			_isAway = false;
 		}
 		
 		//toggle the talking icon
@@ -519,6 +530,21 @@ package com.clink.ui
 		public function get userID():Number
 		{
 			return _userID;
+		}
+		
+		public function get isAway():Boolean
+		{
+			return _isAway;
+		}
+		
+		public function get isHandRaised():Boolean
+		{
+			if(_handRaisedBg.parent == this)
+			{
+				return true;
+			}else{
+				return false;
+			}
 		}
 		
 		//statics
