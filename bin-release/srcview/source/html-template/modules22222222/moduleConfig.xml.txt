@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+
+<modules>
+	<module>
+		<name>FileAssets</name>
+		<swfPath>fileAssetModule/fileAssetModule.swf</swfPath>
+		<moduleAssets>fileAssetModule/assets</moduleAssets>
+		<moduleStorage>fileAssetModule/storage</moduleStorage>
+	</module>
+</modules>

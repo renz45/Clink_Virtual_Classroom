@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<index>
+	<title>Source of Final_Project_Clink</title>
+	<nodes>
+		<node label="Clink_ServerSideApp">
+			<node label="build">
+				<node label="classes">
+					<node label="org">
+						<node label="red5">
+							<node label="core">
+								<node label="Application.class" url="source/Clink_ServerSideApp/build/classes/org/red5/core/Application.class"/>
+							</node>
+						</node>
+					</node>
+				</node>
+			</node>
+			<node label="src">
+				<node label="org">
+					<node label="red5">
+						<node label="core">
+							<node label="Application.java" url="source/Clink_ServerSideApp/src/org/red5/core/Application.java"/>
+						</node>
+					</node>
+				</node>
+			</node>
+			<node label="WebContent">
+				<node label="META-INF">
+					<node label="MANIFEST.MF" url="source/Clink_ServerSideApp/WebContent/META-INF/MANIFEST.MF"/>
+				</node>
+				<node label="WEB-INF">
+					<node label="lib">
+						<node label="jedai.jar" url="source/Clink_ServerSideApp/WebContent/WEB-INF/lib/jedai.jar"/>
+					</node>
+					<node label="red5-web.properties" url="source/Clink_ServerSideApp/WebContent/WEB-INF/red5-web.properties"/>
+					<node label="red5-web.xml" url="source/Clink_ServerSideApp/WebContent/WEB-INF/red5-web.xml.txt"/>
+					<node label="web.xml" url="source/Clink_ServerSideApp/WebContent/WEB-INF/web.xml.txt"/>
+				</node>
+			</node>
+		</node>
+		<node label="html-template" icon="packageIcon" expanded="true">
+			<node label="index.template.html" icon="htmlIcon" url="source/html-template/index.template.html"/>
+			<node label="playerProductInstall.swf" icon="swfIcon" url="source/html-template/playerProductInstall.swf"/>
+			<node label="swfobject.js" url="source/html-template/swfobject.js.txt"/>
+		</node>
+		<node label="html-template.history">
+			<node label="history.css" icon="cssIcon" url="source/html-template/history/history.css.html"/>
+			<node label="history.js" url="source/html-template/history/history.js.txt"/>
+			<node label="historyFrame.html" icon="htmlIcon" url="source/html-template/history/historyFrame.html"/>
+		</node>
+		<node label="html-template.modules22222222" icon="packageIcon" expanded="true">
+			<node label="moduleConfig.xml" url="source/html-template/modules22222222/moduleConfig.xml.txt"/>
+		</node>
+		<node label="html-template.modules22222222.fileAssetModule.assets">
+		</node>
+		<node label="html-template.modules22222222.fileAssetModule.bin-debug">
+			<node label="history">
+				<node label="history.css" icon="cssIcon" url="source/html-template/modules22222222/fileAssetModule/bin-debug/history/history.css.html"/>
+				<node label="history.js" url="source/html-template/modules22222222/fileAssetModule/bin-debug/history/history.js.txt"/>
+				<node label="historyFrame.html" icon="htmlIcon" url="source/html-template/modules22222222/fileAssetModule/bin-debug/history/historyFrame.html"/>
+			</node>
+			<node label="playerProductInstall.swf" icon="swfIcon" url="source/html-template/modules22222222/fileAssetModule/bin-debug/playerProductInstall.swf"/>
+			<node label="swfobject.js" url="source/html-template/modules22222222/fileAssetModule/bin-debug/swfobject.js.txt"/>
+			<node label="TestModule.html" icon="htmlIcon" url="source/html-template/modules22222222/fileAssetModule/bin-debug/TestModule.html"/>
+			<node label="TestModule.swf" icon="swfIcon" url="source/html-template/modules22222222/fileAssetModule/bin-debug/TestModule.swf"/>
+		</node>
+		<node label="html-template.modules22222222.fileAssetModule.html-template">
+			<node label="history">
+				<node label="history.css" icon="cssIcon" url="source/html-template/modules22222222/fileAssetModule/html-template/history/history.css.html"/>
+				<node label="history.js" url="source/html-template/modules22222222/fileAssetModule/html-template/history/history.js.txt"/>
+				<node label="historyFrame.html" icon="htmlIcon" url="source/html-template/modules22222222/fileAssetModule/html-template/history/historyFrame.html"/>
+			</node>
+			<node label="index.template.html" icon="htmlIcon" url="source/html-template/modules22222222/fileAssetModule/html-template/index.template.html"/>
+			<node label="playerProductInstall.swf" icon="swfIcon" url="source/html-template/modules22222222/fileAssetModule/html-template/playerProductInstall.swf"/>
+			<node label="swfobject.js" url="source/html-template/modules22222222/fileAssetModule/html-template/swfobject.js.txt"/>
+		</node>
+		<node label="html-template.modules22222222.fileAssetModule.src" icon="packageIcon" expanded="true">
+			<node label="TestModule.as" icon="actionScriptIcon" url="source/html-template/modules22222222/fileAssetModule/src/TestModule.as.html"/>
+		</node>
+		<node label="html-template.modules22222222.fileAssetModule.storage">
+		</node>
+		<node label="html-template.skinAssets">
+			<node label="icons">
+				<node label="away.png" icon="imageIcon" url="source/html-template/skinAssets/icons/away.png.html"/>
+				<node label="cameraToggle.png" icon="imageIcon" url="source/html-template/skinAssets/icons/cameraToggle.png.html"/>
+				<node label="disconnect.png" icon="imageIcon" url="source/html-template/skinAssets/icons/disconnect.png.html"/>
+				<node label="hide.png" icon="imageIcon" url="source/html-template/skinAssets/icons/hide.png.html"/>
+				<node label="icons.png" icon="imageIcon" url="source/html-template/skinAssets/icons/icons.png.html"/>
+				<node label="incons2.png" icon="imageIcon" url="source/html-template/skinAssets/icons/incons2.png.html"/>
+				<node label="laugh.png" icon="imageIcon" url="source/html-template/skinAssets/icons/laugh.png.html"/>
+				<node label="laughOver.png" icon="imageIcon" url="source/html-template/skinAssets/icons/laughOver.png.html"/>
+				<node label="micToggle.png" icon="imageIcon" url="source/html-template/skinAssets/icons/micToggle.png.html"/>
+				<node label="mute.png" icon="imageIcon" url="source/html-template/skinAssets/icons/mute.png.html"/>
+				<node label="presenter.png" icon="imageIcon" url="source/html-template/skinAssets/icons/presenter.png.html"/>
+				<node label="pushToTalk.png" icon="imageIcon" url="source/html-template/skinAssets/icons/pushToTalk.png.html"/>
+				<node label="raiseHand.png" icon="imageIcon" url="source/html-template/skinAssets/icons/raiseHand.png.html"/>
+				<node label="raiseHandOver.png" icon="imageIcon" url="source/html-template/skinAssets/icons/raiseHandOver.png.html"/>
+				<node label="thumbDown.png" icon="imageIcon" url="source/html-template/skinAssets/icons/thumbDown.png.html"/>
+				<node label="thumbDownOver.png" icon="imageIcon" url="source/html-template/skinAssets/icons/thumbDownOver.png.html"/>
+				<node label="thumbUp.png" icon="imageIcon" url="source/html-template/skinAssets/icons/thumbUp.png.html"/>
+				<node label="thumbUpOver.png" icon="imageIcon" url="source/html-template/skinAssets/icons/thumbUpOver.png.html"/>
+				<node label="volume.png" icon="imageIcon" url="source/html-template/skinAssets/icons/volume.png.html"/>
+			</node>
+			<node label="uiImages">
+				<node label="videoBg.png" icon="imageIcon" url="source/html-template/skinAssets/uiImages/videoBg.png.html"/>
+			</node>
+		</node>
+		<node label="modules">
+			<node label="fileAssetModule">
+				<node label="assets">
+				</node>
+				<node label="storage">
+				</node>
+			</node>
+			<node label="moduleConfig.xml" url="source/modules/moduleConfig.xml.txt"/>
+		</node>
+		<node label="src">
+			<node label="com.clink.base" icon="packageIcon" expanded="true">
+				<node label="Base_componentToolTip.as" icon="actionScriptIcon" url="source/com/clink/base/Base_componentToolTip.as.html"/>
+			</node>
+			<node label="com.clink.controllers" icon="packageIcon" expanded="true">
+				<node label="Controller_button.as" icon="actionScriptIcon" url="source/com/clink/controllers/Controller_button.as.html"/>
+				<node label="Controller_Dragable.as" icon="actionScriptIcon" url="source/com/clink/controllers/Controller_Dragable.as.html"/>
+			</node>
+			<node label="com.clink.events" icon="packageIcon" expanded="true">
+				<node label="BasicButtonEvent.as" icon="actionScriptIcon" url="source/com/clink/events/BasicButtonEvent.as.html"/>
+				<node label="SharedObjectEvent.as" icon="actionScriptIcon" url="source/com/clink/events/SharedObjectEvent.as.html"/>
+				<node label="SideBarEvent.as" icon="actionScriptIcon" url="source/com/clink/events/SideBarEvent.as.html"/>
+				<node label="UserListItemEvent.as" icon="actionScriptIcon" url="source/com/clink/events/UserListItemEvent.as.html"/>
+			</node>
+			<node label="com.clink.factories" icon="packageIcon" expanded="true">
+				<node label="Factory_prettyBox.as" icon="actionScriptIcon" url="source/com/clink/factories/Factory_prettyBox.as.html"/>
+				<node label="Factory_triangle.as" icon="actionScriptIcon" url="source/com/clink/factories/Factory_triangle.as.html"/>
+			</node>
+			<node label="com.clink.loaders" icon="packageIcon" expanded="true">
+				<node label="EasyImageLoader.as" icon="actionScriptIcon" url="source/com/clink/loaders/EasyImageLoader.as.html"/>
+				<node label="EasyXmlLoader.as" icon="actionScriptIcon" url="source/com/clink/loaders/EasyXmlLoader.as.html"/>
+			</node>
+			<node label="com.clink.loaders.loaderEvents" icon="packageIcon" expanded="true">
+				<node label="ImageComplete_Event.as" icon="actionScriptIcon" url="source/com/clink/loaders/loaderEvents/ImageComplete_Event.as.html"/>
+				<node label="XmlComplete_Event.as" icon="actionScriptIcon" url="source/com/clink/loaders/loaderEvents/XmlComplete_Event.as.html"/>
+			</node>
+			<node label="com.clink.main" icon="packageIcon" expanded="true">
+				<node label="ClinkMain.as" icon="actionScriptIcon" url="source/com/clink/main/ClinkMain.as.html"/>
+				<node label="Main_SideBar.as" icon="actionScriptIcon" url="source/com/clink/main/Main_SideBar.as.html"/>
+				<node label="TextChat.as" icon="actionScriptIcon" url="source/com/clink/main/TextChat.as.html"/>
+				<node label="UserList.as" icon="actionScriptIcon" url="source/com/clink/main/UserList.as.html"/>
+				<node label="VideoMonitor.as" icon="actionScriptIcon" url="source/com/clink/main/VideoMonitor.as.html"/>
+			</node>
+			<node label="com.clink.managers" icon="packageIcon" expanded="true">
+				<node label="Manager_remoteCommonSharedObject.as" icon="actionScriptIcon" url="source/com/clink/managers/Manager_remoteCommonSharedObject.as.html"/>
+				<node label="Manager_remoteUserSharedObject.as" icon="actionScriptIcon" url="source/com/clink/managers/Manager_remoteUserSharedObject.as.html"/>
+			</node>
+			<node label="com.clink.misc" icon="packageIcon" expanded="true">
+				<node label="Keys.as" icon="actionScriptIcon" url="source/com/clink/misc/Keys.as.html"/>
+				<node label="MacMouseWheelHandler.as" icon="actionScriptIcon" url="source/com/clink/misc/MacMouseWheelHandler.as.html"/>
+			</node>
+			<node label="com.clink.module" icon="packageIcon" expanded="true">
+				<node label="BaseModule.as" icon="actionScriptIcon" url="source/com/clink/module/BaseModule.as.html"/>
+				<node label="IModule.as" icon="actionScriptIcon" url="source/com/clink/module/IModule.as.html"/>
+				<node label="Module_Controller.as" icon="actionScriptIcon" url="source/com/clink/module/Module_Controller.as.html"/>
+			</node>
+			<node label="com.clink.textFieldStyles" icon="packageIcon" expanded="true">
+				<node label="CSSTextRollover_Controller.as" icon="actionScriptIcon" url="source/com/clink/textFieldStyles/CSSTextRollover_Controller.as.html"/>
+				<node label="Paragraph1.as" icon="actionScriptIcon" url="source/com/clink/textFieldStyles/Paragraph1.as.html"/>
+				<node label="SubHead1.as" icon="actionScriptIcon" url="source/com/clink/textFieldStyles/SubHead1.as.html"/>
+			</node>
+			<node label="com.clink.ui" icon="packageIcon" expanded="true">
+				<node label="BasicButton.as" icon="actionScriptIcon" url="source/com/clink/ui/BasicButton.as.html"/>
+				<node label="LayoutBox.as" icon="actionScriptIcon" url="source/com/clink/ui/LayoutBox.as.html"/>
+				<node label="ScrollBar.as" icon="actionScriptIcon" url="source/com/clink/ui/ScrollBar.as.html"/>
+				<node label="ScrollBox.as" icon="actionScriptIcon" url="source/com/clink/ui/ScrollBox.as.html"/>
+				<node label="ScrollList.as" icon="actionScriptIcon" url="source/com/clink/ui/ScrollList.as.html"/>
+				<node label="Slider.as" icon="actionScriptIcon" url="source/com/clink/ui/Slider.as.html"/>
+				<node label="SortingLayoutBox.as" icon="actionScriptIcon" url="source/com/clink/ui/SortingLayoutBox.as.html"/>
+				<node label="SortingScrollList.as" icon="actionScriptIcon" url="source/com/clink/ui/SortingScrollList.as.html"/>
+				<node label="Spacer.as" icon="actionScriptIcon" url="source/com/clink/ui/Spacer.as.html"/>
+				<node label="UserListButton.as" icon="actionScriptIcon" url="source/com/clink/ui/UserListButton.as.html"/>
+				<node label="UserListItem.as" icon="actionScriptIcon" url="source/com/clink/ui/UserListItem.as.html"/>
+			</node>
+			<node label="com.clink.utils" icon="packageIcon" expanded="true">
+				<node label="ArrayUtils.as" icon="actionScriptIcon" url="source/com/clink/utils/ArrayUtils.as.html"/>
+				<node label="Convert.as" icon="actionScriptIcon" url="source/com/clink/utils/Convert.as.html"/>
+				<node label="DrawingUtils.as" icon="actionScriptIcon" url="source/com/clink/utils/DrawingUtils.as.html"/>
+				<node label="ParseConfigXML.as" icon="actionScriptIcon" url="source/com/clink/utils/ParseConfigXML.as.html"/>
+				<node label="StringUtils.as" icon="actionScriptIcon" url="source/com/clink/utils/StringUtils.as.html"/>
+				<node label="VarUtils.as" icon="actionScriptIcon" url="source/com/clink/utils/VarUtils.as.html"/>
+			</node>
+			<node label="com.clink.valueObjects" icon="packageIcon" expanded="true">
+				<node label="VO_ModuleApi.as" icon="actionScriptIcon" url="source/com/clink/valueObjects/VO_ModuleApi.as.html"/>
+				<node label="VO_Settings.as" icon="actionScriptIcon" url="source/com/clink/valueObjects/VO_Settings.as.html"/>
+			</node>
+			<node label="com.clink.video" icon="packageIcon" expanded="true">
+				<node label="VideoChatPlayer.as" icon="actionScriptIcon" url="source/com/clink/video/VideoChatPlayer.as.html"/>
+			</node>
+			<node label="DOCS">
+				<node label="com">
+					<node label="clink">
+						<node label="controllers">
+							<node label="class-list.html" icon="htmlIcon" url="source/DOCS/com/clink/controllers/class-list.html"/>
+							<node label="Controller_button.html" icon="htmlIcon" url="source/DOCS/com/clink/controllers/Controller_button.html"/>
+							<node label="package-detail.html" icon="htmlIcon" url="source/DOCS/com/clink/controllers/package-detail.html"/>
+						</node>
+						<node label="events">
+							<node label="class-list.html" icon="htmlIcon" url="source/DOCS/com/clink/events/class-list.html"/>
+							<node label="package-detail.html" icon="htmlIcon" url="source/DOCS/com/clink/events/package-detail.html"/>
+							<node label="SharedObjectEvent.html" icon="htmlIcon" url="source/DOCS/com/clink/events/SharedObjectEvent.html"/>
+						</node>
+						<node label="factories">
+							<node label="class-list.html" icon="htmlIcon" url="source/DOCS/com/clink/factories/class-list.html"/>
+							<node label="Factory_prettyBox.html" icon="htmlIcon" url="source/DOCS/com/clink/factories/Factory_prettyBox.html"/>
+							<node label="Factory_triangle.html" icon="htmlIcon" url="source/DOCS/com/clink/factories/Factory_triangle.html"/>
+							<node label="package-detail.html" icon="htmlIcon" url="source/DOCS/com/clink/factories/package-detail.html"/>
+						</node>
+						<node label="loaders">
+							<node label="loaderEvents">
+								<node label="class-list.html" icon="htmlIcon" url="source/DOCS/com/clink/loaders/loaderEvents/class-list.html"/>
+								<node label="ImageComplete_Event.html" icon="htmlIcon" url="source/DOCS/com/clink/loaders/loaderEvents/ImageComplete_Event.html"/>
+								<node label="package-detail.html" icon="htmlIcon" url="source/DOCS/com/clink/loaders/loaderEvents/package-detail.html"/>
+								<node label="XmlComplete_Event.html" icon="htmlIcon" url="source/DOCS/com/clink/loaders/loaderEvents/XmlComplete_Event.html"/>
+							</node>
+							<node label="class-list.html" icon="htmlIcon" url="source/DOCS/com/clink/loaders/class-list.html"/>
+							<node label="EasyImageLoader.html" icon="htmlIcon" url="source/DOCS/com/clink/loaders/EasyImageLoader.html"/>
+							<node label="EasyXmlLoader.html" icon="htmlIcon" url="source/DOCS/com/clink/loaders/EasyXmlLoader.html"/>
+							<node label="package-detail.html" icon="htmlIcon" url="source/DOCS/com/clink/loaders/package-detail.html"/>
+						</node>
+						<node label="main">
+							<node label="class-list.html" icon="htmlIcon" url="source/DOCS/com/clink/main/class-list.html"/>
+							<node label="ClinkMain.html" icon="htmlIcon" url="source/DOCS/com/clink/main/ClinkMain.html"/>
+							<node label="package-detail.html" icon="htmlIcon" url="source/DOCS/com/clink/main/package-detail.html"/>
+						</node>
+						<node label="managers">
+							<node label="class-list.html" icon="htmlIcon" url="source/DOCS/com/clink/managers/class-list.html"/>
+							<node label="Manager_remoteCommonSharedObject.html" icon="htmlIcon" url="source/DOCS/com/clink/managers/Manager_remoteCommonSharedObject.html"/>
+							<node label="Manager_remoteUserSharedObject.html" icon="htmlIcon" url="source/DOCS/com/clink/managers/Manager_remoteUserSharedObject.html"/>
+							<node label="package-detail.html" icon="htmlIcon" url="source/DOCS/com/clink/managers/package-detail.html"/>
+						</node>
+						<node label="misc">
+							<node label="class-list.html" icon="htmlIcon" url="source/DOCS/com/clink/misc/class-list.html"/>
+							<node label="Keys.html" icon="htmlIcon" url="source/DOCS/com/clink/misc/Keys.html"/>
+							<node label="package-detail.html" icon="htmlIcon" url="source/DOCS/com/clink/misc/package-detail.html"/>
+						</node>
+						<node label="textFieldStyles">
+							<node label="class-list.html" icon="htmlIcon" url="source/DOCS/com/clink/textFieldStyles/class-list.html"/>
+							<node label="CSSTextRollover_Controller.html" icon="htmlIcon" url="source/DOCS/com/clink/textFieldStyles/CSSTextRollover_Controller.html"/>
+							<node label="package-detail.html" icon="htmlIcon" url="source/DOCS/com/clink/textFieldStyles/package-detail.html"/>
+							<node label="Paragraph1.html" icon="htmlIcon" url="source/DOCS/com/clink/textFieldStyles/Paragraph1.html"/>
+							<node label="SubHead1.html" icon="htmlIcon" url="source/DOCS/com/clink/textFieldStyles/SubHead1.html"/>
+						</node>
+						<node label="ui">
+							<node label="class-list.html" icon="htmlIcon" url="source/DOCS/com/clink/ui/class-list.html"/>
+							<node label="LayoutBox.html" icon="htmlIcon" url="source/DOCS/com/clink/ui/LayoutBox.html"/>
+							<node label="package-detail.html" icon="htmlIcon" url="source/DOCS/com/clink/ui/package-detail.html"/>
+							<node label="ScrollBar.html" icon="htmlIcon" url="source/DOCS/com/clink/ui/ScrollBar.html"/>
+							<node label="ScrollList.html" icon="htmlIcon" url="source/DOCS/com/clink/ui/ScrollList.html"/>
+							<node label="Slider.html" icon="htmlIcon" url="source/DOCS/com/clink/ui/Slider.html"/>
+						</node>
+						<node label="utils">
+							<node label="ArrayUtils.html" icon="htmlIcon" url="source/DOCS/com/clink/utils/ArrayUtils.html"/>
+							<node label="ChopText.html" icon="htmlIcon" url="source/DOCS/com/clink/utils/ChopText.html"/>
+							<node label="class-list.html" icon="htmlIcon" url="source/DOCS/com/clink/utils/class-list.html"/>
+							<node label="Convert.html" icon="htmlIcon" url="source/DOCS/com/clink/utils/Convert.html"/>
+							<node label="DrawingUtils.html" icon="htmlIcon" url="source/DOCS/com/clink/utils/DrawingUtils.html"/>
+							<node label="package-detail.html" icon="htmlIcon" url="source/DOCS/com/clink/utils/package-detail.html"/>
+							<node label="VarUtils.html" icon="htmlIcon" url="source/DOCS/com/clink/utils/VarUtils.html"/>
+						</node>
+						<node label="video">
+							<node label="class-list.html" icon="htmlIcon" url="source/DOCS/com/clink/video/class-list.html"/>
+							<node label="package-detail.html" icon="htmlIcon" url="source/DOCS/com/clink/video/package-detail.html"/>
+							<node label="VideoPlayer.html" icon="htmlIcon" url="source/DOCS/com/clink/video/VideoPlayer.html"/>
+						</node>
+					</node>
+				</node>
+				<node label="images">
+					<node label="AirIcon12x12.gif" icon="imageIcon" url="source/DOCS/images/AirIcon12x12.gif.html"/>
+					<node label="collapsed.gif" icon="imageIcon" url="source/DOCS/images/collapsed.gif.html"/>
+					<node label="detailHeaderRule.jpg" icon="imageIcon" url="source/DOCS/images/detailHeaderRule.jpg.html"/>
+					<node label="detailSectionHeader.jpg" icon="imageIcon" url="source/DOCS/images/detailSectionHeader.jpg.html"/>
+					<node label="expanded.gif" icon="imageIcon" url="source/DOCS/images/expanded.gif.html"/>
+					<node label="inherit-arrow.gif" icon="imageIcon" url="source/DOCS/images/inherit-arrow.gif.html"/>
+					<node label="inheritedSummary.gif" icon="imageIcon" url="source/DOCS/images/inheritedSummary.gif.html"/>
+					<node label="logo.jpg" icon="imageIcon" url="source/DOCS/images/logo.jpg.html"/>
+					<node label="P_AlternativeMetadataIndicator_30x28_N.png" icon="imageIcon" url="source/DOCS/images/P_AlternativeMetadataIndicator_30x28_N.png.html"/>
+					<node label="titleTableBottom.jpg" icon="imageIcon" url="source/DOCS/images/titleTableBottom.jpg.html"/>
+					<node label="titleTableMiddle.jpg" icon="imageIcon" url="source/DOCS/images/titleTableMiddle.jpg.html"/>
+					<node label="titleTableTop.jpg" icon="imageIcon" url="source/DOCS/images/titleTableTop.jpg.html"/>
+				</node>
+				<node label="AC_OETags.js" url="source/DOCS/AC_OETags.js.txt"/>
+				<node label="all-classes.html" icon="htmlIcon" url="source/DOCS/all-classes.html"/>
+				<node label="all-index-A.html" icon="htmlIcon" url="source/DOCS/all-index-A.html"/>
+				<node label="all-index-B.html" icon="htmlIcon" url="source/DOCS/all-index-B.html"/>
+				<node label="all-index-C.html" icon="htmlIcon" url="source/DOCS/all-index-C.html"/>
+				<node label="all-index-D.html" icon="htmlIcon" url="source/DOCS/all-index-D.html"/>
+				<node label="all-index-E.html" icon="htmlIcon" url="source/DOCS/all-index-E.html"/>
+				<node label="all-index-F.html" icon="htmlIcon" url="source/DOCS/all-index-F.html"/>
+				<node label="all-index-G.html" icon="htmlIcon" url="source/DOCS/all-index-G.html"/>
+				<node label="all-index-H.html" icon="htmlIcon" url="source/DOCS/all-index-H.html"/>
+				<node label="all-index-I.html" icon="htmlIcon" url="source/DOCS/all-index-I.html"/>
+				<node label="all-index-J.html" icon="htmlIcon" url="source/DOCS/all-index-J.html"/>
+				<node label="all-index-K.html" icon="htmlIcon" url="source/DOCS/all-index-K.html"/>
+				<node label="all-index-L.html" icon="htmlIcon" url="source/DOCS/all-index-L.html"/>
+				<node label="all-index-M.html" icon="htmlIcon" url="source/DOCS/all-index-M.html"/>
+				<node label="all-index-N.html" icon="htmlIcon" url="source/DOCS/all-index-N.html"/>
+				<node label="all-index-O.html" icon="htmlIcon" url="source/DOCS/all-index-O.html"/>
+				<node label="all-index-P.html" icon="htmlIcon" url="source/DOCS/all-index-P.html"/>
+				<node label="all-index-Q.html" icon="htmlIcon" url="source/DOCS/all-index-Q.html"/>
+				<node label="all-index-R.html" icon="htmlIcon" url="source/DOCS/all-index-R.html"/>
+				<node label="all-index-S.html" icon="htmlIcon" url="source/DOCS/all-index-S.html"/>
+				<node label="all-index-T.html" icon="htmlIcon" url="source/DOCS/all-index-T.html"/>
+				<node label="all-index-U.html" icon="htmlIcon" url="source/DOCS/all-index-U.html"/>
+				<node label="all-index-V.html" icon="htmlIcon" url="source/DOCS/all-index-V.html"/>
+				<node label="all-index-W.html" icon="htmlIcon" url="source/DOCS/all-index-W.html"/>
+				<node label="all-index-X.html" icon="htmlIcon" url="source/DOCS/all-index-X.html"/>
+				<node label="all-index-Y.html" icon="htmlIcon" url="source/DOCS/all-index-Y.html"/>
+				<node label="all-index-Z.html" icon="htmlIcon" url="source/DOCS/all-index-Z.html"/>
+				<node label="asdoc.js" url="source/DOCS/asdoc.js.txt"/>
+				<node label="class-list.html" icon="htmlIcon" url="source/DOCS/class-list.html"/>
+				<node label="class-summary.html" icon="htmlIcon" url="source/DOCS/class-summary.html"/>
+				<node label="cookies.js" url="source/DOCS/cookies.js.txt"/>
+				<node label="Final_Project_Clink.html" icon="htmlIcon" url="source/DOCS/Final_Project_Clink.html"/>
+				<node label="help.js" url="source/DOCS/help.js.txt"/>
+				<node label="index-list.html" icon="htmlIcon" url="source/DOCS/index-list.html"/>
+				<node label="index.html" icon="htmlIcon" url="source/DOCS/index.html"/>
+				<node label="override.css" icon="cssIcon" url="source/DOCS/override.css.html"/>
+				<node label="package-detail.html" icon="htmlIcon" url="source/DOCS/package-detail.html"/>
+				<node label="package-frame.html" icon="htmlIcon" url="source/DOCS/package-frame.html"/>
+				<node label="package-list.html" icon="htmlIcon" url="source/DOCS/package-list.html"/>
+				<node label="package-summary.html" icon="htmlIcon" url="source/DOCS/package-summary.html"/>
+				<node label="print.css" icon="cssIcon" url="source/DOCS/print.css.html"/>
+				<node label="style.css" icon="cssIcon" url="source/DOCS/style.css.html"/>
+				<node label="title-bar.html" icon="htmlIcon" url="source/DOCS/title-bar.html"/>
+				<node label="validation_errors.log" url="source/DOCS/validation_errors.log"/>
+			</node>
+			<node label="lib">
+				<node label="Untitled-1.fla" icon="flaIcon" url="source/lib/Untitled-1.fla"/>
+				<node label="Untitled-1.swc" url="source/lib/Untitled-1.swc"/>
+				<node label="Untitled-1.swf" icon="swfIcon" url="source/lib/Untitled-1.swf"/>
+			</node>
+			<node selected="true" label="Final_Project_Clink.as" icon="mxmlAppIcon" url="source/Final_Project_Clink.as.html"/>
+		</node>
+		<node label="config.xml" url="source/config.xml.txt"/>
+	</nodes>
+	<zipfile label="Download source (ZIP, 391K)" url="Final_Project_Clink.zip">
+	</zipfile>
+	<sdklink label="Download Flex SDK" url="http://www.adobe.com/go/flex4_sdk_download">
+	</sdklink>
+</index>
