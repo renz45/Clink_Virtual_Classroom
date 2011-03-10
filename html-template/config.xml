@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 
-<clink skinPath="skinAssets/" iconPath="skinAssets/icons/" skinImagesPath="skinAssets/uiImages/" modulePath="modules/">
+<clink skinPath="skinAssets/" iconPath="skinAssets/icons/" skinImagesPath="skinAssets/uiImages/" modulePath="modules/"><!-- include trailing slash -->
 	<ui>
 		<basicButton>
 			<isGradient>true</isGradient>
 			<upStateColor>#666666</upStateColor>
 			<downStateColor>#333333</downStateColor>
-			<overStateColor>#111111</overStateColor>	
+			<overStateColor>#111111</overStateColor>
+			<labelColor>#ffffff</labelColor>	
 		</basicButton>
 		
 		<scrollBar>
