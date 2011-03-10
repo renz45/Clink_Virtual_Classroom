@@ -53,6 +53,10 @@ package com.clink.ui
 		
 		private function init():void
 		{
+			while(this.numChildren > 0)
+			{
+				this.removeChildAt(0);
+			}
 			
 			//create the bg if a color is given
 			if(_bgColor)
@@ -62,14 +66,16 @@ package com.clink.ui
 			}
 			
 			//new layoutBoxes
-			
-			_mainLB = new LayoutBox(true,0);
-			_topLB = new LayoutBox(true,0);
-			_sortingLB = new SortingLayoutBox(true,0);
-			
+			if(!_mainLB)
+			{
+				_mainLB = new LayoutBox(true,0);
+				_topLB = new LayoutBox(true,0);
+				_sortingLB = new SortingLayoutBox(true,0);
+				_mainLB.addChild(_topLB);
+				_mainLB.addChild(_sortingLB);
+			}
 			this.addChild(_mainLB);
-			_mainLB.addChild(_topLB);
-			_mainLB.addChild(_sortingLB);
+			
 			
 			//create and set mask
 			_mask = new Sprite();
@@ -87,6 +93,7 @@ package com.clink.ui
 			
 			_sb.addEventListener(Event.CHANGE,onSbChange);
 			this.addEventListener(MouseEvent.MOUSE_WHEEL,onMouseWheel);
+			update();
 		}
 		
 		//updates the handle size and adds/removes the scrollBar if the list is big enough to need to scroll
@@ -226,6 +233,13 @@ package com.clink.ui
 		public function get value():Number
 		{
 			return _sb.value;
+		}
+		
+		override public function set height(value:Number):void
+		{
+			_boxHeight = value;
+			init();
+			
 		}
 		
 		////////////static methods////////////

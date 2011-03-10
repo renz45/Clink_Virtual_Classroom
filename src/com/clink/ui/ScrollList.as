@@ -51,6 +51,10 @@ package com.clink.ui
 		
 		private function init():void
 		{
+			while(this.numChildren > 0)
+			{
+				this.removeChildAt(0);
+			}
 			
 			//create the bg if a color is given
 			if(_bgColor)
@@ -60,9 +64,13 @@ package com.clink.ui
 			}
 			
 			//new layoutBox
-			_container = new LayoutBox(true,0);
-			this.addChild(_container);
+			if(!_container)
+			{
+				_container = new LayoutBox(true,0);
+			}
 			
+			this.addChild(_container);
+		
 			//create and set mask
 			_mask = new Sprite();
 			_mask.graphics.beginFill(0xffffff,0);
@@ -222,5 +230,10 @@ package com.clink.ui
 		////////////static methods////////////
 		
 		////////////getters/setters////////////
+		override public function set height(value:Number):void
+		{
+			_boxHeight = value;
+			init();
+		}
 	}
 }

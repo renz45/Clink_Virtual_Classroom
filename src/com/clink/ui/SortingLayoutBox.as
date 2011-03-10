@@ -39,12 +39,20 @@ package com.clink.ui
 		 */		
 		public function addItem(item:DisplayObject,sortByLabel:String, arraySortSetting:uint = -1):void
 		{
-		    var itemObj:Object = {item:item, label:sortByLabel}
+			var itemObj:Object;
+			
+			if(arraySortSetting == Array.NUMERIC)
+			{
+				itemObj = {item:item, label:Number(sortByLabel)}
+			}else{
+				itemObj = {item:item, label:sortByLabel}
+			}
+		    
 			_items.push(itemObj);
 			
 			if(arraySortSetting != -1)
 			{
-				_items.sortOn("label",[arraySortSetting,Array.NUMERIC]);
+				_items.sortOn("label",[arraySortSetting]);
 			}else{
 				_items.sortOn("label");
 			}
@@ -85,16 +93,18 @@ package com.clink.ui
 		
 		public function updateLayout():void
 		{
+			var totalDist:Number = 0;
+			
 			for(var i:int = 0; i < _items.length; i++)
 			{
 				if(_vertical)
 				{
-					
-					_items[i]["item"].y = (i *  _items[i]["item"].height + _padding);
+					_items[i]["item"].y = (totalDist + _padding);
+					totalDist += _items[i]["item"].height;
 				}else{
 					
-					_items[i]["item"].x = (i * _items[i]["item"].width + _padding);
-					
+					_items[i]["item"].x = (totalDist + _padding);
+					totalDist += _items[i]["item"].width;
 				}
 			}
 		}
