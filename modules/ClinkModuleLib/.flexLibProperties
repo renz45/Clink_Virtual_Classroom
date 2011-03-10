@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flexLibProperties includeAllClasses="false" version="3">
+  <includeClasses>
+    <classEntry path="com.clink.base.Base_componentToolTip"/>
+    <classEntry path="com.clink.controllers.Controller_Dragable"/>
+    <classEntry path="com.clink.controllers.Controller_button"/>
+    <classEntry path="com.clink.events.BasicButtonEvent"/>
+    <classEntry path="com.clink.events.SharedObjectEvent"/>
+    <classEntry path="com.clink.events.SideBarEvent"/>
+    <classEntry path="com.clink.events.UserListItemEvent"/>
+    <classEntry path="com.clink.factories.Factory_prettyBox"/>
+    <classEntry path="com.clink.factories.Factory_triangle"/>
+    <classEntry path="com.clink.loaders.EasyImageLoader"/>
+    <classEntry path="com.clink.loaders.EasyXmlLoader"/>
+    <classEntry path="com.clink.loaders.loaderEvents.ImageComplete_Event"/>
+    <classEntry path="com.clink.loaders.loaderEvents.XmlComplete_Event"/>
+    <classEntry path="com.clink.managers.Manager_remoteCommonSharedObject"/>
+    <classEntry path="com.clink.managers.Manager_remoteUserSharedObject"/>
+    <classEntry path="com.clink.misc.Keys"/>
+    <classEntry path="com.clink.misc.MacMouseWheelHandler"/>
+    <classEntry path="com.clink.module.BaseModule"/>
+    <classEntry path="com.clink.module.IModule"/>
+    <classEntry path="com.clink.module.Module_Controller"/>
+    <classEntry path="com.clink.textFieldStyles.CSSTextRollover_Controller"/>
+    <classEntry path="com.clink.textFieldStyles.Paragraph1"/>
+    <classEntry path="com.clink.textFieldStyles.SubHead1"/>
+    <classEntry path="com.clink.ui.BasicButton"/>
+    <classEntry path="com.clink.ui.LayoutBox"/>
+    <classEntry path="com.clink.ui.ScrollBar"/>
+    <classEntry path="com.clink.ui.ScrollBox"/>
+    <classEntry path="com.clink.ui.ScrollList"/>
+    <classEntry path="com.clink.ui.Slider"/>
+    <classEntry path="com.clink.ui.SortingLayoutBox"/>
+    <classEntry path="com.clink.ui.SortingScrollList"/>
+    <classEntry path="com.clink.ui.Spacer"/>
+    <classEntry path="com.clink.ui.UserListButton"/>
+    <classEntry path="com.clink.ui.UserListItem"/>
+    <classEntry path="com.clink.utils.ArrayUtils"/>
+    <classEntry path="com.clink.utils.Convert"/>
+    <classEntry path="com.clink.utils.DrawingUtils"/>
+    <classEntry path="com.clink.utils.ParseConfigXML"/>
+    <classEntry path="com.clink.utils.StringUtils"/>
+    <classEntry path="com.clink.utils.VarUtils"/>
+    <classEntry path="com.clink.valueObjects.VO_ModuleApi"/>
+    <classEntry path="com.clink.valueObjects.VO_Settings"/>
+    <classEntry path="com.clink.video.VideoChatPlayer"/>
+  </includeClasses>
+  <includeResources/>
+  <namespaceManifests/>
+</flexLibProperties>
