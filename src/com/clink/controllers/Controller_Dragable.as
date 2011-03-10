@@ -1,5 +1,7 @@
 package com.clink.controllers
 {
+	import com.clink.valueObjects.VO_Settings;
+	
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;
 	import flash.events.EventDispatcher;
@@ -36,6 +38,18 @@ package com.clink.controllers
 		private function stopDrag(e:MouseEvent):void
 		{
 			_target.stopDrag();
+		}
+		
+		public function enable():void
+		{
+			_handle.addEventListener(MouseEvent.MOUSE_DOWN,startDrag);
+			_handle.addEventListener(MouseEvent.MOUSE_UP, stopDrag);
+		}
+		
+		public function disable():void
+		{
+			_handle.removeEventListener(MouseEvent.MOUSE_DOWN,startDrag);
+			_handle.removeEventListener(MouseEvent.MOUSE_UP, stopDrag);
 		}
 	}
 }
