@@ -18,6 +18,7 @@ package com.clink.utils
 			vos.basicButton_upStateColor = xml.ui.basicButton.upStateColor;
 			vos.basicButton_downStateColor = xml.ui.basicButton.downStateColor;
 			vos.basicButton_overStateColor = xml.ui.basicButton.overStateColor;
+			vos.basicButton_labelColor = xml.ui.basicButton.labelColor;
 			
 			//scrollBar config
 			vos.scrollBar_buttonColor = xml.ui.scrollBar.buttonColor;
@@ -79,6 +80,7 @@ package com.clink.utils
 			
 			//Red5 Server Path
 			vos.appURL = xml.settings.appURL;
+			vos.modulePath = (xml.@modulePath).toString();
 			
 			//class Id
 			vos.classId = xml.settings.classroomId;

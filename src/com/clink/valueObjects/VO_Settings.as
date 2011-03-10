@@ -9,6 +9,7 @@ package com.clink.valueObjects
 		public var basicButton_upStateColor:String;
 		public var basicButton_downStateColor:String;
 		public var basicButton_overStateColor:String;
+		public var basicButton_labelColor:String;
 		
 		//scrollbar styles
 		public var scrollBar_buttonColor:String;
@@ -74,6 +75,7 @@ package com.clink.valueObjects
 		public var username:String;
 		public var userPermission:String;
 		public var userID:Number;
+		public var modulePath:String;
 		
 		public var netConnection:NetConnection;
 		
