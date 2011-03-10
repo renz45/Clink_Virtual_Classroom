@@ -1,5 +1,6 @@
 package com.clink.main
 {
+	import com.clink.controllers.Controller_Dragable;
 	import com.clink.events.SharedObjectEvent;
 	import com.clink.events.UserListItemEvent;
 	import com.clink.factories.Factory_prettyBox;
@@ -14,12 +15,18 @@ package com.clink.main
 	import com.clink.utils.DrawingUtils;
 	import com.clink.valueObjects.VO_Settings;
 	
+	import flash.display.DisplayObject;
+	import flash.display.DisplayObjectContainer;
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
 	import flash.geom.Orientation3D;
+	import flash.geom.Point;
 	
 	import org.osmf.net.StreamingURLResource;
 	import org.osmf.proxies.ListenerProxyElement;
+	
+	[Event(name="breakOut", type="com.clink.events.UserListItemEvent")]
+	[Event(name="breakIn", type="com.clink.events.UserListItemEvent")]
 	
 	public class UserList extends Sprite
 	{
@@ -29,6 +36,8 @@ package com.clink.main
 		private var _btnLB:LayoutBox;
 		private var _mainLB:LayoutBox;
 		private var _awayBtn:UserListButton;
+		private var _bg:Sprite;
+		private var _btn_handRaised:UserListButton;
 		
 		private var _originalX:Number;
 		private var _originalY:Number;
@@ -43,6 +52,11 @@ package com.clink.main
 		private var _isThumbDown:Boolean;
 		private var _isLaughing:Boolean;
 		private var _isAway:Boolean;
+		
+		private var _originalParent:DisplayObjectContainer;
+		private var _originalHeight:Number;
+		private var _userListDragger:Controller_Dragable;
+		
 		
 		public function UserList(configInfo:VO_Settings, userSO:Manager_remoteUserSharedObject)
 		{
@@ -81,21 +95,38 @@ package com.clink.main
 			drawUI();
 		}
 		
+		private function drawBg(height:Number):void
+		{
+			if(_bg)
+			{
+				this.removeChild(_bg);
+				_bg = null;
+			}
+			_bg = Factory_prettyBox.drawPrettyBox(232,height,uint(DrawingUtils.fixColorCode(_configInfo.userList_backgroundColor)),0,_configInfo.userList_backgroundIsGradient);
+			this.addChildAt(_bg,0);
+		}
+		
 		private function drawUI():void
 		{
-			
 			//draw bg
-			var bg:Sprite = Factory_prettyBox.drawPrettyBox(232,206,uint(DrawingUtils.fixColorCode(_configInfo.userList_backgroundColor)),0,_configInfo.userList_backgroundIsGradient);
-			this.addChild(bg);
-			
+			_originalHeight = 206;
+			drawBg(_originalHeight);
 			//draw header handle
 			var header:Sprite = Factory_prettyBox.drawPrettyBox(232,16, uint(DrawingUtils.fixColorCode(_configInfo.userList_headerColor)),0,_configInfo.userList_headerIsGradient);
 			this.addChild(header);
+			
+			//add the drag controller than disable it until its ready to be used
+			_userListDragger = new Controller_Dragable(this,header);
+			_userListDragger.disable();
 			
 			//draw arrow button for panel breakout
 			_breakOutBtn = new Sprite();
 			_breakOutBtn.graphics.beginFill(uint(DrawingUtils.fixColorCode(_configInfo.userList_headerArrowColor)));
 			_breakOutBtn.graphics.drawRect(0,0,7,4);
+			_breakOutBtn.graphics.endFill();
+			//for transparent hitbox
+			_breakOutBtn.graphics.beginFill(0xffffff,0);
+			_breakOutBtn.graphics.drawRect(-6,-6,16,16);
 			_breakOutBtn.graphics.endFill();
 			var arrowHead:Sprite = Factory_triangle.drawEqTriangle(11,5,uint(DrawingUtils.fixColorCode(_configInfo.userList_headerArrowColor)),"left",false);
 			arrowHead.x = -2;
@@ -126,14 +157,14 @@ package com.clink.main
 			_btnLB = new LayoutBox();
 			
 			//raiseHandButton
-			var rhb:UserListButton = new UserListButton(28,28,true);
-			rhb.upIcon = _configInfo.raiseHandBtn_upIcon;
-			rhb.downIcon = _configInfo.raiseHandBtn_downIcon;
-			rhb.overIcon = _configInfo.raiseHandBtn_overIcon;
-			rhb.enableToggle();
-			rhb.message = _configInfo.raiseHandBtn_toolTip;
-			rhb.addEventListener(MouseEvent.CLICK,onRaiseHand);
-			_btnLB.addChild(rhb);
+			_btn_handRaised = new UserListButton(28,28,true);
+			_btn_handRaised.upIcon = _configInfo.raiseHandBtn_upIcon;
+			_btn_handRaised.downIcon = _configInfo.raiseHandBtn_downIcon;
+			_btn_handRaised.overIcon = _configInfo.raiseHandBtn_overIcon;
+			_btn_handRaised.enableToggle();
+			_btn_handRaised.message = _configInfo.raiseHandBtn_toolTip;
+			_btn_handRaised.addEventListener(MouseEvent.CLICK,onRaiseHand);
+			_btnLB.addChild(_btn_handRaised);
 			
 			//thumbUpButton
 			var tu:UserListButton = new UserListButton(28,28,true);
@@ -248,13 +279,61 @@ package com.clink.main
 			_userScrollList.update();
 		}
 		
+		private function isAway(isAway:Boolean):void
+		{
+			if(isAway)
+			{
+				_userSO.setProperty("isAway",true);
+				_isAway = true;
+				_awayBtn.down();
+			}else{
+				_userSO.setProperty("isAway",false);
+				_isAway = false;
+				_awayBtn.up();
+			}
+		}
+		
 		//////////////////////////CallBacks////////////////////////////
+		
+		//header arrow button is clicked
+		private function unDockPanel(e:MouseEvent):void
+		{
+			if(this.parent != this.stage)
+			{
+				_originalParent = this.parent;
+				
+				_originalX = this.x;
+				_originalY = this.y;
+				
+				this.stage.addChild(this);
+				this.x = _originalParent.x - this.width - 10;
+				this.y = _originalParent.y;
+				
+				drawBg(605);
+				_breakOutBtn.rotation = 180;
+				_breakOutBtn.y += 4;
+				_userScrollList.height = 575;
+				_userListDragger.enable();
+				_userScrollList.update();
+				this.dispatchEvent(new UserListItemEvent(UserListItemEvent.BREAK_OUT));
+			}else{
+				_originalParent.addChildAt(this,1);
+				this.x = _originalX;
+				this.y = _originalY;
+				_breakOutBtn.rotation = 0;
+				_breakOutBtn.y-= 4;
+				_userScrollList.height = 177;
+				_userListDragger.disable();
+				drawBg(_originalHeight);
+				_userScrollList.update();
+				this.dispatchEvent(new UserListItemEvent(UserListItemEvent.BREAK_IN));
+			}
+		}
 		
 		//thumbDown button pressed
 		private function onLaugh(e:MouseEvent):void
 		{
-			_isAway = false;
-			_awayBtn.up();
+			isAway(false);
 			
 			if(_isLaughing == false)
 			{
@@ -265,8 +344,7 @@ package com.clink.main
 		//thumbDown button pressed
 		private function onThumbDown(e:MouseEvent):void
 		{
-			_isAway = false;
-			_awayBtn.up();
+			isAway(false);
 			
 			if(_isThumbDown == false)
 			{
@@ -277,8 +355,7 @@ package com.clink.main
 		//thumbUp button pressed
 		private function onThumbUp(e:MouseEvent):void
 		{
-			_isAway = false;
-			_awayBtn.up();
+			isAway(false);
 			
 			if(_isThumbUp == false)
 			{
@@ -288,14 +365,14 @@ package com.clink.main
 		
 		//raised hand button pressed
 		private function onRaiseHand(e:MouseEvent):void
-		{
-			_isAway = false;
-			_awayBtn.up();
+		{	
+			isAway(false);
 			
 			if(_isHandRaised)
 			{
 				_userSO.setProperty("isHandRaised",false);
 				_isHandRaised = false;
+				
 			}else{
 				_userSO.setProperty("isHandRaised",true);
 				_isHandRaised = true;
@@ -312,19 +389,15 @@ package com.clink.main
 			}else{
 				_userSO.setProperty("isAway",true);
 				_isAway = true;
-			}
-			
-		}
-		
-		//header arrow button is clicked
-		private function unDockPanel(e:MouseEvent):void
-		{
-			
+				
+				_userSO.setProperty("isHandRaised",false);
+				_isHandRaised = false;
+				_btn_handRaised.up();
+			}	
 		}
 		
 		private function onSoChanged(e:SharedObjectEvent):void
 		{
-			
 			switch(e.propertyName)
 			{
 				case "connected":
@@ -343,16 +416,12 @@ package com.clink.main
 				case "isHandRaised":
 					if(e.propertyValue)
 					{//true
+						
 						raiseHandOrganize(e.sharedObjectSlot);
 						
 					}else{//false
-						var handDownItem:UserListItem;
-						
 						removeFromTop(e.sharedObjectSlot);
-						
 						populateList(int(e.sharedObjectSlot));
-						
-						findItem(int(e.sharedObjectSlot)).raiseHandDisable();
 						_userScrollList.update();
 					}
 					break;
@@ -386,7 +455,8 @@ package com.clink.main
 				case "isAway":
 					if(e.propertyValue)
 					{//true
-						findItem(int(e.sharedObjectSlot)).awayEnable();
+					
+						findItem(int(e.sharedObjectSlot)).awayEnable();	
 					}else{//false
 						findItem(int(e.sharedObjectSlot)).awayDisable();
 					}
