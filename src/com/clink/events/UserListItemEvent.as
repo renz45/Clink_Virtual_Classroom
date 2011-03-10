@@ -8,6 +8,8 @@ package com.clink.events
 		public static const TEACHER_CALLED_ON:String = "teacherCalledOn";
 		public static const HIDDEN:String = "hidden";
 		public static const VISIBLE:String = "visible";
+		public static const BREAK_OUT:String = "breakOut";
+		public static const BREAK_IN:String = "breakIn";
 		
 		public var userId:Number;
 		
