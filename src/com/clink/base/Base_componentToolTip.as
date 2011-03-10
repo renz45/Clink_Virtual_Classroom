@@ -84,7 +84,7 @@ package com.clink.base
 			//checks to make sure the tooltip doesn't continue off the right of the stage, if it does it is moved left until it's edge meets the stage
 			if(stagePos.x + _toolTip.width > _stage.stageWidth)
 			{
-				_toolTip.x -= _stage.stageWidth - _toolTip.width;
+				_toolTip.x = _stage.stageWidth - _toolTip.width;
 			}
 			
 			_stage.addChild(_toolTip);
@@ -144,6 +144,8 @@ package com.clink.base
 			_toolTip = Factory_prettyBox.drawPrettyBox(tf.width + _toolTipPadding*2, tf.height + _toolTipPadding*2,_bgColor,0,false,false,false,2,1,.8);
 			tf.x = tf.y = _toolTipPadding;
 			_toolTip.addChild(tf);
+			_toolTip.mouseEnabled = false;
+			_toolTip.mouseChildren = false;
 
 		} 
 		
