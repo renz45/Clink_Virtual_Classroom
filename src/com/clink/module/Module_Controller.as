@@ -113,7 +113,7 @@ package com.clink.module
 		{
 			if(e.propertyName == "focusTarget")
 			{
-				if(e.propertyValue != "null")
+				if(e.propertyValue != "false" && e.propertyValue != "null")
 				{
 					_moduleApiInfo.textChat.addToChat(e.propertyValue + " has been focused",_moduleApiInfo.username);
 					
@@ -122,6 +122,7 @@ package com.clink.module
 						if(mb.moduleName == e.propertyValue)
 						{
 							mb.dispatchEvent(new MouseEvent(MouseEvent.CLICK));
+							_moduleSO.setProperty("focusTarget", "false");
 						}
 					}
 				}
@@ -149,7 +150,6 @@ package com.clink.module
 				
 				var mod:BaseModule = (e.currentTarget as ModuleButton).module;
 				(mod as IModule).connect();
-				(mod as IModule).init();
 				_moduleCanvas.addChild(mod);
 			}
 		}
@@ -159,7 +159,7 @@ package com.clink.module
 			//load the xml and loop through all the modules specified, load each external swf file.
 			for each(var xml:XML in e.loadedXML.module)
 			{
-				_moduleInfoList[xml.name] = {moduleAssets:(xml.moduleAssets).toString(), moduleStorage:(xml.moduleStorage).toString(), name:(xml.name).toString()};
+				_moduleInfoList[xml.name] = {moduleAssets:_moduleApiInfo.modulePath + (xml.moduleAssets).toString(), moduleStorage:_moduleApiInfo.modulePath + (xml.moduleStorage).toString(), name:(xml.name).toString()};
 				
 				var l:Loader = new Loader();
 				
