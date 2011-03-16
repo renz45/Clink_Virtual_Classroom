@@ -18,6 +18,7 @@ package com.clink.main
 	import com.clink.ui.ScrollBar;
 	import com.clink.ui.ScrollBox;
 	import com.clink.ui.ScrollList;
+	import com.clink.ui.Slider;
 	import com.clink.utils.DrawingUtils;
 	import com.clink.utils.ParseConfigXML;
 	import com.clink.utils.StringUtils;
@@ -65,7 +66,6 @@ package com.clink.main
 		//constants
 		public static const TEACHER_PERMISSION:String = "teacher";
 		public static const STUDENT_PERMISSION:String = "student";
-		
 		
 		//for demo purposes
 		private var sl:sampleLogin;
@@ -124,7 +124,8 @@ package com.clink.main
 			_classId = _configInfo.classId;
 			
 			//pops up a settings menu asking for camera permission
-			Security.showSettings(SecurityPanel.PRIVACY);
+			//Security.showSettings(SecurityPanel.PRIVACY);  
+			
 			//initialize scrollbars
 			ScrollBar.initScrollBars();
 			//initialize keyboard class
@@ -160,7 +161,7 @@ package com.clink.main
 			_nc.addEventListener(NetStatusEvent.NET_STATUS,netStatusHandler);
 			
 			_configInfo.netConnection = _nc;
-		}
+		} 
 		
 		//called by the server and assigns a user ID
 		public function setUserId(value:*):void
@@ -242,7 +243,6 @@ package com.clink.main
 			this.addChild(new BaseModule());
 			
 		}
-		
 		
 		//////////////////////////Call backs///////////////////////////////
 		
