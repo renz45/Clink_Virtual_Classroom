@@ -1,5 +1,6 @@
 package com.clink.ui
 {
+	import flash.display.InteractiveObject;
 	import flash.display.MovieClip;
 	import flash.display.Sprite;
 	import flash.display.Stage;
@@ -33,12 +34,22 @@ package com.clink.ui
 		
 		private var _reverse:Boolean = false
 			
+		private var _isOverHandle:Boolean;
+		private var _isOverTrack:Boolean;
 		
 		public function Slider(handle:Sprite,track:Sprite,horizontal:Boolean = false)
 		{
 			_handle = handle;
 			_track = track;
 			_horizontal = horizontal;
+			
+			init();
+		}
+		
+		private function init():void
+		{
+			_isOverHandle = false;
+			_isOverTrack = false;
 			
 			_trackHeight = _track.height;
 			_trackWidth = _track.width;
@@ -47,11 +58,40 @@ package com.clink.ui
 			
 			_handle.buttonMode = true;
 			_handle.addEventListener(MouseEvent.MOUSE_DOWN,handle_mouseDownHandler);
-			
-			
+
 			updateValue();
-			
 		}
+
+		private function trackIn(e:MouseEvent):void
+		{
+			_isOverTrack = true;
+		}
+		
+		private function trackOut(e:MouseEvent):void
+		{
+			_isOverTrack = false;
+			
+			if(!_isOverTrack && !_isOverHandle)
+			{
+				stopDrag();
+			}
+		}
+		
+		private function handleIn(e:MouseEvent):void
+		{
+			_isOverHandle = true;
+		}
+		
+		private function handleOut(e:MouseEvent):void
+		{
+			_isOverHandle = false;
+			
+			if(!_isOverTrack && !_isOverHandle)
+			{
+				stopDrag();
+			}
+		}
+		
 		
 		private function track_ClickHandler(evt:MouseEvent):void
 		{
@@ -84,19 +124,26 @@ package com.clink.ui
 			}else{
 				_handle.startDrag(false,new Rectangle(0,0,0,_trackHeight - _handle.height));
 			}
+			
 			_track.addEventListener(MouseEvent.MOUSE_UP,handle_mouseUpHandler);
 			_handle.addEventListener(Event.ENTER_FRAME, onFrame_Handler);
 			this.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_DOWN));
 			
+			//these 4 listners fix a long running problem with the scrollbar not working currectly if you drag the mouse off it when dragging the handle
+			_track.addEventListener(MouseEvent.ROLL_OVER, trackIn);
+			_track.addEventListener(MouseEvent.ROLL_OUT,trackOut);
+			_handle.addEventListener(MouseEvent.ROLL_OVER,handleIn);
+			_handle.addEventListener(MouseEvent.ROLL_OUT,handleOut);
+			
 		}
 		private function handle_mouseUpHandler(evt:MouseEvent):void
 		{
-			_track.removeEventListener(MouseEvent.MOUSE_UP,handle_mouseUpHandler);
-			_handle.stopDrag();
+			_track.removeEventListener(MouseEvent.ROLL_OVER, trackIn);
+			_track.removeEventListener(MouseEvent.ROLL_OUT,trackOut);
+			_handle.removeEventListener(MouseEvent.ROLL_OVER,handleIn);
+			_handle.removeEventListener(MouseEvent.ROLL_OUT,handleOut);
 			
-			_handle.removeEventListener(Event.ENTER_FRAME, onFrame_Handler);
-			
-			this.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_UP));
+			stopDrag();
 			
 		}
 		private function onFrame_Handler(evt:Event):void
@@ -104,6 +151,17 @@ package com.clink.ui
 			updateValue();
 
 		}
+		
+		private function stopDrag():void
+		{
+			_track.removeEventListener(MouseEvent.MOUSE_UP,handle_mouseUpHandler);
+			_handle.stopDrag();
+			
+			_handle.removeEventListener(Event.ENTER_FRAME, onFrame_Handler);
+			
+			this.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_UP));
+		}
+		
 		private function updateValue():void
 		{
 			var perc:Number;
