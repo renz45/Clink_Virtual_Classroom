@@ -65,6 +65,9 @@ package com.clink.module
 			{
 				var focusBtn:Base_componentToolTip = new Base_componentToolTip();
 				
+				//add focus button tooltip
+				focusBtn.message = "Focus this module";
+				
 				focusBtn.graphics.beginFill(0xffffff,0);
 				focusBtn.graphics.drawRect(0,0,16,16);
 				focusBtn.graphics.endFill();
