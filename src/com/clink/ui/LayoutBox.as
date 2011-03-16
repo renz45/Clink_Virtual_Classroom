@@ -137,6 +137,16 @@ package com.clink.ui
 			}
 		}
 		
+		public function clear():void
+		{
+			_objects = [];
+			while(this.numChildren > 0)
+			{
+				this.removeChildAt(0);
+			}
+			updateLayout();
+		}
+		
 		/* ----------------------GETTERS/SETTERS ---------------------*/
 		/**
 		 *@private 
