@@ -138,7 +138,7 @@ package com.clink.main
 			Base_componentToolTip.initTooltips(_stage);
 			//init sharedObject managers
 			Manager_remoteCommonSharedObject.init(_classId);
-			Manager_remoteUserSharedObject.init(_classId);
+			Manager_remoteUserSharedObject.init(_classId); 
 			
 			//These values are colors that are set with the config.xml
 			BasicButton.isGradient = _configInfo.basicButton_isGradient;
