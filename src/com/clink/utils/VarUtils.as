@@ -22,10 +22,7 @@ package com.clink.utils
 		 */
 		public static function getDataType(variable:Object):String
 		{
-			if(variable is int)
-			{
-				return "int";
-			}else if(variable is Number){
+			if(variable is Number){
 				return "Number";
 			}else if(variable is String){
 				return "String";
