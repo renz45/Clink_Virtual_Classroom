@@ -44,6 +44,8 @@ package com.clink.valueObjects
 		
 		public var netConnection:NetConnection;
 		
+		public var moduleList:Object;
+		
 		public function VO_ModuleApi()
 		{
 		}
