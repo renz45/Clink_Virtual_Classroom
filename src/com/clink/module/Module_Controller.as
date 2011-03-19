@@ -174,8 +174,11 @@ package com.clink.module
 			var mod:BaseModule = LoaderInfo(e.currentTarget).content as BaseModule;
 			mod.assetsPath = _moduleInfoList[mod.moduleName]["moduleAssets"];
 			mod.storagePath = _moduleInfoList[mod.moduleName]["moduleStorage"];
+			_moduleInfoList[mod.moduleName]["module"] = mod;
+			_moduleApiInfo.moduleList = _moduleInfoList;
 			mod.moduleApiSettings = _moduleApiInfo;
 			_moduleList.push(mod);
+			
 			
 			updateModuleList();
 		}
