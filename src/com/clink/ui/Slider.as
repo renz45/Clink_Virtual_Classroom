@@ -80,6 +80,7 @@ package com.clink.ui
 		private function handleIn(e:MouseEvent):void
 		{
 			_isOverHandle = true;
+			_isOverTrack = true;
 		}
 		
 		private function handleOut(e:MouseEvent):void
