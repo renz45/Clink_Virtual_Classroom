@@ -357,7 +357,7 @@ package com.clink.managers
 						_SO.setProperty(slot,data);
 						_SO.setDirty(slot);
 
-					}else{
+					}else{ 
 						throw new Error("The data type for Property: " + propertyName + " does not match the expected datatype of " + VarUtils.getDataType(data[prop]));
 					}
 					foundProp = true;
