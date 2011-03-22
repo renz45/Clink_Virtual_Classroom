@@ -281,6 +281,11 @@ package com.clink.ui
 		{
 			return _sbh.value;
 		}
+		
+		public function get container():Sprite
+		{
+			return _container;
+		}
 		////////////static methods////////////
 		
 	}
