@@ -87,7 +87,12 @@ package com.clink.ui
 			}
 			
 			
-			updateLayout();
+			if(_gridLayout)
+			{
+				grid();
+			}else{
+				updateLayout();
+			}
 			
 		}
 		
