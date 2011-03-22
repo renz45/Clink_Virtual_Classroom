@@ -1,3 +1,10 @@
+//////TODO LIST
+/*
+1. Letters in the userList get cut off if they are lowercase g, p, q, etc...
+2. Make breakout userList resizeable
+3. pushtotalk tooltip ctrl instead of cntrl
+*/
+
 package com.clink.main
 {
 	import com.clink.base.Base_componentToolTip;
@@ -110,7 +117,7 @@ package com.clink.main
 		private function loadConfig():void
 		{
 			//passed in via flash vars or read from database
-			_username = "Adam";
+			_username = "DebugDev";
 			_userPermission = ClinkMain.TEACHER_PERMISSION;
 			
 			_moduleApiInfo = new VO_ModuleApi();
@@ -124,7 +131,7 @@ package com.clink.main
 			_classId = _configInfo.classId;
 			
 			//pops up a settings menu asking for camera permission
-			//Security.showSettings(SecurityPanel.PRIVACY);  
+			Security.showSettings(SecurityPanel.PRIVACY);  
 			
 			//initialize scrollbars
 			ScrollBar.initScrollBars();
@@ -149,7 +156,7 @@ package com.clink.main
 			Base_componentToolTip.textSize = _configInfo.toolTip_textSize;
 			Base_componentToolTip.toolTipDisplayDelay = _configInfo.toolTip_displayDelay;
 			
-			_appURL = _configInfo.appURL;
+			_appURL = _configInfo.appURL; 
 			
 			_configInfo.username = _username;
 			_configInfo.userPermission = _userPermission;
@@ -176,7 +183,7 @@ package com.clink.main
 			
 			
 			//testing purposes only////////////////////////////////////////////////////////////////////////////////////
-			var _tf:TextField;
+			/*var _tf:TextField;
 			_tf = new TextField();
 			_tf.text = _username + "("+ _configInfo.userID + ")";
 			_tf.maxChars = 20;
@@ -191,7 +198,7 @@ package com.clink.main
 			var _tff1:TextFormat = new TextFormat(hv.fontName,12,0xffffff);
 			this.addChild(_tf);
 			
-			_tf.setTextFormat(_tff1);
+			_tf.setTextFormat(_tff1);*/
 			/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		}
 		
@@ -246,7 +253,7 @@ package com.clink.main
 		
 		//////////////////////////Call backs///////////////////////////////
 		
-		private function sidebarSOLoaded(e:SideBarEvent):void
+		private function sidebarSOLoaded(e:SideBarEvent):void 
 		{
 			
 			if(e.userSO)
