@@ -213,7 +213,7 @@ package com.clink.main
 			var permission:String = _userSO.getProperty("userPermission",slot) as String
 			
 			//remove the slot.toString() back to only username after testing is complete
-			var uli:UserListItem = new UserListItem(username +slot.toString(),_configInfo,_userSO,_configInfo.userPermission,slot,true);
+			var uli:UserListItem = new UserListItem(username/* +slot.toString()*/,_configInfo,_userSO,_configInfo.userPermission,slot,true);
 			
 			//create the label using the username and slot number so we always have a unique label
 			_userScrollList.addListItem(uli,username + slot.toString());
