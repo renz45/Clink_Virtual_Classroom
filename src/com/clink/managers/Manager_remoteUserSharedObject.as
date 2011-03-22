@@ -32,6 +32,7 @@ package com.clink.managers
 		private var _SOName:String;
 		private var _cachedSOData:Object;
 		private var _isPersistent:Boolean;
+		private var _fps:Number;
 		
 		private static var _soList:Array;
 		private static var _classId:String;
@@ -49,7 +50,7 @@ package com.clink.managers
 		 * @param SOName:String Name of the SO being created
 		 * @param SOTemplate:Object This is the template that the SO structure will be based on. the template is a standard object ex. {name:"adam",gender:"male"}
 		 */
-		public function Manager_remoteUserSharedObject(nc:NetConnection, userID:int, SOName:String, SOTemplate:Object, isPersistent:Boolean = false)
+		public function Manager_remoteUserSharedObject(nc:NetConnection, userID:int, SOName:String, SOTemplate:Object, isPersistent:Boolean = false, fps:Number = -1)
 		{
 			
 			if(!_soList)
@@ -61,6 +62,7 @@ package com.clink.managers
 			_SOName = SOName + _classId;
 			_SOTemplate = SOTemplate;
 			_isPersistent = isPersistent;
+			_fps = fps;
 				
 			make();
 			
@@ -71,15 +73,18 @@ package com.clink.managers
 		{
 			//output from the server, return msg
 			trace("[Red5][UserBased SO] " + msg);
-			
-			
-			
+
 			//connect to the SO after it's created on the server side
 			_SO = SharedObject.getRemote(_SOName,_nc.uri,false);
 			_SO.addEventListener(SyncEvent.SYNC,OnSync);
 			_SO.addEventListener(AsyncErrorEvent.ASYNC_ERROR,onSOError);
 			_SO.client = this;
 			_SO.connect(_nc);
+			
+			if(_fps > -1)
+			{
+				_SO.fps = _fps;
+			}
 		}
 		
 		private function make():void
