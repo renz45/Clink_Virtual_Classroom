@@ -100,7 +100,8 @@ package com.clink.ui
 		private function updateHandleSize():void
 		{
 			var perc:Number = _boxHeight/_mainLB.height;
-			if(perc > 1)
+
+			if(perc >= 1)
 			{
 				if(_sb.parent == this)
 				{
