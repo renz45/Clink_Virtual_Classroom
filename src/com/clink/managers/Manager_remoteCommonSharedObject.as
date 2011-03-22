@@ -24,11 +24,12 @@ package com.clink.managers
 		private var _template:Object;
 		private var _isPersistent:Boolean;
 		private var _nc:NetConnection;
+		private var _fps:Number;
 		
 		private static var _soList:Array;
 		private static var _classId:String;
 		
-		public function Manager_remoteCommonSharedObject(SOName:String,template:Object,nc:NetConnection, isPersistent:Boolean = false)
+		public function Manager_remoteCommonSharedObject(SOName:String,template:Object,nc:NetConnection, isPersistent:Boolean = false, fps:Number = -1)
 		{
 			super();
 			
@@ -37,6 +38,7 @@ package com.clink.managers
 				throw new Error("Please init this manager by calling the static function init()");
 			}
 			
+			_fps = fps;
 			_SOName = SOName + _classId;
 			_template = template;
 			_isPersistent = isPersistent;
@@ -57,6 +59,11 @@ package com.clink.managers
 			_SO.addEventListener(AsyncErrorEvent.ASYNC_ERROR,onSOError);
 			_SO.client = this;
 			_SO.connect(_nc);
+			
+			if(_fps > -1)
+			{
+				_SO.fps = _fps;	
+			}
 		}
 		
 		private function make():void
@@ -265,12 +272,28 @@ package com.clink.managers
 			
 		}
 		
-		
+		/**
+		 * Adds a property/slot to the common sharedObject 
+		 * 
+		 * @param propertyName property name
+		 * @param propertyValue property value
+		 * 
+		 */		
 		public function addProperty(propertyName:String,propertyValue:*):void
 		{
-			var data:Object = _SO.data;
 			var r:Responder = new Responder(commonSOChangeHandler);
 			_nc.call("updateCommonSO",r,propertyName,propertyValue,_SOName,_classId);
+		}
+		
+		/**
+		 * Deletes a property/slot of the common sharedObject
+		 * @param propertyName
+		 * 
+		 */		
+		public function deleteProperty(propertyName:String):void
+		{
+			var r:Responder = new Responder(commonSOChangeHandler);
+			_nc.call("deleteCommonSOSlot",r,propertyName,_SOName,_classId);
 		}
 		
 		////////////////Static///////////////////
