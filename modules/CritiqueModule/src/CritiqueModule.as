@@ -9,6 +9,8 @@ package
 	import com.clink.valueObjects.VO_ModuleApi;
 	import com.critique.events.BottomBarEvent;
 	import com.critique.ui.BottomBar;
+	import com.critique.ui.DrawingCanvas;
+	import com.critique.ui.DrawingCanvas;
 	import com.critique.ui.LeftToolBar;
 	import com.critique.ui.TopBar;
 	
@@ -17,7 +19,7 @@ package
 	public class CritiqueModule extends BaseModule implements IModule
 	{
 		private var _leftControls:LeftToolBar;
-		private var _canvas:ScrollBox;
+		private var _canvas:DrawingCanvas;
 		private var _bottomBar:BottomBar;
 		private var _topBar:TopBar;
 		
@@ -29,11 +31,13 @@ package
 		
 		public function CritiqueModule()
 		{
-			this.moduleName = "Critique";
+			this.moduleName = "Critique"; 
 		}
 		
 		override public function init():void
 		{
+			
+			
 			setupUi();
 		} 
 		
@@ -53,7 +57,8 @@ package
 								   zoomPercent:Number(1),
 								   zoomX:0,
 								   zoomY:0};
-			_userValuesSO = new Manager_remoteUserSharedObject(this.moduleApiSettings.netConnection, this.moduleApiSettings.userID,"critiqueUserValuesSO",template);
+			_userValuesSO = new Manager_remoteUserSharedObject(this.moduleApiSettings.netConnection, this.moduleApiSettings.userID,"critiqueUserValuesSO",template,false,25);
+			
 			
 			//main left controls
 			_leftControls = new LeftToolBar(_userValuesSO);
@@ -62,7 +67,7 @@ package
 			this.addChild(_leftControls); 
 			
 			//create the canvas
-			_canvas = new ScrollBox(633,456,"#ffffff");
+			_canvas = new DrawingCanvas(633,456,_userValuesSO,_layerListSO,_genericInfoSO,this.moduleApiSettings,"#ffffff");
 			
 			_canvas.x = 59;
 			_canvas.y = 55;
@@ -80,7 +85,7 @@ package
 			
 			_bottomBar.addEventListener(BottomBarEvent.IMAGE_LOADED,onImageLoaded);
 			
-			this.addChild(_bottomBar);
+			this.addChild(_bottomBar); 
 			 
 			//layerListSO
 			template = {1:"default"};
@@ -106,7 +111,7 @@ package
 		////////////////////////////callbacks///////////////////////////////
 		private function onImageLoaded(e:BottomBarEvent):void
 		{
-			_canvas.addItem(e.image);
+			_canvas.imageToEdit = e.image;
 		}
 		
 		///////////////////////////public methods///////////////////////////

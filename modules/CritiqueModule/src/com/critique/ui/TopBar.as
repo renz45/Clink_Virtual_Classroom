@@ -12,6 +12,7 @@ package com.critique.ui
 	import flash.display.Sprite;
 	import flash.events.FocusEvent;
 	import flash.events.MouseEvent;
+	import flash.net.SharedObject;
 	import flash.text.Font;
 	import flash.text.TextField;
 	import flash.text.TextFormat;
@@ -97,6 +98,7 @@ package com.critique.ui
 			//sharedObjects
 			_layerListSO.addEventListener(SharedObjectEvent.CHANGED,onLayerListChange);
 			_layerListSO.addEventListener(SharedObjectEvent.CLIENT_CHANGED,onLayerListChange);
+			_layerListSO.addEventListener(SharedObjectEvent.DELETED,onLayerListDelete);
 			
 			//delete button
 			//if the user is a student, hide the layer delete button
@@ -168,13 +170,6 @@ package com.critique.ui
 					_layerList.addListItem(buildListItem(lList[l]),lList[l]);
 				}
 				
-				if((_layerList.items.length * 19) > 150)
-				{
-					_layerList.height = 150;
-				}else{
-					_layerList.height = (_layerList.items.length * 19);
-				}
-				
 			}
 			
 			//test the list to make sure it matches the sharedObject, if one is missing than delete it from the list (when a layer is deleted)
@@ -198,7 +193,7 @@ package com.critique.ui
 			}
 			
 			//adjust the height of the dropdown if too few items are in it
-			var height:Number = _layerList.items.length * 19;
+			var height:Number = _layerList.items.length * 20;
 			if(height > 150)
 			{
 				height = 150;
@@ -219,7 +214,7 @@ package com.critique.ui
 			{
 				if(data[s] == this.dropdown_chooseLayer.tf_content.text)
 				{
-					_layerListSO.setProperty(s,"");
+					_layerListSO.deleteProperty(s);
 				}
 			}
 		}
@@ -250,6 +245,11 @@ package com.critique.ui
 		
 		//when the list of layers in the sharedObject changes than run the update layer list function
 		private function onLayerListChange(e:SharedObjectEvent):void
+		{
+			updateLayerList();
+		}
+		
+		private function onLayerListDelete(e:SharedObjectEvent):void
 		{
 			updateLayerList();
 		}

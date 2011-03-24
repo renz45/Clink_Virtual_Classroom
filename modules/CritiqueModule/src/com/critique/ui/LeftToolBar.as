@@ -1,5 +1,6 @@
 package com.critique.ui
 {
+	import com.clink.base.Base_componentToolTip;
 	import com.clink.managers.Manager_remoteUserSharedObject;
 	import com.clink.ui.Slider;
 	import com.critique.controllers.MultiButton;
