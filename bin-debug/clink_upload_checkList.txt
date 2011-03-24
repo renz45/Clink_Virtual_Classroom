@@ -1,0 +1,5 @@
+Clink upload checkList:
+
+1. Double check all file names in xml files and actual, make sure they match exactly, these are case sensitive.
+
+2. Check folder permissions, make sure asset and storage folders have 777 permission.

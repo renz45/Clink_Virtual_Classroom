@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+
+<clink skinPath="skinAssets/" iconPath="skinAssets/icons/" skinImagesPath="skinAssets/uiImages/" modulePath="modules/"><!-- include trailing slash -->
+	<ui>
+		<basicButton>
+			<isGradient>true</isGradient>
+			<upStateColor>#666666</upStateColor>
+			<downStateColor>#333333</downStateColor>
+			<overStateColor>#111111</overStateColor>
+			<labelColor>#ffffff</labelColor>	
+		</basicButton>
+		
+		<scrollBar>
+			<buttonColor>#aaaaaa</buttonColor>
+			<arrowColor>#888888</arrowColor>
+			<trackColor>#666666</trackColor>
+			<handleColor>#aaaaaa</handleColor>
+		</scrollBar>
+		
+		<toolTip>
+			<bgColor>#ffffaa</bgColor>
+			<textColor>#333333</textColor>
+			<textSize>10</textSize>
+			<displayDelay>1500</displayDelay>
+		</toolTip>
+		
+		<sideBar>
+			<bgColor>#333333</bgColor>
+			<isGradient>true</isGradient>
+			<cornerRadius>0</cornerRadius>
+			
+			<videoMonitor>
+				<videoBg>videoBg.png</videoBg>
+				<videoBufferTime>0</videoBufferTime>
+				<volumeTrackColor>#666666</volumeTrackColor>
+				<volumeTriangleColor>#ffffff</volumeTriangleColor>
+				<volumeHandleColor>#555555</volumeHandleColor>
+				<micGain>100</micGain>
+			</videoMonitor>
+			
+			<userList>
+				<userListButton>
+					<isGradient>false</isGradient>
+					<upStateColor>#dddddd</upStateColor>
+					<downStateColor></downStateColor>
+					<overStateColor></overStateColor>
+				</userListButton>
+				
+				<backgroundColor>#4C879E</backgroundColor>
+				<backgroundIsGradient>false</backgroundIsGradient>
+				
+				<headerColor>#ff3019</headerColor>
+				<headerIsGradient>true</headerIsGradient>
+				<headerArrowColor>#ffffff</headerArrowColor>
+				
+				<scrollListBackgroundColor>#ffffff</scrollListBackgroundColor>
+			</userList>
+			
+			<userListItem>
+				<backgroundColor>#333333</backgroundColor>
+				<textColor>#ffffff</textColor>
+				<emoteTextColor>#ffffff</emoteTextColor>
+				<handRaisedColor>#ff9700</handRaisedColor>
+				<thumbUpColor>#00ff00</thumbUpColor>
+				<thumbDownColor>#ff0000</thumbDownColor>
+				<laughColor>#ffff00</laughColor>
+				<awayColor>#aaaaaa</awayColor>
+				<isGradient>true</isGradient>
+				<talkingIcon>volume.png</talkingIcon>
+				
+				
+				
+			</userListItem>
+			
+			<textChat>
+				<backgroundColor>#ffffff</backgroundColor>
+				<textColor>#555555</textColor>
+				<textSize>12</textSize>
+				<usernameTextSize>14</usernameTextSize>
+				<usernameChatLabelColor>#000077</usernameChatLabelColor>
+				<urlLinkColor>#0000ff</urlLinkColor>
+				<welcomeMessage>Hello, welcome to class.</welcomeMessage>
+				<welcomeUsername>Clink</welcomeUsername>
+			</textChat>
+			
+		</sideBar>
+	</ui>
+	
+	<settings>
+		<!-- server app on the Red5 server -->
+		<appURL>rtmp://localhost/Clink_ServerSideApp</appURL>
+		<!-- <appURL>rtmp://67.159.60.60/Clink_ServerSideApp</appURL> -->
+		<classroomId>2</classroomId><!-- can be a number or a string, it doesn't matter -->
+	</settings>
+	
+	<buttons>
+		<!-- Don't change names, they link the xml to the buttons -->
+		
+		<!-- Video Monitor buttons -->
+		<button>
+			<name>cameraToggle</name>
+			<toolTip>Toggle Camera</toolTip>
+			<icons>
+				<up>cameraToggle.png</up>
+				<down>cameraToggle.png</down>
+				<over>cameraToggle.png</over>
+			</icons>
+		</button>
+		
+		<button>
+			<name>micToggle</name>
+			<toolTip>Toggle Mic</toolTip>
+			<icons>
+				<up>micToggle.png</up>
+				<down>micToggle.png</down>
+				<over>micToggle.png</over>
+			</icons>
+		</button>
+		
+		<button>
+			<name>volume</name>
+			<toolTip>Volume</toolTip>
+			<icons>
+				<up>volume.png</up>
+				<down>volume.png</down>
+				<over>volume.png</over>
+			</icons>
+		</button>
+		
+		<button>
+			<name>pushToTalk</name>
+			<toolTip>Push to talk (cntrl)</toolTip>
+			<icons>
+				<up>pushToTalk.png</up>
+				<down>pushToTalk.png</down>
+				<over>pushToTalk.png</over>
+			</icons>
+		</button>
+		
+		<!-- User List buttons -->
+		
+		<button>
+			<name>raiseHand</name>
+			<toolTip>Raise your Hand</toolTip>
+			<icons>
+				<up>raiseHand.png</up>
+				<down>raiseHandOver.png</down>
+				<over>raiseHandOver.png</over>
+			</icons>
+		</button>
+		
+		<button>
+			<name>thumbUp</name>
+			<toolTip>Put your thumb up</toolTip>
+			<icons>
+				<up>thumbUp.png</up>
+				<down>thumbUpOver.png</down>
+				<over>thumbUpOver.png</over>
+			</icons>
+		</button>
+		
+		<button>
+			<name>thumbDown</name>
+			<toolTip>Put your thumb down</toolTip>
+			<icons>
+				<up>thumbDown.png</up>
+				<down>thumbDownOver.png</down>
+				<over>thumbDownOver.png</over>
+			</icons>
+		</button>
+		
+		<button>
+			<name>laugh</name>
+			<toolTip>Laugh a little, or a lot</toolTip>
+			<icons>
+				<up>laugh.png</up>
+				<down>laughOver.png</down>
+				<over>laughOver.png</over>
+			</icons>
+		</button>
+		
+		<button>
+			<name>away</name>
+			<toolTip>Set your status to away</toolTip>
+			<icons>
+				<up>away.png</up>
+				<down>away.png</down>
+				<over>away.png</over>
+			</icons>
+		</button>
+		
+		<!-- user list item buttons -->
+		<button>
+			<name>presenter</name>
+			<toolTip>Make Presenter</toolTip>
+			<icons>
+				<up>presenter.png</up>
+				<down>presenter.png</down>
+			</icons>
+		</button>
+		
+		<button>
+			<name>mute</name>
+			<toolTip>Mute this user</toolTip>
+			<icons>
+				<up>mute.png</up>
+				<down>mute.png</down>
+			</icons>
+		</button>
+		
+		<button>
+			<name>boot</name>
+			<toolTip>Boot this user from the class</toolTip>
+			<icons>
+				<up>disconnect.png</up>
+				<down>disconnect.png</down>
+			</icons>
+		</button>
+		
+	</buttons>
+</clink>

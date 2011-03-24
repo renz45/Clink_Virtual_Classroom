@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+
+<modules>
+	<module>
+		<name>FileAssets</name>
+		<swfPath>fileAssetModule/fileAsset.swf</swfPath>
+		<moduleAssets>fileAssetModule/assets/</moduleAssets>
+		<moduleStorage>fileAssetModule/storage/</moduleStorage>
+	</module>
+	
+	<module>
+		<name>Presenter</name>
+		<swfPath>presenterModule/Presenter.swf</swfPath>
+		<moduleAssets>presenterModule/assets/</moduleAssets>
+		<moduleStorage>presenterModule/storage/</moduleStorage>
+	</module>
+	
+	<module>
+		<name>Critique</name>
+		<swfPath>critiqueModule/CritiqueModule.swf</swfPath>
+		<moduleAssets>critiqueModule/assets/</moduleAssets>
+		<moduleStorage>critiqueModule/storage/</moduleStorage>
+	</module>
+</modules>

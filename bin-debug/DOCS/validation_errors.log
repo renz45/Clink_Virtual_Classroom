@@ -1,0 +1,3 @@
+Text for example in com.clink.ui:LayoutBox is not valid.
+org.xml.sax.SAXParseException: Open quote is expected for attribute "version" associated with an  element type  "listing".
+
