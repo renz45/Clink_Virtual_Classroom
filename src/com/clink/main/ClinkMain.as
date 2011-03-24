@@ -94,7 +94,7 @@ package com.clink.main
 		private function setUpSampleLogin():void
 		{
 			sl = new sampleLogin();
-			sl.x = _stage.stageWidth/2 - sl.width/2;
+			sl.x = _stage.stageWidth/2 - sl.width/2; 
 			sl.y = 100;
 			sl.tf_username.maxChars = 15;
 			sl.tf_username.multiline = false;
@@ -131,7 +131,7 @@ package com.clink.main
 			_classId = _configInfo.classId;
 			
 			//pops up a settings menu asking for camera permission
-			Security.showSettings(SecurityPanel.PRIVACY);  
+			//Security.showSettings(SecurityPanel.PRIVACY); 
 			
 			//initialize scrollbars
 			ScrollBar.initScrollBars();
