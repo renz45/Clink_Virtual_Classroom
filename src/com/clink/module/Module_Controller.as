@@ -114,9 +114,7 @@ package com.clink.module
 			if(e.propertyName == "focusTarget")
 			{
 				if(e.propertyValue != "false" && e.propertyValue != "null")
-				{
-					_moduleApiInfo.textChat.addToChat(e.propertyValue + " has been focused",_moduleApiInfo.username);
-					
+				{	
 					for each(var mb:ModuleButton in _tabList.items)
 					{
 						if(mb.moduleName == e.propertyValue)
@@ -133,6 +131,7 @@ package com.clink.module
 		//focus a module on all screens if a teacher clicks the focus button
 		private function onModuleFocus(e:ModuleButtonEvent):void
 		{
+			_moduleApiInfo.textChat.addToChat((e.currentTarget as ModuleButton).moduleName + " has been focused",_moduleApiInfo.username);
 			_moduleSO.setProperty("focusTarget", (e.currentTarget as ModuleButton).moduleName);
 		}
 		
