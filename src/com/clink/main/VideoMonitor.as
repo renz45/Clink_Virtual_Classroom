@@ -187,7 +187,7 @@ package com.clink.main
 			//create the volume slider
 			//slider background
 			_volumeSlider = Factory_prettyBox.drawPrettyBox(28,100,uint(DrawingUtils.fixColorCode(_configInfo.videoMonitor_volumeTrackColor)),0,true,true,true);
-			var trackTri:Sprite = Factory_triangle.drawEqTriangle(50,140,uint(DrawingUtils.fixColorCode(_configInfo.videoMonitor_volumeTriangleColor)),"down");
+			/*var trackTri:Sprite = Factory_triangle.drawEqTriangle(50,140,uint(DrawingUtils.fixColorCode(_configInfo.videoMonitor_volumeTriangleColor)),"down");
 			trackTri.y = 51;
 			_volumeSlider.addChild(trackTri);
 			var triMask:Sprite = new Sprite();
@@ -196,7 +196,7 @@ package com.clink.main
 			triMask.graphics.endFill();
 			triMask.x = triMask.y = 1;
 			_volumeSlider.addChild(triMask);
-			trackTri.mask = triMask;
+			trackTri.mask = triMask;*/
 			
 			//track, which is invisible and overlayed on the track background
 			var track:Sprite = new Sprite();
