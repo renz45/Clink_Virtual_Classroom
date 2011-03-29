@@ -114,7 +114,7 @@ package com.clink.ui
 			_tf = new TextField();
 			_tf.text = _name;
 			_tf.maxChars = 20;
-			_tf.height = 14;
+			_tf.height = 18;
 			_tf.width = 145;
 			_tf.x = 7;
 			_tf.y = 4;
