@@ -1,0 +1,17 @@
+h1. Clink - Virtual Classroom
+
+*Adam Rensel's Code*
+
+p. This was my final project for the Web Design and Development program at Full Sail University. Clink is a virtual classroom.
+
+h2. Features
+
+* Customizable interface through a config.xml file. Ui elements can have their colors, icons, and other features customized through this xml file.
+* Module API - 3rd party modules can be developed and integrated into the main application to extend functionality for certain classes.
+* Red5 Server - The open source Red5 server is used for all streaming of voice and video information as well as all the real time sharing of other parts of the application such as drawing and file uploads.
+
+h2. Modules - There are a few module prototypes I built to demo the application.
+
+* File Upload - (Beta level) This module allows the teacher to upload files to a class. Students can view these files and download if they wish.
+* Critique - (alpha level) This is a vector based image editor. It communicates with the File upload module and allows users to bring images from the file repository into the editor and basic vector drawing can be used to critique designs. The drawing actions are shared in real time with all students and teachers watching.
+
