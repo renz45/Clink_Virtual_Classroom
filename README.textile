@@ -2,7 +2,11 @@ h1. Clink - Virtual Classroom
 
 *Adam Rensel's Code*
 
-p. This was my final project for the Web Design and Development program at Full Sail University. Clink is a virtual classroom. Video of the final project which demos Clink and explains the process used to create it. "here(Clink - virtual classroom)":http://vimeo.com/adamrensel/clink
+p. This was my final project for the Web Design and Development program at Full Sail University. Clink is a virtual classroom intended for use in an online school program.  Video of the final project which demos Clink and explains the process used to create it. "Presentation Video(Clink - virtual classroom)":http://vimeo.com/adamrensel/clink"
+
+p. Clink was intended from the beginning to be a learning experience for me. I did everything from scratch myself, no libraries or frameworks were used in it's development. Clink took 3 months to build from concept to this point. Month 1 was dedicated to client documentation, month 2 was used for Design and data modeling. Month 3 was the only time allotted for development. I was the only person working on this project during these 3 months.
+
+p. You can find more information about the project here: "My development blog(Adam Rensel Development Blog)":http://www.adamrensel.com/wp/portfolio/clink-red5-virtual-classroom/"
 
 h2. Features
 
@@ -14,4 +18,10 @@ h2. Modules - There are a few module prototypes I built to demo the application.
 
 * File Upload - (Beta level) This module allows the teacher to upload files to a class. Students can view these files and download if they wish.
 * Critique - (alpha level) This is a vector based image editor. It communicates with the File upload module and allows users to bring images from the file repository into the editor and basic vector drawing can be used to critique designs. The drawing actions are shared in real time with all students and teachers watching.
+
+h2. Technology used
+
+* actionscript 3
+* Red5 Media Server (Java serverside code)
+* PHP
 
