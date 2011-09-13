@@ -22,6 +22,6 @@ h2. Modules - There are a few module prototypes I built to demo the application.
 h2. Technology used
 
 * actionscript 3
-* Red5 Media Server (Java serverside code)
+* Red5 Media Server (Java serverside coded )
 * PHP
 
