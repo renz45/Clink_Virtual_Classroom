@@ -2,11 +2,9 @@ h1. Clink - Virtual Classroom
 
 *Adam Rensel's Code*
 
-p. This was my final project for the Web Design and Development program at Full Sail University. Clink is a virtual classroom intended for use in an online school program.  Video of the final project which demos Clink and explains the process used to create it. "Presentation Video(Clink - virtual classroom)":http://vimeo.com/adamrensel/clink
+p. This was my final project for the Web Design and Development program at Full Sail University. Clink is a virtual classroom intended for use in an online school program.  Video of the final project which demos Clink and explains the process used to create it.
 
 p. Clink was intended from the beginning to be a learning experience for me. I did everything from scratch myself, no libraries or frameworks were used in it's development. Clink took 3 months to build from concept to this point. Month 1 was dedicated to client documentation, month 2 was used for Design and data modeling. Month 3 was the only time allotted for development. I was the only person working on this project during these 3 months.
-
-p. You can find more information about the project here: "My development blog(Adam Rensel Development Blog)":http://www.adamrensel.com/wp/portfolio/clink-red5-virtual-classroom/
 
 h2. Features
 
